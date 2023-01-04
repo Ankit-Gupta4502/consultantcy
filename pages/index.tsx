@@ -6,6 +6,7 @@ import img3 from "../public/images/Rectangle 19.png"
 import img4 from "../public/images/Rectangle 13.png"
 import { FaAngleDown } from "react-icons/fa";
 import Image from 'next/image';
+import Enquiry from '../Components/Home/Enquiry'
 export default function Home() {
   return (
     <>
@@ -144,6 +145,8 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      <Enquiry />
 
     </>
   )

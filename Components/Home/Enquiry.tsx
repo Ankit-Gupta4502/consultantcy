@@ -4,7 +4,7 @@ import img from "../../public/images/enquiry.png"
 import Input from '../UI/Input'
 import Select from "../UI/Select"
 import Button from '../UI/Button'
-const Enquiry = () => {
+const Enquiry = React.memo(() => {
     return (
         <div className='container py-24'>
             <div className="form-holder flex space-y-8 lg:space-x-24 lg:flex-row flex-col items-center ">
@@ -31,6 +31,6 @@ const Enquiry = () => {
             </div>
         </div>
     )
-}
+})
 
 export default Enquiry
