@@ -1,7 +1,7 @@
 import React from "react"
 import dynamic from "next/dynamic"
 interface propsTypes {
-    children?: any
+    children?: React.ReactNode|React.ReactNode[]
 }
 const NoSSR = (({ children }: propsTypes) => {
     return <> {children} </>
