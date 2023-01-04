@@ -1,11 +1,11 @@
 import Head from 'next/head'
 import Button from '../Components/UI/Button'
-import { Input } from '../Components/UI/Input'
 import img from "../public/images/Ellipse 6.png"
 import img2 from "../public/images/Group 22.png"
 import img3 from "../public/images/Rectangle 19.png"
 import { FaAngleDown } from "react-icons/fa";
 import Image from 'next/image';
+import Enquiry from '../Components/Home/Enquiry'
 export default function Home() {
   return (
     <>
@@ -52,7 +52,6 @@ export default function Home() {
                 </div>
               </div>
 
-
             </div>
             <div></div>
             <div className='py-[38px]'>
@@ -63,6 +62,9 @@ export default function Home() {
 
         </div>
       </div>
+
+      <Enquiry/>
+
 
     </>
   )
