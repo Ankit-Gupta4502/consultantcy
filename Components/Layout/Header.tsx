@@ -11,16 +11,16 @@ const Header = () => {
 
                     <Image src={img} alt="" />
                     <div className="flex space-x-10 items-center">
-                        <div className="flex space-x-4 cursor-pointer text-gray">
+                        <div className="flex space-x-4 cursor-pointer text-gray/70">
                             <span>
 
                                 All Services
                             </span>
-                            <span className=' flex items-center' ><FaAngleDown /></span>
+                            <span className=' flex items-center' ><FaAngleDown fontSize={18}/></span>
                         </div>
-                        <Link className=" cursor-pointer text-gray" href="#">Courses</Link>
-                        <Link className=" cursor-pointer text-gray" href="#">  About us</Link>
-                        <Link className=" cursor-pointer text-gray" href="#">My Account</Link>
+                        <Link className=" cursor-pointer text-gray/70" href="#">Courses</Link>
+                        <Link className=" cursor-pointer text-gray/70" href="#">  About us</Link>
+                        <Link className=" cursor-pointer text-gray/70" href="#">My Account</Link>
                     </div>
                 </div>
             </div>
