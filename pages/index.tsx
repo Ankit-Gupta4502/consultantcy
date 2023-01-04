@@ -15,6 +15,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <div className=' bg-light-primary relative overflow-hidden'>
         <div className="absolute top-[-75px] left-0 ...">
           <Image src={img} alt="" />
@@ -24,7 +25,7 @@ export default function Home() {
         </div>
         <div className="container">
 
-          <div className="grid grid-cols-[50%_10%_40%]">
+          <div className="grid grid-cols-1 md:gap-0 gap-2 mt-8 md:mt-0  md:grid-cols-[50%_10%_40%]">
             <div className='flex flex-col justify-center '>
               <h1 className='text-5xl mb-5 font-medium'><span className='text-primary'>Explore</span> real consultant<br />
                 near you !</h1>
@@ -34,7 +35,6 @@ export default function Home() {
                 <div className="grid grid-cols-[35%_35%_30%] items-center">
                   <div className='px-4 py-4'><div className="flex space-x-4 cursor-pointer text-gray/70">
                     <span>
-
                       Select Category
                     </span>
                     <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span>
@@ -48,7 +48,7 @@ export default function Home() {
                   </div></div>
                   <div className='text-center'>
                     <Button >Book Now</Button>
-                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -63,6 +63,7 @@ export default function Home() {
 
         </div>
       </div>
+
     </>
   )
 }
