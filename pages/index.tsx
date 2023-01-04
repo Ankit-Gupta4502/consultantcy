@@ -10,16 +10,28 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container mt-3 border px-[25px] mb-2.5">
+      {/* <div className="container mt-3 border px-[25px] mb-2.5">
         <h2 >Test</h2>
         <p>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Earum dolorum pariatur alias aliquid hic aliquam vel corporis ut vero perferendis?
         </p>
-      </div>
-      <Button variant='outlined'>
-        Book Now
-      </Button>
-      <Input  />
+      </div> */}
+
+
+      {/* <div className="container">
+
+
+        <div className="grid md:grid-cols-6 gap-[35px] sm:grid-cols-3">
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+          <div className='bg-primary p-5' ></div>
+        </div>
+      </div> */}
     </>
   )
 }

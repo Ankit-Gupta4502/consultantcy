@@ -34,7 +34,9 @@ module.exports = {
       danger: "#FF0101",
       warning: "#FFC107",
       "gray": "#20202080",
-      "white":"#fff"
+      "white":"#fff",
+      "light-primary":"#2A79FF1A",
+      "ligt-secondary":"#EAF2FF"
     }
   },
   plugins: [],
