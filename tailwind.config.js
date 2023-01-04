@@ -22,6 +22,7 @@ module.exports = {
       },
 
       screens: {
+        xs:"400px",
         sm: '540px',
         md: '728px',
         lg: '984px',
@@ -33,10 +34,11 @@ module.exports = {
       primary: "#2A79FF",
       danger: "#FF0101",
       warning: "#FFC107",
-      "gray": "#20202080",
+      "gray": "#202020",
       "white":"#fff",
       "light-primary":"#2A79FF1A",
-      "ligt-secondary":"#EAF2FF"
+      "ligt-secondary":"#EAF2FF",
+      "slate":"#F1F1F1"
     }
   },
   plugins: [],
