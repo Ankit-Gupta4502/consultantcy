@@ -1,7 +1,8 @@
 
 const initialState = {
     auth:{},
-    isAuthentiCated:false
+    isAuthentiCated:false,
+    verfiedMobile:false,
 }
 
 interface actionsFace {

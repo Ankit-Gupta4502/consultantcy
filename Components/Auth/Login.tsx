@@ -3,31 +3,32 @@ import logo from "../../public/images/iid-logo.png"
 import Image from 'next/image'
 import Link from 'next/link'
 import Input from '../UI/Input'
+import { handlePhoneValid } from "../../utils/utilities"
+import Button from '../UI/Button'
 const Login = () => {
-    const [mobile, setMobile] = useState<string>('')
+    const [mobile, setMobile] = useState('')
+    const [password, setPassword] = useState("")
     return (
-        <div className='bg-white pt-8 pb-11 shadow-[0_4px_20px_0px_rgba(0,0,0,0.1)] rounded-[10px] px-10 ' >
-            <div className="logo-wrapper mx-auto w-max">
-                <Image src={logo} alt='logo' />
-            </div>
-
+        <div className='bg-white pt-4 pb-11 shadow-[0_4px_20px_0px_rgba(0,0,0,0.1)] rounded-[10px] px-10 ' >
             <div className="form-wrapper mt-10">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h2 className='font-semibold' >Login</h2>
-                        <small className="text-gray/50" >
-                            Doesn’t  have an account yet ?
-                        </small>
-                    </div>
+                <div className="text-center">
+                    <h2>Login</h2>
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="" className='mb-2 block' >Mobile</label>
+                    <Input value={mobile} onChange={(e) => (handlePhoneValid(e.target.value) && e.target.value.length < 11) && setMobile(e.target.value)} />
+                </div>
 
-                    <Link href="/register" className='text-primary font-semibold' >
-                        Register
-                    </Link>
+                <div className="form-group mb-[30px]">
+                    <label htmlFor="" className='mb-2 block' >Password</label>
+                    <Input value={password} type="password" onChange={(e) => setPassword(e.target.value)} />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="" className='' >Mobile</label>
-                    <Input  value={mobile} onChange={(e) => e.target.value.length < 11 && setMobile(e.target.value)} />
+
+                <div className="btn-container">
+                    <Button className='font-semibold w-full' >Log in</Button>
                 </div>
+
+
             </div>
         </div>
     )
