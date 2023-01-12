@@ -1,35 +1,17 @@
 import React from 'react'
 import { FaSearch } from "react-icons/fa"
-import TopConsultant from '../Components/Home/TopConsultant'
 import { FaStar } from "react-icons/fa"
-import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
 import img3 from "../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Button from "../Components/UI/Button";
 const expertpage = () => {
-    const responsive = {
-        desktop: {
-            breakpoint: { max: 3000, min: 1024 },
-            items: 3,
-            slidesToSlide: 3 // optional, default to 1.
-        },
-        tablet: {
-            breakpoint: { max: 1024, min: 464 },
-            items: 2,
-            slidesToSlide: 2 // optional, default to 1.
-        },
-        mobile: {
-            breakpoint: { max: 464, min: 0 },
-            items: 1,
-            slidesToSlide: 1 // optional, default to 1.
-        }
-    };
+
     return (
 
 
         <div className="container">
-            <div className='  grid md:grid-cols-[1fr_3fr] gap-[23px]  py-[40px] items-start'>
+            <div className='  grid md:grid-cols-[.8fr_3.2fr] gap-[23px]  py-[40px] items-start'>
                 <div className='rounded  border-2 border-[#ddd] cursor-pointer overflow-hidden '>
                     <div className=' p-2 px-5 bg-[#F6F6F6] text-base'>
                         Category
@@ -67,10 +49,10 @@ const expertpage = () => {
 
                 <div>
                     <div className='grid md:grid-cols-[5%_95%]'>
-                        <div className='rounded-l-lg  border-[#dddd] bg-[#F6F6F6] px-2 py-1 h-[50px] text-gray/70 flex focus: outline-none w-100 relative items-center '>
+                        <div className='rounded-l-lg  border-[#dddd] bg-[#F6F6F6] px-2 py-0.5 h-[44px] text-gray/70 flex focus: outline-none w-100 relative items-center '>
                             <FaSearch className='mx-auto ' color='text-gray/60' />
                         </div>
-                        <input type="text" placeholder='Search Expert By Name' className='rounded-r-lg  border-[#ddd] bg-[#F6F6F6] px-2 py-1 h-[50px] text-gray/70 flex focus: outline-none w-100'>
+                        <input type="text" placeholder='Search Expert By Name' className='rounded-r-lg  border-[#ddd] bg-[#F6F6F6] px-2 py-1 h-[44px] text-gray/70 flex focus: outline-none w-100'>
                         </input>
 
 
@@ -95,8 +77,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                <Button variant='outlined' className='text-sm !px-[18px] !py-[10px]'>View Profile</Button>
-                                <Button className='text-sm !px-[26px]'>Book Now</Button>
+                            <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                            <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -119,8 +101,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                <Button variant='outlined' className='text-sm !px-[18px] !py-[10px]'>View Profile</Button>
-                                <Button className='text-sm !px-[26px]'>Book Now</Button>
+                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                            <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -143,8 +125,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                <Button variant='outlined' className='text-sm !px-[18px] !py-[10px]'>View Profile</Button>
-                                <Button className='text-sm !px-[26px]'>Book Now</Button>
+                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                            <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -167,8 +149,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                <Button variant='outlined' className='text-sm !px-[18px] !py-[10px]'>View Profile</Button>
-                                <Button className='text-sm !px-[26px]'>Book Now</Button>
+                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                            <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -191,8 +173,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                <Button variant='outlined' className='text-sm !px-[18px] !py-[10px]'>View Profile</Button>
-                                <Button className='text-sm !px-[26px]'>Book Now</Button>
+                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                            <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>

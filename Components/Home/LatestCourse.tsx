@@ -7,8 +7,8 @@ import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 
-interface IPROPS { value: String }
-const LatestCourse = ({ value }: IPROPS) => {
+interface IPROPS { value?: string }
+const LatestCourse = ({ value="" }: IPROPS) => {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },

@@ -6,8 +6,8 @@ import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 import { FaStar } from "react-icons/fa"
-interface IPROPS { value: String }
-const TopConsultant = ({ value }: IPROPS) => {
+interface IPROPS { value?: string }
+const TopConsultant = ({ value="" }: IPROPS) => {
 
     const responsive = {
         desktop: {

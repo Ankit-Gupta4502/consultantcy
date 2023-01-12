@@ -4,7 +4,6 @@ import img2 from "../../public/images/Group 22.png"
 import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Button from '../UI/Button'
-import { FaAngleDown } from 'react-icons/fa'
 const Hero = () => {
     return (
         <div className=' bg-light-primary relative overflow-hidden'>
