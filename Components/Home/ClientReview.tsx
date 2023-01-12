@@ -23,7 +23,7 @@ const responsive = {
 };
 const ClientReview = () => {
     return (
-        <div className=" py-[100px] bg-[#F1F1F1] pb-[50px]">
+        <div className=" py-[70px] bg-[#F1F1F1] pb-[50px]">
             <div className="container">
                 <p className='text-primary text-center'>Clients Review</p>
                 <h3 className=' text-center '>Check what our user says</h3>

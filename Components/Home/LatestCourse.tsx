@@ -7,7 +7,8 @@ import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 
-const LatestCourse = () => {
+interface IPROPS { value: String }
+const LatestCourse = ({ value }: IPROPS) => {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -26,15 +27,16 @@ const LatestCourse = () => {
         }
     };
     return (
-        <div className=" pt-[100px] pb-[70px]">
+        <div className={`pt-[70px] pb-[70px] ${value == "latestcourse" ? "bg-primary" : "bg-white"}`} >
             <div className="container ">
-                <p className=" text-primary mb-0">COURSES</p>
-                <div className='flex justify-between items-center'>
+                {value !== "latestcourse" ? <p className=" text-primary mb-0">COURSES</p> : null}
+                {value == "latestcourse" ? <h4 className={`text-white text-center text-3xl leading-[52px]`}>Experts Talk</h4> : <div className='flex justify-between items-center'>
                     <h4 className='text-3xl leading-[52px]'>Latest Courses</h4>
                     <Button variant='outlined'>View All</Button>
+                </div>}
 
-                </div>
-                <p className=" text-gray/70 mb-5">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
+
+                <p className={`${value == "latestcourse" ? "text-white text-center" : "text-black"} mb-7`}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
                     tempor incididunt ut labore et dolore magna aliqua.</p>
 
             </div>
