@@ -1,14 +1,15 @@
-import React,{ButtonHTMLAttributes} from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 
-export interface propType extends ButtonHTMLAttributes<HTMLButtonElement>{
+export interface propType extends ButtonHTMLAttributes<HTMLButtonElement> {
     className?: string,
     onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
     children?: React.ReactNode,
     variant?: "filled" | "outlined",
     disabled?: boolean
-    type?:"submit"|"button"
+    type?: "submit" | "button",
+    size?: "md" | "sm"
 }
-const Button = ({ children,type="button", className, onClick, variant = "filled", disabled = false,...rest }: propType) => {
+const Button = ({ size = "md", children, type = "button", className = "", onClick, variant = "filled", disabled = false, ...rest }: propType) => {
     return (
         <button className={`px-8 py-2.5 rounded-md font-normal text-sm ${variant === "filled" ? "text-white bg-primary" : "text-primary bg-white border border-primary"} ${className}`} onClick={onClick} disabled={disabled} type={type} {...rest}>
             {children}

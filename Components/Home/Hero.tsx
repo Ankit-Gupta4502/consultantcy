@@ -22,21 +22,29 @@ const Hero = () => {
                             near you !</h1>
                         <p className='text-gray/70 mb-5'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
                             tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <div className='border-[1px] border-white bg-white rounded'>
-                            <div className="grid grid-cols-[35%_35%_30%] items-center">
-                                <div className='px-4 py-4'><div className="flex space-x-4 cursor-pointer text-gray/70">
-                                    <span>
-                                        Select Category
-                                    </span>
-                                    <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span>
+                        <div className='border-[1px] border-white md:bg-white  rounded'>
+                            <div className="grid md:grid-cols-[35%_35%_30%] items-center grid-cols-1 gap-x-2 ">
+                                <div className=''><div className="flex md:space-x-4 cursor-pointer text-gray/70">
+                                    <select name="cars" id="cars" className='focus: outline-none cursor-pointer w-full p-4'>
+                                        <option value="">Select Category</option>
+                                        <option value="volvo">Volvo</option>
+                                        <option value="saab">Saab</option>
+                                        <option value="mercedes">Mercedes</option>
+                                        <option value="audi">Audi</option>
+                                    </select>
+                                    {/* <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span> */}
                                 </div></div>
-                                <div className='px-4 py-4'><div className="flex space-x-4 cursor-pointer text-gray/70">
-                                    <span>
-
-                                        Select Industry
-                                    </span>
-                                    <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span>
-                                </div></div>
+                                <div className=''>
+                                    <div className="flex space-x-4 cursor-pointer bg-text-gray/70 ">
+                                        <select name="cars" id="cars" className='focus: outline-none cursor-pointer w-full p-4'>
+                                            <option value="">Select Industry</option>
+                                            <option value="volvo">Volvo</option>
+                                            <option value="saab">Saab</option>
+                                            <option value="mercedes">Mercedes</option>
+                                            <option value="audi">Audi</option>
+                                        </select>
+                                        {/* <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span> */}
+                                    </div></div>
                                 <div className='text-center'>
                                     <Button >Book Now</Button>
                                 </div>

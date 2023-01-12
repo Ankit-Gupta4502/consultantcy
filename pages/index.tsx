@@ -2,6 +2,9 @@ import Head from 'next/head'
 import Enquiry from '../Components/Home/Enquiry'
 import Category from '../Components/Home/Category'
 import Hero from '../Components/Home/Hero'
+import TopConsultant from '../Components/Home/TopConsultant'
+import LatestCourse from '../Components/Home/LatestCourse'
+import ClientReview from "../Components/Home/ClientReview"
 export default function Home() {
   return (
     <>
@@ -13,6 +16,9 @@ export default function Home() {
       </Head>
       <Hero />
       <Category />
+      <TopConsultant />
+      <LatestCourse />
+      <ClientReview />
       <Enquiry />
 
     </>

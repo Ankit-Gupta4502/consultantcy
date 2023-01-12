@@ -1,0 +1,8 @@
+.dots li.react-multi-carousel-dot--active > button {
+  background-color: #fff;
+}
+
+.dots li.react-multi-carousel-dot--active > button {
+  background-color: transparent;
+  border-color: #fff;
+}
