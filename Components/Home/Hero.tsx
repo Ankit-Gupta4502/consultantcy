@@ -36,7 +36,7 @@ const Hero = () => {
                                 </div></div>
                                 <div className=''>
                                     <div className="flex space-x-4 cursor-pointer text-gray/70 ">
-                                        <select name="cars" id="cars" className='focus: outline-none cursor-pointer w-full p-4'>
+                                        <select name="cars" id="cars" className='focus: outline-none bg-white cursor-pointer w-full p-4'>
                                             <option value="">Select Industry</option>
                                             <option value="volvo">Volvo</option>
                                             <option value="saab">Saab</option>
