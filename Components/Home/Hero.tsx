@@ -35,7 +35,7 @@ const Hero = () => {
                                     {/* <span className=' flex items-center' ><FaAngleDown fontSize={20} /></span> */}
                                 </div></div>
                                 <div className=''>
-                                    <div className="flex space-x-4 cursor-pointer bg-text-gray/70 ">
+                                    <div className="flex space-x-4 cursor-pointer text-gray/70 ">
                                         <select name="cars" id="cars" className='focus: outline-none cursor-pointer w-full p-4'>
                                             <option value="">Select Industry</option>
                                             <option value="volvo">Volvo</option>
