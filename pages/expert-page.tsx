@@ -77,8 +77,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                            <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                            <Button className='text-sm !px-2.7'>Book Now</Button>
+                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -101,8 +101,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                            <Button className='text-sm !px-2.7'>Book Now</Button>
+                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -125,8 +125,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                            <Button className='text-sm !px-2.7'>Book Now</Button>
+                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -149,8 +149,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                            <Button className='text-sm !px-2.7'>Book Now</Button>
+                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
@@ -173,8 +173,8 @@ const expertpage = () => {
                                 ₹600/hourly
                             </span>
                             <div className='flex justify-between mt-4'>
-                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                            <Button className='text-sm !px-2.7'>Book Now</Button>
+                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                <Button className='text-sm !px-2.7'>Book Now</Button>
 
                             </div>
                         </div>
