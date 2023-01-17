@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import logo from "../../public/images/iid-logo.png"
-import Image from 'next/image'
-import Link from 'next/link'
+
 import Input from '../UI/Input'
 import { handlePhoneValid } from "../../utils/utilities"
 import Button from '../UI/Button'
@@ -9,10 +7,10 @@ const Login = () => {
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState("")
     return (
-        <div className='bg-white pt-4 pb-11 shadow-[0_4px_20px_0px_rgba(0,0,0,0.1)] rounded-[10px] px-10 ' >
-            <div className="form-wrapper mt-10">
-                <div className="text-center">
-                    <h2>Login</h2>
+        <div className='bg-white pt-4 pb-11' >
+            <div className="form-wrapper mt-5">
+                <div className="mb-10">
+                    <h2 className='font-medium text-3xl'>Login Now</h2>
                 </div>
                 <div className="form-group mb-3">
                     <label htmlFor="" className='mb-2 block' >Mobile</label>
@@ -27,8 +25,16 @@ const Login = () => {
                 <div className="btn-container">
                     <Button className='font-semibold w-full' >Log in</Button>
                 </div>
-
-
+                <div className='flex justify-between items-center mt-5'>
+                    <div >
+                        <input type="checkbox" className='cursor-pointer'/><span className='px-1'>Remember Me</span>
+                    </div>
+                    <div>
+                        <h6 className='cursor-pointer'>Forget Password</h6>
+                    </div>
+                   
+                </div>
+                <p className='text-center mt-5 '>Doesn’t  have an account yet ? <span className='text-primary cursor-pointer'>Register</span></p>
             </div>
         </div>
     )

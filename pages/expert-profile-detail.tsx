@@ -106,7 +106,7 @@ const exportProfilePage = () => {
                                         Sector
                                     </label>
                                     <select className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 cursor-pointer leading-tight focus:outline-none " id="sector" >
-                                        <option >New Mexico</option>
+                                        <option  >New Mexico</option>
                                         <option>Missouri</option>
                                         <option>Texas</option>
                                     </select>
