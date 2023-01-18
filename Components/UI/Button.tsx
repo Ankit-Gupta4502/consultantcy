@@ -11,7 +11,7 @@ export interface propType extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 const Button = ({ size = "md", children, type = "button", className = "", onClick, variant = "filled", disabled = false, ...rest }: propType) => {
     return (
-        <button className={`px-8 py-2.5 rounded-md font-normal text-sm ${variant === "filled" ? "text-white bg-primary" : "text-primary bg-white border border-primary"} ${className}`} onClick={onClick} disabled={disabled} type={type} {...rest}>
+        <button className={`${size==="md"?"px-8":"px-6"} py-2.5 rounded-md font-normal text-sm ${variant === "filled" ? "text-white bg-primary" : "text-primary bg-white border border-primary"} ${className}`} onClick={onClick} disabled={disabled} type={type} {...rest}>
             {children}
         </button>
     )

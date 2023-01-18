@@ -70,10 +70,11 @@ const LatestCourse = ({ value="" }: IPROPS) => {
                         <h6 className='text-primary text-xl'>Artificial Intelligence & Data Science</h6>
 
                         <div className='flex justify-between mt-3'>
-                            <span className='rounded-full bg-slate px-3.5 py-1 flex items-center font-light text-[16px]'>
+                            <span className='rounded-full bg-slate px-2.5 py-1 flex items-center font-light text-sm'>
                                 ₹600/month
                             </span>
-                            <Button className='text-sm px-[16px]'>Check Now</Button>
+                            <Button size='sm'  className='text-sm'>Check Now</Button>
+
 
                         </div>
                     </div>
@@ -87,10 +88,11 @@ const LatestCourse = ({ value="" }: IPROPS) => {
                         <h6 className='text-primary text-xl'>Artificial Intelligence & Data Science</h6>
 
                         <div className='flex justify-between mt-3'>
-                            <span className='rounded-full bg-slate px-3.5 py-1 flex items-center font-light text-[16px]'>
+                            <span className='rounded-full bg-slate px-2.5 py-1 flex items-center font-light text-sm'>
                                 ₹600/month
                             </span>
-                            <Button className='text-sm px-[16px]'>Check Now</Button>
+                            <Button size='sm'  className='text-sm'>Check Now</Button>
+
 
                         </div>
                     </div>
@@ -104,10 +106,10 @@ const LatestCourse = ({ value="" }: IPROPS) => {
                         <h6 className='text-primary text-xl'>Artificial Intelligence & Data Science</h6>
 
                         <div className='flex justify-between mt-3 '>
-                            <span className='rounded-full bg-slate px-3.5 py-1 flex items-center font-light text-[16px]'>
+                            <span className='rounded-full bg-slate px-2.5 py-1 flex items-center font-light text-sm'>
                                 ₹600/month
                             </span>
-                            <Button className='text-sm px-[16px] '>Check Now</Button>
+                            <Button size='sm'  className='text-sm'>Check Now</Button>
 
                         </div>
                     </div>
@@ -121,10 +123,11 @@ const LatestCourse = ({ value="" }: IPROPS) => {
                         <h6 className='text-primary text-xl'>Artificial Intelligence & Data Science</h6>
 
                         <div className='flex justify-between mt-3'>
-                            <span className='rounded-full bg-slate px-3.5 py-1 flex items-center font-light text-[16px]'>
+                            <span className='rounded-full bg-slate px-2.5 py-1 flex items-center font-light text-sm'>
                                 ₹600/month
                             </span>
-                            <Button className='text-sm px-[16px]'>Check Now</Button>
+                            <Button size='sm'  className='text-sm'>Check Now</Button>
+
 
                         </div>
                     </div>
