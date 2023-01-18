@@ -1,11 +1,37 @@
-import React, { useState } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import Input from '../UI/Input'
-import { handlePhoneValid } from "../../utils/utilities"
+import { handlePhoneValid, returnErr } from "../../utils/utilities"
 import Button from '../UI/Button'
+import { verfiyMobile, login } from '../../redux/actions/AuthAction'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../redux/store'
+import { useRouter } from 'next/router'
 const Login = () => {
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState("")
+    const dispatch: AppDispatch = useDispatch()
+    const { AuthReducer: { auth, errors, isAuthentiCated, loading } } = useSelector((state: RootState) => state)
+    const router = useRouter()
+    const verfiyUser = () => {
+        dispatch(verfiyMobile(mobile))
+    }
+
+    useEffect(() => {
+        if (returnErr(errors, "message") === "This number is not register. Please register first.") {
+            router.replace('/register')
+        }
+    }, [errors])
+
+    useEffect(() => {
+        if (isAuthentiCated) {
+            router.back()
+        }
+    }, [isAuthentiCated])
+
+    const handleLogin = () => {
+        dispatch(login(mobile,password))
+    }
+
     return (
         <div className='bg-white pt-4 pb-11' >
             <div className="form-wrapper mt-5">
@@ -14,25 +40,20 @@ const Login = () => {
                 </div>
                 <div className="form-group mb-3">
                     <label htmlFor="" className='mb-2 block' >Mobile</label>
-                    <Input value={mobile} onChange={(e) => (handlePhoneValid(e.target.value) && e.target.value.length < 11) && setMobile(e.target.value)} />
+                    <Input value={mobile} onChange={(e) => (handlePhoneValid(e.target.value) && e.target.value.length < 11) && setMobile(e.target.value)} invalid={Boolean(returnErr(errors, "mobile"))} />
+                    <span className='block text-danger' > {returnErr(errors, "mobile")} </span>
                 </div>
 
-                <div className="form-group mb-[30px]">
+                {Object.keys(auth).length ? <div className="form-group mb-[30px]">
                     <label htmlFor="" className='mb-2 block' >Password</label>
                     <Input value={password} type="password" onChange={(e) => setPassword(e.target.value)} />
-                </div>
+                </div> : ""}
 
                 <div className="btn-container">
-                    <Button className='font-semibold w-full' >Log in</Button>
+                    <Button className='font-semibold w-full' disabled={loading} onClick={Object.keys(auth).length ? handleLogin : verfiyUser} >{Object.keys(auth).length ? "Login" : "Verify Mobile"}</Button>
                 </div>
-                <div className='flex justify-between items-center mt-5'>
-                    <div >
-                        <input type="checkbox" className='cursor-pointer'/><span className='px-1'>Remember Me</span>
-                    </div>
-                    <div>
-                        <h6 className='cursor-pointer'>Forget Password</h6>
-                    </div>
-                   
+                <div className=' text-end mt-5'>
+                    <h6 className='cursor-pointer'>Forget Password</h6>
                 </div>
                 <p className='text-center mt-5 '>Doesn’t  have an account yet ? <span className='text-primary cursor-pointer'>Register</span></p>
             </div>
