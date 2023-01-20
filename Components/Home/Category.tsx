@@ -1,7 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import img4 from "../../public/images/Rectangle 13.png"
+import { useDispatch } from 'react-redux'
+import { getCategory } from '../../redux/actions/HomeAction'
+import { AppDispatch } from '../../redux/store'
+import { useSelector } from 'react-redux'
+import { RootState } from '../../redux/store'
+import Link from 'next/link'
+
+// Since We dont know What will be coming from api its better to use any here
+interface item {
+  [key: string]: any
+}
 const Category = () => {
+  const dispatch: AppDispatch = useDispatch()
+  const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
+
+  useEffect(() => {
+    dispatch(getCategory())
+  }, [])
+
+
+
   return (
     <div className="container py-[100px]">
       <p className='text-primary text-center'>Category</p>
@@ -9,78 +29,20 @@ const Category = () => {
       <p className='text-gray/70 text-center mb-14'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
         tempor incididunt ut labore et dolore magna aliqua.</p>
       <div className="md:grid-cols-3 lg:grid-cols-6  grid-cols-1 grid gap-[35px]">
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col'>
-          <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-            <Image src={img4} alt="" />
-          </div>
-          <p className='text-center'>Income Tax</p>
-        </div>
-        <div className='border-[1px] border-primary rounded p-3 shadow-lg flex items-center flex-col justify-center'>
-          <div className=' mb-3 flex justify-center items-center text-primary'>
-            50+ More
-          </div>
+        {
+          categories.map((item: item) => {
+            return <Link href="#" key={item?.id} >
+              <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col cursor-pointer'>
+                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
+                  <Image src={item?.avatar || img4} alt="" />
+                </div>
+                <p className='text-center'>{item?.name}</p>
+              </div>
+            </Link>
+          })
+        }
 
-        </div>
+
       </div>
     </div>
   )
