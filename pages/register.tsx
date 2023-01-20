@@ -40,9 +40,6 @@ const Register = () => {
         }
     }, [isAuthentiCated, router])
 
-
-    // {"otp":"351666","name":"Deepak Sharma","mobile":6307363672,"email":"deepak@samadhan.group","pincode":"226010","city":"lucknow","state":"utter pradesh","source":"api","device_id":"","firebase_token":"","password":"12345678","confirmPassword":"12345678"}
-
     const handlePincode = async (value:string) => {
         try {
             
