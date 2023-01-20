@@ -1,5 +1,5 @@
 import { returnKey } from "../../utils/utilities"
-const existingUser = typeof window !== "undefined" ? window.localStorage.getItem("iid_consultancy_user") && JSON.parse(window.localStorage.getItem("iid_consultancy_user")) : ""
+const existingUser = typeof window !== "undefined" ? window.localStorage.getItem("iid_consultancy_user")!=="undefined" && JSON.parse(window.localStorage.getItem("iid_consultancy_user")) : ""
 
 const initialState = {
     auth: existingUser || {},

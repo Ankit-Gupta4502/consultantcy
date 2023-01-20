@@ -55,7 +55,6 @@ const Login = () => {
                 <div className=' text-end mt-5'>
                     <h6 className='cursor-pointer'>Forget Password</h6>
                 </div>
-                <p className='text-center mt-5 '>Doesn’t  have an account yet ? <span className='text-primary cursor-pointer'>Register</span></p>
             </div>
         </div>
     )

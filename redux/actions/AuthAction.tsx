@@ -7,7 +7,7 @@ export const login = (mobile: string, password: string) => async (dispatch: AppD
             mobile,
             password
         })
-        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data.user))
+        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data))
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data })
     } catch (error) {
         dispatch({ type: "LOGIN_FAILED", payload: error.response.data })
