@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Input from '../UI/Input'
-import { handlePhoneValid, returnErr } from "../../utils/utilities"
+import { handlePhoneValid, returnKey } from "../../utils/utilities"
 import Button from '../UI/Button'
 import { verfiyMobile, login } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,16 +17,16 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if (returnErr(errors, "message") === "This number is not register. Please register first.") {
+        if (returnKey(errors, "message") === "This number is not register. Please register first.") {
             router.replace('/register')
         }
     }, [errors])
 
     useEffect(() => {
-        if (isAuthentiCated) {
+        if (isAuthentiCated && router) {
             router.back()
         }
-    }, [isAuthentiCated])
+    }, [isAuthentiCated,router])
 
     const handleLogin = () => {
         dispatch(login(mobile,password))
@@ -40,8 +40,8 @@ const Login = () => {
                 </div>
                 <div className="form-group mb-3">
                     <label htmlFor="" className='mb-2 block' >Mobile</label>
-                    <Input value={mobile} onChange={(e) => (handlePhoneValid(e.target.value) && e.target.value.length < 11) && setMobile(e.target.value)} invalid={Boolean(returnErr(errors, "mobile"))} />
-                    <span className='block text-danger' > {returnErr(errors, "mobile")} </span>
+                    <Input value={mobile} onChange={(e) => (handlePhoneValid(e.target.value) && e.target.value.length < 11) && setMobile(e.target.value)} invalid={Boolean(returnKey(errors, "mobile"))} />
+                    <span className='block text-danger' > {returnKey(errors, "mobile")} </span>
                 </div>
 
                 {Object.keys(auth).length ? <div className="form-group mb-[30px]">

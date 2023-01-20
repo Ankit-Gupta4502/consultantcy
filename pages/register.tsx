@@ -1,19 +1,78 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from '../Components/UI/Input'
-import { handlePhoneValid } from "../utils/utilities"
+import { handlePhoneValid, returnKey } from "../utils/utilities"
 import Button from '../Components/UI/Button'
 import register from "../public/images/register.png"
 import Image from 'next/image'
 import OtpInput from 'react-otp-input'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { sendOtp, registerUser, verifyOtp } from '../redux/actions/AuthAction'
+import { useRouter } from "next/router"
+import axios from 'axios'
 const Register = () => {
+    const { AuthReducer: { mobile, isAuthentiCated, otpSendStatus, loading, otpVerified, errors, } } = useSelector((state: RootState) => state)
+    const dispatch: AppDispatch = useDispatch()
     const [password, setPassword] = useState("")
     const [newpassword, setNewPassword] = useState("")
     const [otp, setOtp] = useState("")
+    const [userInfo, setUserInfo] = useState({
+        name: "",
+        email: ""
+    })
+    const router = useRouter()
     const [address, setAddress] = useState({
         pincode: "",
         city: "",
-        state: ""
+        state: "",
     })
+    useEffect(() => {
+        if (mobile) {
+            dispatch(sendOtp(mobile))
+        }
+        else {
+            router.replace("/login")
+        }
+    }, [mobile])
+    useEffect(() => {
+        if (isAuthentiCated && router) {
+            router.replace("/")
+        }
+    }, [isAuthentiCated, router])
+
+
+    // {"otp":"351666","name":"Deepak Sharma","mobile":6307363672,"email":"deepak@samadhan.group","pincode":"226010","city":"lucknow","state":"utter pradesh","source":"api","device_id":"","firebase_token":"","password":"12345678","confirmPassword":"12345678"}
+
+    const handlePincode = async (value:string) => {
+        try {
+            
+            const response = await axios.post(`/api/mobile/v1/fetch-pincode`, {
+                pincode:value
+            })
+            setAddress({ ...address, city: response.data?.city, state: response.data?.state,pincode:value})
+        } catch (error) {
+            console.log(error)
+            
+        }
+    }
+
+    const handleSubmit = () => {
+        const data = {
+            otp,
+            mobile,
+            source: "api",
+            password,
+            confirmPassword: newpassword,
+            email: userInfo.email,
+            pincode: address.pincode,
+            city: address.city,
+            state: address.state,
+            name: userInfo.name
+        }
+        dispatch(registerUser(data))
+    }
+
+
     return (
         <div className=' bg-[#F5F5F5] p-[30px]' >
             <div className='  grid grid-cols-[30%_5%_30%] justify-center gap-[33px] items-center py-2 bg-white rounded-[10px] '>
@@ -27,9 +86,15 @@ const Register = () => {
                             <label htmlFor="" className='mb-2 block' >Enter OTP</label>
                             <OtpInput
                                 value={otp}
-                                numInputs={4}
+                                numInputs={6}
                                 separator={<span className="mx-2 block">*</span>}
-                                onChange={(value: number) => handlePhoneValid(value) && setOtp(value.toString())}
+                                onChange={(value: string) => {
+                                    handlePhoneValid(value) &&
+                                        setOtp(value)
+                                    if (value.length === 6) {
+                                        dispatch(verifyOtp(mobile, value))
+                                    }
+                                }}
                                 inputStyle={{
                                     width: "100%",
                                     borderRadius: "6px",
@@ -37,29 +102,53 @@ const Register = () => {
                                     height: "38px",
                                 }}
                             />
+                            <div className="flex justify-between items-center">
+                                <small className=' text-danger' role="button" onClick={() => sendOtp(mobile)}  > {otpSendStatus ? "Resend OTP" : "wait...."} </small>
+
+                                {
+
+                                    otpVerified ? <small className='text-primary' > OTP MATCHED !!</small>
+                                        : <small className='text-danger' > {returnKey(errors, "message")}  </small>
+
+                                }
+
+                            </div>
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label htmlFor="" className='mb-2 block'>Name</label>
+                            <Input value={userInfo.name} name="name" onChange={(e) => setUserInfo({ ...userInfo, [e.target.name]: e.target.value })} disabled={!otpVerified} className=" !py-2 border-[#086BD8]" />
+                        </div>
+
+                        <div className="form-group mb-3">
+                            <label htmlFor="" className='mb-2 block'>Email</label>
+                            <Input value={userInfo.email} name="email" onChange={(e) => setUserInfo({ ...userInfo, [e.target.name]: e.target.value })} disabled={!otpVerified} className=" !py-2 border-[#086BD8]" />
                         </div>
 
                         <div className="form-group mb-3">
                             <label htmlFor="" className='mb-2 block' >Password</label>
-                            <Input value={password} type="password" onChange={(e) => setPassword(e.target.value)} className=" !py-2 border-[#086BD8]" />
+                            <Input value={password} type="password" onChange={(e) => setPassword(e.target.value)} className=" !py-2 border-[#086BD8]" disabled={!otpVerified} />
                         </div>
                         <div className="form-group mb-3">
                             <label htmlFor="" className='mb-2 block' >Confirmed Password</label>
-                            <Input value={newpassword} type="password" onChange={(e) => setNewPassword(e.target.value)} className=" !py-2 border-[#086BD8]" />
+                            <Input value={newpassword} type="password" onChange={(e) => setNewPassword(e.target.value)} className=" !py-2 border-[#086BD8]" disabled={!otpVerified} />
                         </div>
 
-                        {password === "" && newpassword === "" || newpassword === "" ? null : <>{newpassword === password ? <p className='text-green-500'>confirmed password match</p> : <p className='text-danger'>confirmed password not match</p>}</>}
                         <div className='grid grid-cols-[45%_10%_45%]'>
-
-
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >Mobile No</label>
-                                <Input className=" !py-2 border-[#086BD8]" />
+                                <Input className=" !py-2 border-[#086BD8]" value={mobile} disabled={!otpVerified} />
                             </div>
                             <div></div>
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >Pincode</label>
-                                <Input className=" !py-2 border-[#086BD8]" />
+                                <Input className=" !py-2 border-[#086BD8]" disabled={!otpVerified} value={address.pincode} name='pincode' onChange={(e) => { 
+                                    handlePhoneValid(e.target.value) &&
+                                    setAddress({...address,[e.target.name]:e.target.value})
+                                    if ( e.target.value.length >= 6) {
+                                        handlePincode(e.target.value)
+                                    }
+                                }} />
                             </div>
                         </div>
                         <div className='grid grid-cols-[45%_10%_45%] mb-1'>
@@ -67,16 +156,16 @@ const Register = () => {
 
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >City</label>
-                                <Input className=" !py-2 border-[#086BD8]" />
+                                <Input className=" !py-2 border-[#086BD8]" disabled={!otpVerified} value={address.city} name='city' onChange={(e) => setAddress({ ...address, [e.target.name]: e.target.value })} />
                             </div>
                             <div></div>
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >State</label>
-                                <Input className=" !py-2 border-[#086BD8]" />
+                                <Input className=" !py-2 border-[#086BD8]" disabled={!otpVerified} value={address.state} name='state' onChange={(e) => setAddress({ ...address, [e.target.name]: e.target.value })} />
                             </div>
                         </div>
                         <div className="btn-container">
-                            <Button className='font-semibold w-full' >Register</Button>
+                            <Button className='font-semibold w-full' onClick={handleSubmit} disabled={!otpVerified} >Register</Button>
                         </div>
 
 
