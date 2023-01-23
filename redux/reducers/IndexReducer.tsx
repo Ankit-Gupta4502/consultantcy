@@ -18,8 +18,6 @@ const IndexReducer = (state = initialState, action: actionsFace) => {
             return { ...state, loading: true }
 
         case GET_CATEGORIES_FULFILLED:
-            console.log("working");
-
             return { ...state, loading: false, categories: Array.isArray(action.payload) ? action.payload : [] }
 
         case GET_CATEGORIES_REJECTED:
