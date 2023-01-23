@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Image from 'next/image'
 import img4 from "../../public/images/Rectangle 13.png"
 import { useDispatch } from 'react-redux'
-import { getCategory } from '../../redux/actions/HomeAction'
+import { getSectors } from '../../redux/actions/HomeAction'
 import { AppDispatch } from '../../redux/store'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
@@ -17,7 +17,7 @@ const Category = () => {
   const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
 
   useEffect(() => {
-    dispatch(getCategory())
+    dispatch(getSectors())
   }, [])
 
 
@@ -30,13 +30,13 @@ const Category = () => {
         tempor incididunt ut labore et dolore magna aliqua.</p>
       <div className="md:grid-cols-3 lg:grid-cols-6  grid-cols-1 grid gap-[35px]">
         {
-          categories.map((item: item) => {
-            return <Link href="#" key={item?.id} >
-              <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col cursor-pointer'>
+          categories?.slice(0,11).map((item: item, index: number) => {
+            return  <Link href="#" key={item?.id} >
+              <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden'>
                 <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
                   <Image src={item?.avatar || img4} alt="" />
                 </div>
-                <p className='text-center'>{item?.name}</p>
+                <p className='text-center'>{item?.name_english?.slice(0, 10)?.concat?.("...")}</p>
               </div>
             </Link>
           })
