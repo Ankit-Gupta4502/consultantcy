@@ -15,7 +15,7 @@ const initialState = {
 
 
 export interface actionsFace {
-    payload?: object | [] | boolean | string,
+    payload?: object | object[] | boolean | string,
     type: string
 }
 
