@@ -1,4 +1,4 @@
-import { actionsFace } from "./AuthReducer";
+import { actionsFace } from "../actionInterface/interface"
 import { GET_SECTORS_PENDING, GET_SECTORS_FULFILLED, GET_SECTORS_REJECTED } from "../Constant"
 
 interface initState {

@@ -1,4 +1,5 @@
 import { returnKey } from "../../utils/utilities"
+import { actionsFace } from "../actionInterface/interface"
 const existingUser = typeof window !== "undefined" ? window.localStorage.getItem("iid_consultancy_user")!=="undefined" && JSON.parse(window.localStorage.getItem("iid_consultancy_user")) : ""
 
 const initialState = {
@@ -14,10 +15,7 @@ const initialState = {
 
 
 
-export interface actionsFace {
-    payload?: object | object[] | boolean | string,
-    type: string
-}
+
 
 const AuthReducer = (state = initialState, action: actionsFace) => {
     switch (action.type) {

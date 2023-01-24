@@ -1,13 +1,13 @@
-import { actionsFace } from "./AuthReducer";
+import { actionsFace } from "../actionInterface/interface"
 import { GET_INDUSTRIES_PENDING, GET_INDUSTRIES_FULFILLED, GET_INDUSTRIES_REJECTED } from "../Constant"
 interface initState {
     loading: boolean,
-    indexcategories: [],
+    categories: [],
     errors: object
 }
 const initialState: initState = {
     loading: false,
-    indexcategories: [],
+    categories: [],
     errors: {}
 }
 
@@ -21,7 +21,7 @@ const IndustriesReducer = (state = initialState, action: actionsFace) => {
                 return {
                     ...state,
                     loading: false,
-                    indexcategories: Array.isArray(action.payload) ? action.payload : []
+                    categories: Array.isArray(action.payload) ? action.payload : []
                 }
             }
         case GET_INDUSTRIES_REJECTED:

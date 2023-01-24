@@ -5,7 +5,6 @@ import Button from '../Components/UI/Button'
 import OtpInput from "react-otp-input";
 import Image from 'next/image'
 import img from "../public/images/forgotPassword.png"
-import RiErrorWarningFill from "../Components/UI/Input"
 const forgetpassword = () => {
   const [mobile, setMobile] = useState('')
   const [dbotp, setDbOtp] = useState<string>("");

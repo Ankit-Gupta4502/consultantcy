@@ -7,11 +7,8 @@ import { AppDispatch } from '../../redux/store'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 import Link from 'next/link'
+import { item } from '../../interface'
 
-// Since We dont know What will be coming from api its better to use any here
-interface item {
-  [key: string]: any
-}
 const Category = () => {
   const dispatch: AppDispatch = useDispatch()
   const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
@@ -42,10 +39,10 @@ const Category = () => {
           })
         }
 
-        <Link href="#" >
+        <Link href={`/industries/food-proccessing`} >
           <div className='border-[1px] justify-center border-primary rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden h-full'>
             <div className='flex justify-center items-center'>
-              <h4 className='text-lg text-primary'> { categories?.length-1}+ </h4>
+              <h4 className='text-lg text-primary'> {categories?.length - 1}+ </h4>
             </div>
           </div>
         </Link>

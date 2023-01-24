@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 import { getIndustries } from '../../redux/actions/IndustryAction'
 import { getSectors } from "../../redux/actions/HomeAction"
-
+import { item } from '../../interface'
 const industries = () => {
     const { slug } = useRouter().query
     const dispatch: AppDispatch = useDispatch()
@@ -21,9 +21,8 @@ const industries = () => {
     useEffect(() => {
         dispatch(getSectors())
     }, [])
-    const { IndustriesReducer: { indexcategories, loading } } = useSelector((state: RootState) => state)
+    const { IndustriesReducer: { categories: industries, loading } } = useSelector((state: RootState) => state)
     const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
-    console.log(categories)
 
     return (
         <div className="container">
@@ -33,39 +32,15 @@ const industries = () => {
                         Category
                     </div>
                     <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    {categories.map((item) => {
-                        return (<>
+                    {categories.map((item:item) => {
+                        return (<div key={item.id}>
                             <div className={` p-2 px-5  ${slug === item?.slug ? "text-primary" : "text-gray/70"}  text-base`}>
                                 {item?.name_english}
                             </div>
                             <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                        </>)
+                        </div>)
                     })}
 
-                    {/* <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Franchise
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        GST
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food Processing
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food & Beverage
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Home Based Products
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food Processing
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div> */}
                 </div>
 
                 <div>
