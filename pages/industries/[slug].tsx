@@ -33,12 +33,12 @@ const industries = () => {
                     </div>
                     <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
                     {categories.map((item:item) => {
-                        return (<div key={item.id}>
+                        return (<Link key={item.id} href={`/industries/${item?.slug}`} >
                             <div className={` p-2 px-5  ${slug === item?.slug ? "text-primary" : "text-gray/70"}  text-base`}>
                                 {item?.name_english}
                             </div>
                             <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                        </div>)
+                        </Link>)
                     })}
 
                 </div>

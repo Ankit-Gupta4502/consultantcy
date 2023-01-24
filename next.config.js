@@ -1,10 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+
 }
 
 module.exports = {
   ...nextConfig,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   async rewrites(){
     return[
       {

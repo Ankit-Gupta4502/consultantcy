@@ -10,8 +10,8 @@ const Select = ({ className = "", invalid = false, options = [], ...rest }: prop
       <select {...rest} className={`rounded-lg relative bg-white appearance-none border focus: outline-none ${invalid ? "border-danger text-danger" : "border-[#DDDDDD]"} py-[15px] px-3.5 w-full  ${className}`} >
         <option value="">Select</option>
         {
-          options.map((item) => {
-            return <option value={item}>{item}</option>
+          options.map((item,index) => {
+            return <option value={item} key={index}>{item}</option>
           })
         }
       </select>

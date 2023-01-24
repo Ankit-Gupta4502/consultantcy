@@ -1,6 +1,7 @@
 import { returnKey } from "../../utils/utilities"
+import { LOG_OUT } from "../Constant"
 import { actionsFace } from "../actionInterface/interface"
-const existingUser = typeof window !== "undefined" ? window.localStorage.getItem("iid_consultancy_user")!=="undefined" && JSON.parse(window.localStorage.getItem("iid_consultancy_user")) : ""
+const existingUser = typeof window !== "undefined" ? window.localStorage.getItem("iid_consultancy_user") !== "undefined" && JSON.parse(window.localStorage.getItem("iid_consultancy_user")) : ""
 
 const initialState = {
     auth: existingUser || {},
@@ -46,6 +47,10 @@ const AuthReducer = (state = initialState, action: actionsFace) => {
             return { ...state, loading: false, errors: action.payload, otpVerified: false }
         case "VERIFY_MOBILE_REJECTED":
             return { ...state, loading: false, errors: action.payload, mobile: returnKey(action.payload, "mobile") }
+
+        case LOG_OUT:
+            localStorage.removeItem("iid_consultancy_user")
+            return { ...state, loading: false, isAuthentiCated: false, auth: {} }
 
 
         default:
