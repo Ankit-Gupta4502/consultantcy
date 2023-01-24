@@ -1,13 +1,13 @@
 import axios from "axios"
 import { AppDispatch } from "../store"
-import { GET_CATEGORIES_PENDING, GET_CATEGORIES_FULFILLED, GET_CATEGORIES_REJECTED } from "../Constant"
+import { GET_SECTORS_PENDING, GET_SECTORS_FULFILLED, GET_SECTORS_REJECTED } from "../Constant"
 export const getSectors = () => async (dispatch: AppDispatch) => {
     try {
-        dispatch({ type: GET_CATEGORIES_PENDING })
+        dispatch({ type: GET_SECTORS_PENDING })
         const response = await axios("/api/mobile/v1/sectors", {
         })
-        dispatch({ type: GET_CATEGORIES_FULFILLED, payload: response.data?.sectors })
+        dispatch({ type: GET_SECTORS_FULFILLED, payload: response.data?.sectors })
     } catch (error) {
-        dispatch({ type: GET_CATEGORIES_REJECTED, payload: error.response.data })
+        dispatch({ type: GET_SECTORS_REJECTED, payload: error.response.data })
     }
 }

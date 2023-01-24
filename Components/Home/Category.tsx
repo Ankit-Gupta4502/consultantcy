@@ -30,8 +30,8 @@ const Category = () => {
         tempor incididunt ut labore et dolore magna aliqua.</p>
       <div className="md:grid-cols-3 lg:grid-cols-6  grid-cols-1 grid gap-[35px]">
         {
-          categories?.slice(0,11).map((item: item, index: number) => {
-            return  <Link href="#" key={item?.id} >
+          categories?.slice(0, 11)?.map?.((item: item) => {
+            return <Link href={`/industries/${item?.slug}`} key={item?.id} >
               <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden'>
                 <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
                   <Image src={item?.avatar || img4} alt="" />
@@ -41,6 +41,14 @@ const Category = () => {
             </Link>
           })
         }
+
+        <Link href="#" >
+          <div className='border-[1px] justify-center border-primary rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden h-full'>
+            <div className='flex justify-center items-center'>
+              <h4 className='text-lg text-primary'> { categories?.length-1}+ </h4>
+            </div>
+          </div>
+        </Link>
 
 
       </div>
