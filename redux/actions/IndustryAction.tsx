@@ -5,7 +5,7 @@ export const getIndustries = (slug: string | string[] = "") => async (dispatch: 
     try {
         dispatch({ type: GET_INDUSTRIES_PENDING, })
         const response = await axios(`/api/mobile/v1/industries/${slug}`)
-        dispatch({ type: GET_INDUSTRIES_FULFILLED, payload: response.data })
+        dispatch({ type: GET_INDUSTRIES_FULFILLED, payload: response.data?.industries })
     } catch (error) {
         dispatch({ type: GET_INDUSTRIES_REJECTED, payload: error.response.data })
     }

@@ -4,18 +4,26 @@ import { FaSearch } from 'react-icons/fa'
 import Link from 'next/link'
 import img4 from "../../public/images/Rectangle 13.png"
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../../redux/store'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../redux/store'
 import { getIndustries } from '../../redux/actions/IndustryAction'
+import { getSectors } from "../../redux/actions/HomeAction"
+
 const industries = () => {
     const { slug } = useRouter().query
     const dispatch: AppDispatch = useDispatch()
-
+    const router = useRouter();
     useEffect(() => {
         if (slug) {
             dispatch(getIndustries(slug))
         }
     }, [slug])
+    useEffect(() => {
+        dispatch(getSectors())
+    }, [])
+    const { IndustriesReducer: { indexcategories, loading } } = useSelector((state: RootState) => state)
+    const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
+    console.log(categories)
 
     return (
         <div className="container">
@@ -25,11 +33,16 @@ const industries = () => {
                         Category
                     </div>
                     <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Income Tax
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
+                    {categories.map((item) => {
+                        return (<>
+                            <div className={` p-2 px-5  ${slug === item?.slug ? "text-primary" : "text-gray/70"}  text-base`}>
+                                {item?.name_english}
+                            </div>
+                            <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
+                        </>)
+                    })}
+
+                    {/* <div className=' p-2 px-5 text-gray/70 text-base'>
                         Franchise
                     </div>
                     <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
@@ -52,7 +65,7 @@ const industries = () => {
                     <div className=' p-2 px-5 text-gray/70 text-base'>
                         Food Processing
                     </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
+                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div> */}
                 </div>
 
                 <div>
