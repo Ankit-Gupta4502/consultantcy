@@ -5,13 +5,15 @@ import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers/rootReducer'
 
 let store;
-function initStore(initialState: {}) {
+ function initStore(initialState: {}) {
     return createStore(
         rootReducer,
         initialState,
         composeWithDevTools(applyMiddleware(thunkMiddleware))
     )
 }
+
+
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch
@@ -36,7 +38,7 @@ export const initializeStore = (preloadedState: {}) => {
 
     return _store
 }
-
+export const initalizeStore = initializeStore({})
 export function useStore(initialState: {}) {
     const store = useMemo(() => initializeStore(initialState), [initialState])
     return store

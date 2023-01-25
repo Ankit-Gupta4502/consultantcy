@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import img from "../../public/images/Ellipse 6.png"
 import img2 from "../../public/images/Group 22.png"
 import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Button from '../UI/Button'
+import { useSelector, useDispatch } from 'react-redux'
+import { AppDispatch, RootState } from '../../redux/store'
+import { item } from '../../interface'
+import { getIndustries } from '../../redux/actions/IndustryAction'
+import { toast } from '../UI/Toast'
 const Hero = () => {
+    const { IndexReducer: { categories }, IndustriesReducer: { categories: industries } } = useSelector((state: RootState) => state)
+    const dispatch: AppDispatch = useDispatch()
+    const [sector, setSector] = useState("")
+    useEffect(() => {
+        if (sector) {
+            dispatch(getIndustries(sector))
+        }
+    }, [sector])
+
+
+
+
+
     return (
         <div className=' bg-light-primary relative overflow-hidden'>
             <div className="absolute top-[-75px] left-0 ...">
@@ -24,28 +42,32 @@ const Hero = () => {
                         <div className='border-[1px] border-white md:bg-white  rounded'>
                             <div className="grid md:grid-cols-[35%_35%_30%] items-center grid-cols-1 gap-x-2 ">
                                 <div className=''><div className=" flex md:space-x-4 cursor-pointer text-gray/70">
-                                    <select name="cars" id="cars" className=' bg-white focus: outline-none cursor-pointer w-full p-4'>
+                                    <select name="cars" id="cars" className=' bg-white focus: outline-none cursor-pointer w-full p-4' value={sector} onChange={((({ target: { value } }) => setSector(value)))}>
+
                                         <option value="">Select Category</option>
-                                        <option value="volvo">Volvo</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
+                                        {
+                                            categories.map((item: item) => {
+                                                return <option value={item?.slug} key={item.id}>{item?.name_english}</option>
+                                            })
+                                        }
                                     </select>
-                                    
+
                                 </div></div>
                                 <div className=''>
                                     <div className="flex space-x-4 cursor-pointer text-gray/70 ">
                                         <select name="cars" id="cars" className='focus: outline-none bg-white cursor-pointer w-full p-4'>
                                             <option value="">Select Industry</option>
-                                            <option value="volvo">Volvo</option>
-                                            <option value="saab">Saab</option>
-                                            <option value="mercedes">Mercedes</option>
-                                            <option value="audi">Audi</option>
+                                            {
+                                                industries.map((item: item) => {
+                                                    return <option value={item?.slug} key={item.id}>{item?.name_english}</option>
+                                                })
+                                            }
                                         </select>
-                                        
+
+
                                     </div></div>
                                 <div className='text-center'>
-                                    <Button >Book Now</Button>
+                                    <Button onClick={() => toast.error("Success")} >Book Now</Button>
                                 </div>
                             </div>
                         </div>

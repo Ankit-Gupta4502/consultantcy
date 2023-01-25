@@ -35,7 +35,8 @@ module.exports = {
       "white":"#fff",
       "light-primary":"#2A79FF1A",
       "ligt-secondary":"#EAF2FF",
-      "slate":"#F1F1F1"
+      "slate":"#F1F1F1",
+      black:"#000000"
     }
   },
   plugins: [],

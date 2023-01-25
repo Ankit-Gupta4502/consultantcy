@@ -9,6 +9,7 @@ import { AppDispatch, RootState } from '../../redux/store'
 import { getIndustries } from '../../redux/actions/IndustryAction'
 import { getSectors } from "../../redux/actions/HomeAction"
 import { item } from '../../interface'
+import Loader from '../../Components/UI/Loader'
 const industries = () => {
     const { slug } = useRouter().query
     const dispatch: AppDispatch = useDispatch()
@@ -32,7 +33,7 @@ const industries = () => {
                         Category
                     </div>
                     <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    {categories.map((item:item) => {
+                    {categories.map((item: item) => {
                         return (<Link key={item.id} href={`/industries/${item?.slug}`} >
                             <div className={` p-2 px-5  ${slug === item?.slug ? "text-primary" : "text-gray/70"}  text-base`}>
                                 {item?.name_english}
@@ -51,17 +52,25 @@ const industries = () => {
                         <input type="text" placeholder='Search Expert By Name' className='rounded-r-lg  border-[#ddd] bg-[#F6F6F6] px-2 py-1 h-[44px] text-gray/70 flex focus: outline-none w-100'>
                         </input>
                     </div>
-                    <div className='grid grid-cols-4 gap-4 mt-6'>
-                        <Link href="#"  >
-                            <div className='border-[1px] min-h-[200px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col justify-center cursor-pointer overflow-hidden'>
-                                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-4 flex justify-center items-center'>
-                                    <Image src={img4} alt="" />
-                                </div>
-                                <p className='text-center '>Test</p>
-                            </div>
-                        </Link>
+                    {
+                        loading ? <Loader /> :
+                            <div className='grid grid-cols-4 gap-4 mt-6'>
+                                {
+                                    industries.map((item: item) => {
+                                        return <Link href="#" key={item.id} >
+                                            <div className='border-[1px] min-h-[200px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col justify-center cursor-pointer overflow-hidden'>
+                                                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-4 flex justify-center items-center'>
+                                                    <Image src={`/basepath/${item?.avatar_english}`} alt='unvai..' width={30} height={30} />
+                                                </div>
+                                                <p className='text-center '>{item?.title_english}</p>
+                                            </div>
+                                        </Link>
+                                    })
+                                }
 
-                    </div>
+
+                            </div>
+                    }
                 </div>
 
 
