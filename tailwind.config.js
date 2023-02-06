@@ -7,6 +7,17 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: "#2A79FF",
+        danger: "#FF0101",
+        warning: "#FFC107",
+        "gray": "#202020",
+        "white":"#fff",
+        "light-primary":"#2A79FF1A",
+        "ligt-secondary":"#EAF2FF",
+        "slate":"#F1F1F1",
+        black:"#000000"
+      }
     },
     container: {
       center: true,
@@ -27,17 +38,7 @@ module.exports = {
         '2xl': '1200px',
       }
     },
-    colors: {
-      primary: "#2A79FF",
-      danger: "#FF0101",
-      warning: "#FFC107",
-      "gray": "#202020",
-      "white":"#fff",
-      "light-primary":"#2A79FF1A",
-      "ligt-secondary":"#EAF2FF",
-      "slate":"#F1F1F1",
-      black:"#000000"
-    }
+    
   },
   plugins: [],
 }
