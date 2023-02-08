@@ -59,8 +59,8 @@ const industries = () => {
                                     industries.map((item: item) => {
                                         return <Link href="#" key={item.id} >
                                             <div className='border-[1px] min-h-[200px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col justify-center cursor-pointer overflow-hidden'>
-                                                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-4 flex justify-center items-center'>
-                                                    <Image src={`/basepath/${item?.avatar_english}`} alt='unvai..' width={30} height={30} />
+                                                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-4 flex justify-center items-center relative overflow-hidden'>
+                                                    <Image fill src={`/basepath/${item?.avatar_english}`} alt='unvai..'  />
                                                 </div>
                                                 <p className='text-center '>{item?.title_english}</p>
                                             </div>

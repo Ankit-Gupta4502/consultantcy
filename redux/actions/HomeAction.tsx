@@ -6,7 +6,7 @@ export const getSectors = () => async (dispatch: AppDispatch) => {
         dispatch({ type: GET_SECTORS_PENDING })
         const response = await axios("/api/mobile/v1/sectors", {
         })
-        dispatch({ type: GET_SECTORS_FULFILLED, payload: response.data?.sectors })
+        dispatch({ type: GET_SECTORS_FULFILLED, payload: response.data?.data })
     } catch (error) {
         dispatch({ type: GET_SECTORS_REJECTED, payload: error.response.data })
     }

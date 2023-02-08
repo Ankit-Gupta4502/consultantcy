@@ -20,7 +20,7 @@ export const verfiyMobile = (mobile: string = "") => async (dispatch: AppDispatc
         const response = await axios.post(`/api/mobile/v1/verify`, {
             mobile
         })
-        dispatch({ type: "VERIFY_MOBILE_FULFILLED", payload: response.data.user })
+        dispatch({ type: "VERIFY_MOBILE_FULFILLED", payload: response.data.data })
     } catch (error) {
         dispatch({ type: "VERIFY_MOBILE_REJECTED", payload: { ...error.response.data, mobile } })
     }

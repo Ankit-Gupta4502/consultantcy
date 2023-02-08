@@ -47,7 +47,7 @@ const Header = () => {
                                         My Account
                                     </span>
 
-                                    <div className="group-hover:visible group-hover:translate-y-0 translate-y-7 duration-300 ease-in-out invisible  py-5 rounded-xl bg-white px-2 absolute top-9 z-10 left-0 !ml-0">
+                                    <div className="group-hover:visible group-hover:translate-y-0 translate-y-7 duration-300 ease-in-out invisible  py-5 rounded-xl bg-white px-2 absolute top-9 z-10 left-0 !ml-0 shadow-2xl">
                                         <span role="button" className='w-max hover:bg-gray/10 rounded-md ease-out  pl-5 py-3 block duration-300 text-sm pr-32' onClick={() => dispatch({ type: LOG_OUT })} >Log out</span>
                                     </div>
 
