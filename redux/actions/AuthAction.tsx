@@ -1,5 +1,6 @@
 import axios from "axios"
 import { AppDispatch } from "../store"
+import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED } from "../Constant"
 export const login = (mobile: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: "LOGIN_PENDING" })
@@ -7,10 +8,10 @@ export const login = (mobile: string, password: string) => async (dispatch: AppD
             mobile,
             password
         })
-        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data))
-        dispatch({ type: "LOGIN_SUCCESS", payload: response.data })
+        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
+        dispatch({ type: "LOGIN_SUCCESS", payload: response.data?.data })
     } catch (error) {
-        dispatch({ type: "LOGIN_FAILED", payload: error.response.data })
+        dispatch({ type: "LOGIN_FAILED", payload: error.response.data || {} })
     }
 }
 
@@ -33,7 +34,7 @@ export const sendOtp = (mobile: string) => async (dispatch: AppDispatch) => {
         const response = await axios.post(`/api/mobile/v1/send/otp`, { mobile })
         dispatch({ type: "OTP_SEND_FULFILLED", payload: response.data })
     } catch (error) {
-        dispatch({ type: "OTP_SEND_REJECTED", payload: error.response.data })
+        dispatch({ type: "OTP_SEND_REJECTED", payload: error.response.data || {} })
     }
 }
 
@@ -59,5 +60,19 @@ export const registerUser = (data: object) => async (dispatch: AppDispatch) => {
         dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data })
     } catch (error) {
         dispatch({ type: "REGISTER_USER_REJECTED", payload: error.response.data })
+    }
+}
+
+export const getUserDetails = (token: string | undefined) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch({ type: GET_USER_DETAILS_PENDING })
+        const response = await axios(`/api/mobile/v1/get-user-details`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        dispatch({ type: GET_USER_DETAILS_FULFILLED, payload: response.data?.data || {} })
+    } catch (error) {
+        dispatch({ type: GET_USER_DETAILS_REJECTED, payload: error.response.data || {} })
     }
 }

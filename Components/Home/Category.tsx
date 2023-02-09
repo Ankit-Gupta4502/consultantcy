@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState } from 'react'
+import React, { useEffect, Fragment, useState,memo } from 'react'
 import Image from 'next/image'
 import img4 from "../../public/images/Rectangle 13.png"
 import { useDispatch } from 'react-redux'
@@ -10,103 +10,190 @@ import Link from 'next/link'
 import { item } from '../../interface'
 import { Dialog, Transition } from '@headlessui/react'
 import Button from '../UI/Button'
-const Category = () => {
+import Loader from '../UI/Loader'
+import Carousel from 'react-multi-carousel'
+import { FiChevronRight } from "react-icons/fi"
+import {MdClose} from "react-icons/md"
+const Category = memo(() => {
   const dispatch: AppDispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
-  const { IndexReducer: { categories } } = useSelector((state: RootState) => state)
+  const [modalData, setModalData] = useState<item>({})
+  const { IndexReducer: { categories, loading } } = useSelector((state: RootState) => state)
+
+  // Responsive breakpoints
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 5,
+      slidesToSlide: 3 // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2 // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1 // optional, default to 1.
+    }
+  };
 
   useEffect(() => {
     dispatch(getSectors())
   }, [])
 
   const closeModal = () => setIsOpen(false)
-
-
-
   return (
-    <div className="container py-[100px]">
-      <p className='text-primary text-center'>Category</p>
-      <h3 className=' text-center '>Explore our best category’s</h3>
-      <p className='text-gray/70 text-center mb-14'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
-        tempor incididunt ut labore et dolore magna aliqua.</p>
-      <div className="md:grid-cols-3 lg:grid-cols-6  grid-cols-1 grid gap-[35px]">
-        {
-          categories?.slice(0, 11)?.map?.((item: item) => {
-            return <Link href={`/industries/${item?.slug}`} key={item?.id} >
-              <div className='border-[1px] border-[#EEEEEE] rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden'>
-                <div className='rounded-full bg-[#EAF2FF] w-20 h-20 mb-3 flex justify-center items-center'>
-                  <Image src={item?.avatar || img4} alt="" />
-                </div>
-                <p className='text-center'>{item?.name_english?.slice(0, 10)?.concat?.("...")}</p>
-              </div>
-            </Link>
-          })
-        }
-
-        <Link href={`/industries/food-proccessing`} >
-          <div className='border-[1px] justify-center border-primary rounded p-3 shadow-lg flex items-center flex-col cursor-pointer overflow-hidden h-full'>
-            <div className='flex justify-center items-center'>
-              <h4 className='text-lg text-primary'> {categories?.length - 1}+ </h4>
-            </div>
+    <div
+      className='py-[100px] overflow-hidden'
+    >
+      <div className="container ">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className='text-primary uppercase mb-[9px]'>Services</p>
+            <h3 className=' font-normal mb-3.5  '>Explore our best services</h3>
+            <p className='text-gray/50 font-normal mb-14'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
+              tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
-        </Link>
-      </div>
 
-      {/* Modal */}
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+          <Link href={`/industries/${"all"}`} className='cursor-pointer font-semibold text-primary
+       ' passHref >
+            <div className="flex items-center">
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-md bg-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    Payment successful
-                  </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Your payment has been successfully submitted. We’ve sent
-                      you an email with all of the details of your order.
-                    </p>
-                  </div>
-                  <div className="mt-4">
-                    <Button
-                      type="button"
-                      onClick={closeModal}
+              All Services
+              <FiChevronRight className='ml-2' />
+            </div>
+          </Link>
+
+        </div>
+
+
+        {/* Modal */}
+        <Transition appear show={isOpen} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={closeModal}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-black bg-opacity-25" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 overflow-y-auto">
+              <div className="flex min-h-full items-center justify-center p-4 text-center">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 scale-95"
+                  enterTo="opacity-100 scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 scale-100"
+                  leaveTo="opacity-0 scale-95"
+                >
+                  <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-md bg-[#FFFFFF]  text-left align-middle shadow-xl transition-all">
+                    <div className="bg-primary  py-3 flex items-center justify-between px-6">
+
+                      <div className="flex items-center space-x-3">
+
+                      <div className="img-holder relative w-[48px] h-[48px] rounded-full overflow-hidden">
+                        <Image className='object-cover' src={`/basepath/${modalData?.avatar_english}`} fill alt='' />
+                      </div>
+                    <Dialog.Title
+                      as="h6"
+                      className=" mb-0 font-medium text-white leading-6 "
                     >
-                      Got it, thanks!
-                    </Button>
-                  </div>
-                </Dialog.Panel>
-              </Transition.Child>
+                      {modalData?.name_english}
+                    </Dialog.Title>
+                      </div>
+
+                    <span role="button" className='text-white' onClick={()=>setIsOpen(false)} >
+                      <MdClose  size={20} />
+                    </span>
+
+                    </div>
+                    <div className="p-6">
+                      
+                    <div className="mt-2">
+                      <p dangerouslySetInnerHTML={{__html:modalData?.description_english}} />
+                        
+                      
+                    </div>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
             </div>
-          </div>
-        </Dialog>
-      </Transition>
+          </Dialog>
+        </Transition>
+      </div>
+      {
+        loading ? <Loader /> : <div className="relative ">
+          <Carousel 
+            swipeable={false}
+            draggable={false}
+            showDots={true}
+            responsive={responsive}
+            ssr={true} // means to render carousel on server-side.
+            infinite={true}
+            autoPlaySpeed={1000}
+            keyBoardControl={true}
+            customTransition="all .5s"
+            transitionDuration={500}
+            containerClass={`carousel-container md:translate-x-[10%] pb-4`}
+            removeArrowOnDeviceType={["tablet", "mobile"]}
+            dotListClass={`custom-dot-list-style !bottom-[-35px] `}
+            itemClass="px-3 carousel-item-padding-40-px"
+            arrows={false}
+            renderDotsOutside={true}
+
+          >
+
+            {
+              categories?.map?.((item: item) => {
+                return (
+                  <div className='border-[1px] min-h-[260px] max-h-[260px] border-[#EEEEEE] rounded-xl py-6 shadow-[0px_2px_4px_0px_#0000001A]    cursor-pointer overflow-hidden pl-[13px] pr-[18px]' key={item.id}>
+                    <div className='rounded-full bg-[#EAF2FF]  overflow-hidden relative w-[60px] h-[60px] mb-[19px] flex justify-center items-center'>
+                      <Image src={`/basepath/${item?.avatar_english}`} className=" object-cover" alt="" fill />
+                    </div>
+                    <h6 className='font-semibold text-sm mb-[6px] line-clamp-1' >{item?.name_english}</h6>
+                    <p className='mb-5 line-clamp-3' dangerouslySetInnerHTML={{ __html: item?.description_english }} >
+
+                    </p>
+
+                    <div className="flex items-center justify-between">
+                      <Link href={`/industries/${item?.slug}`} className='text-[0.813rem] font-semibold text-primary
+            '>
+                        Book Expert
+                      </Link>
+
+
+                      <button onClick={() => {
+                        setIsOpen(true)
+                        setModalData(item)
+                      }
+                      } className='text-[0.813rem] font-semibold text-gray/70
+            '>
+                        Check Benefits
+                      </button>
+                    </div>
+
+                  </div>
+                )
+              })
+            }
+          </Carousel>
+        </div>
+      }
+
+
     </div>
   )
-}
+})
 
 export default Category

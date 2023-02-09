@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React,{memo} from 'react'
 import Button from "../UI/Button";
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
@@ -8,7 +8,7 @@ import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 
 interface IPROPS { value?: string }
-const LatestCourse = ({ value="" }: IPROPS) => {
+const LatestCourse = memo(({ value="" }: IPROPS) => {
     const responsive = {
         desktop: {
             breakpoint: { max: 3000, min: 1024 },
@@ -137,6 +137,6 @@ const LatestCourse = ({ value="" }: IPROPS) => {
 
         </div>
     )
-}
+})
 
 export default LatestCourse

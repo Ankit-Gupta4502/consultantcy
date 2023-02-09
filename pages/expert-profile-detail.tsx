@@ -1,11 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import img3 from "../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import { BsFillPersonFill, BsBank2 } from "react-icons/bs"
 import { FaShoppingBasket } from "react-icons/fa"
 import { HiCurrencyRupee } from "react-icons/hi"
 import { MdSupportAgent, MdOutlineLogout } from "react-icons/md"
+import { getUserDetails } from '../redux/actions/AuthAction'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../redux/store'
+import { returnKey } from '../utils/utilities'
 const exportProfilePage = () => {
+    const dispatch: AppDispatch = useDispatch()
+    const { AuthReducer: { user, auth } } = useSelector((state: RootState) => state)
+    const [formData, setFormData] = useState({
+        name: "",
+        mobile: "",
+        email: "",
+        dob: "",
+        contact: "",
+        pincode: "",
+        city:"",
+        state:""
+    })
+    useEffect(() => {
+        if (auth.token) {
+            dispatch(getUserDetails(auth?.token))
+        }
+    }, [auth])
+
+    useEffect(() => {
+        if (user) {
+            setFormData({
+                ...formData,
+                name: returnKey(user, "name"),
+                mobile: returnKey(user, "mobile"),
+                email: returnKey(user, "email"),
+                dob: returnKey(user, "dob"),
+                pincode: returnKey(user, "pincode"),
+                state:returnKey(user,"state"),
+                city:returnKey(user,"city")
+            })
+        }
+    }, [user])
+
+    const handleForm = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target
+        setFormData({ ...formData, [name]: value })
+    }
     return (
         <>
             <div className='h-14 bg-primary'>
@@ -25,7 +66,7 @@ const exportProfilePage = () => {
                                 </div>
                                 <div>
                                     <p className='text-gray/70 text-start text-sm mb-0'>Hello</p>
-                                    <h6 className='text-[#243A73] text-xl text-start tracking-[-0.24px]'>Rohit Tiwari</h6>
+                                    <h6 className='text-[#243A73] text-xl text-start tracking-[-0.24px]'>{returnKey(user, "name")}</h6>
                                     <p className='text-danger text-xs'>Member since 5 dec, 2022</p>
                                 </div>
 
@@ -75,19 +116,19 @@ const exportProfilePage = () => {
                                     <label className=" text-[#6F7B9D] text-sm  " >
                                         Name
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2 w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="username" type="text" />
+                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2 w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="username" type="text" name='name' value={formData.name} onChange={handleForm} />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  " >
                                         Date of Birth
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none cursor-pointer" id="dateofbirth" type="date" placeholder="Username" />
+                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none cursor-pointer" id="dateofbirth" name='dob' value={formData.dob} type="date" onChange={handleForm} />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
                                         Contact
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="contact" type="text" />
+                                    <input name='contact' className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="contact" type="text" />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
@@ -97,9 +138,9 @@ const exportProfilePage = () => {
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
-                                        Country
+                                        City
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="country" type="text" />
+                                    <input value={formData.city} name="city" onChange={handleForm} className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="country" type="text" />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
@@ -117,7 +158,7 @@ const exportProfilePage = () => {
                                     <label className=" text-[#6F7B9D] text-sm  m" >
                                         Email
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="dateofbirth" type="email" />
+                                    <input name='email' className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="dateofbirth" type="email" value={formData.email} onChange={handleForm} />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
@@ -139,13 +180,13 @@ const exportProfilePage = () => {
                                     <label className=" text-[#6F7B9D] text-sm  m" >
                                         Pincode
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="pincose" type="text" />
+                                    <input name='pincode' className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="pincose" type="text" value={formData.pincode} onChange={handleForm} />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >
                                         State
                                     </label>
-                                    <input className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="contact" type="text" />
+                                    <input name='state' onChange={handleForm} value={formData.state} className="shadow border-[#d6d6d6] bg-[#F7F8FA] border rounded mt-2  w-full py-2 px-3 text-gray-70 leading-tight focus:outline-none " id="contact" type="text" />
                                 </div>
                                 <div className="mb-4">
                                     <label className=" text-[#6F7B9D] text-sm  m" >

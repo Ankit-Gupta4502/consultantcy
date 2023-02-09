@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{memo} from 'react'
 import Image from 'next/image'
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
@@ -21,7 +21,7 @@ const responsive = {
         slidesToSlide: 1 // optional, default to 1.
     }
 };
-const ClientReview = () => {
+const ClientReview = memo(() => {
     return (
         <div className=" py-[70px] bg-[#F1F1F1] pb-[50px]">
             <div className="container">
@@ -204,6 +204,6 @@ const ClientReview = () => {
 
         </div>
     )
-}
+})
 
 export default ClientReview
