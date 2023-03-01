@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 
 const Wrapper = ({ children }) => {
   return (
-    <div className="grid grid-cols-[.7fr_2.3fr] gap-10 p-10">
+    <div className="grid  md:grid-cols-[300px_auto] gap-10 p-10">
       <Sidebar />
       {children}
     </div>

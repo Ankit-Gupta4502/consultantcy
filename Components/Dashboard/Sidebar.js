@@ -10,7 +10,7 @@ const Sidebar = () => {
   return (
     <div>
       <div>
-        <div className="border border-md border-none bg-gray/10 rounded  grid-cols-1">
+        <div className="border border-md border-none bg-gray/10 rounded-md  grid-cols-1">
           <div className="px-4 py-4 flex gap-4 pb-10">
             <div>
               <Image src={Pic} alt="pic" height={70} width={70} />
