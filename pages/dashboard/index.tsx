@@ -111,7 +111,7 @@ const index = () => {
                     <div className="flex items-center  justify-center text-black/70 space-x-3" >
 
                       {[1, 2, 3, 4, 5].map?.((item, index) => {
-                        return <AiFillStar onMouseLeave={() => !rated && setRating(0)} onClick={() => {
+                        return <AiFillStar key={index} onMouseLeave={() => !rated && setRating(0)} onClick={() => {
                           setRating(index + 1)
                           setRated(true)
                         }} onMouseOver={() => {
