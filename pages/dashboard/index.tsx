@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Wrapper from "../../Components/Dashboard/Wrapper";
 import { MdOutlineLocalPhone } from "react-icons/md"
-import { AiOutlineStar } from "react-icons/ai"
+import { AiFillStar } from "react-icons/ai"
 const index = () => {
   const [activeNav, setActiveNav] = useState<string>('upcoming')
+  const [rating, setRating] = useState(0)
+  const [rated, setRated] = useState(false)
   return (
     <Wrapper>
       <div className="shadow-[0px_4px_10px_0px_#0000001A] rounded-md" >
@@ -54,7 +56,7 @@ const index = () => {
                 </td>
                 <td className="text-center">
                   <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary" >
-                    11:00AM-12:00PM
+                    11:00AM - 12:00PM
                   </span>
                 </td>
 
@@ -107,11 +109,18 @@ const index = () => {
 
                   <td className="text-center" >
                     <div className="flex items-center  justify-center text-black/70 space-x-3" >
-                      <AiOutlineStar size={24} className="cursor-pointer"  />
-                      <AiOutlineStar size={24} className="cursor-pointer"  />
-                      <AiOutlineStar size={24} className="cursor-pointer"  />
-                      <AiOutlineStar size={24} className="cursor-pointer" />
-                      <AiOutlineStar size={24} className="cursor-pointer" />
+
+                      {[1, 2, 3, 4, 5].map?.((item, index) => {
+                        return <AiFillStar onMouseLeave={() => !rated && setRating(0)} onClick={() => {
+                          setRating(index + 1)
+                          setRated(true)
+                        }} onMouseOver={() => {
+                          setRating(index + 1)
+                          setRated(false)
+                        }} size={24} className={`cursor-pointer ${index + 1 <= rating ? 'text-primary' : ""}`} />
+                      })}
+
+
                     </div>
 
                   </td>
@@ -122,13 +131,9 @@ const index = () => {
                   </td>
 
                   <td>
-
-
-
                     <button className=" block mx-auto px-5 py-2  items-center bg-[#0ec15619] border border-[#0EC156] text-[#0EC156] rounded-md font-semibold" >
                       Completed
                     </button>
-
                   </td>
                 </tr>
               </tbody>
