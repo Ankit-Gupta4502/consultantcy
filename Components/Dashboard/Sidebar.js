@@ -6,6 +6,7 @@ import { AiFillBank, AiOutlineLike, AiOutlineLock } from "react-icons/ai";
 import { MdOutlinePersonOutline, MdPayment } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { RiLogoutCircleRLine } from "react-icons/ri";
+import Link from "next/link";
 const Sidebar = () => {
   return (
     <div>
@@ -22,30 +23,36 @@ const Sidebar = () => {
           </div>
           <div>
             <div>
-              <div className="px-5 hover:bg-gray/10">
-                <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer ">
-                  <FiBookmark className="text-2xl" />
-                  <p className="-py-1 text-lg">Bookings</p>
+              <Link href="/dashboard">
+                <div className="px-5 hover:bg-gray/10">
+                  <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer ">
+                    <FiBookmark className="text-2xl"  />{" "}
+                    <p className="-py-1 text-lg">Bookings</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <hr className="text-gray/10" />
             </div>
             <div>
-              <div className="px-5 hover:bg-gray/10">
-                <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
-                  <AiFillBank className="text-2xl" />
-                  <p className="-py-1 text-lg">My Profile</p>
+              <Link href="/dashboard/my-profile">
+                <div className="px-5 hover:bg-gray/10">
+                  <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
+                    <AiFillBank className="text-2xl" />{" "}
+                    <p className="-py-1 text-lg">My Profile</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <hr className="text-gray/10" />
             </div>
             <div>
-              <div className="px-5 hover:bg-gray/10">
-                <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
-                  <MdOutlinePersonOutline className="text-2xl" />
-                  <p className="-py-1 text-lg">Wallet</p>
+              <Link href="/dashboard/my-wallet">
+                <div className="px-5 hover:bg-gray/10">
+                  <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
+                    <MdOutlinePersonOutline className="text-2xl" />{" "}
+                    <p className="-py-1 text-lg">Wallet</p>{" "}
+                  </div>
                 </div>
-              </div>
+              </Link>
               <hr className="text-gray/10" />
             </div>
             <div>
@@ -67,12 +74,14 @@ const Sidebar = () => {
               <hr className="text-gray/10" />
             </div>
             <div>
-              <div className="px-5 hover:bg-gray/10">
-                <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
-                  <AiOutlineLock className="text-2xl" />
-                  <p className="-py-1 text-lg">Change Password</p>
+              <Link href="/dashboard/change-password">
+                <div className="px-5 hover:bg-gray/10">
+                  <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
+                    <AiOutlineLock className="text-2xl" />
+                    <p className="-py-1 text-lg">Change Password</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
               <hr className="text-gray/10" />
             </div>
 
