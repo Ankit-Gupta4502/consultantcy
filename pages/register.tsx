@@ -26,30 +26,35 @@ const Register = () => {
         city: "",
         state: "",
     })
+    const [RegisterAs, setRegisterAs] = useState("user")
+    useEffect(() => {
+        if (router) {
+            if (isAuthentiCated) {
+                router.replace("/")
+            }
+            if (!mobile) {
+                router.replace("/login")
+            }
+        }
+    }, [isAuthentiCated, router, mobile])
+
     useEffect(() => {
         if (mobile) {
             dispatch(sendOtp(mobile))
         }
-        else {
-            router.replace("/login")
-        }
     }, [mobile])
-    useEffect(() => {
-        if (isAuthentiCated && router) {
-            router.replace("/")
-        }
-    }, [isAuthentiCated, router])
+    console.log(mobile);
 
-    const handlePincode = async (value:string) => {
+    const handlePincode = async (value: string) => {
         try {
-            
+
             const response = await axios.post(`/api/mobile/v1/fetch-pincode`, {
-                pincode:value
+                pincode: value
             })
-            setAddress({ ...address, city: response.data?.city, state: response.data?.state,pincode:value})
+            setAddress({ ...address, city: response.data?.data?.city, state: response.data?.data?.state, pincode: value })
         } catch (error) {
             console.log(error)
-            
+
         }
     }
 
@@ -66,12 +71,26 @@ const Register = () => {
             state: address.state,
             name: userInfo.name
         }
-        dispatch(registerUser(data))
+        dispatch(registerUser(data, RegisterAs))
     }
 
 
     return (
         <div className=' bg-[#F5F5F5] p-[30px]' >
+            <div className="mb-10 mx-auto flex justify-center space-x-10 items-center ">
+                <div className={`tab ${RegisterAs === "user" ? "bg-primary text-white" : ""}  px-4 py-3 rounded-md`}>
+                    <span role="button" onClick={() => setRegisterAs("user")}>
+                        Register As User
+                    </span>
+                </div>
+                <div className={`tab px-4 py-3 rounded-md ${RegisterAs === "consultant" ? "bg-primary text-white" : ""} `}>
+                    <span role="button" onClick={() => setRegisterAs("consultant")}>
+
+                        Register As Consultant
+                    </span>
+                </div>
+
+            </div>
             <div className='  grid grid-cols-[30%_5%_30%] justify-center gap-[33px] items-center py-2 bg-white rounded-[10px] '>
                 <div className='bg-white pt-4 pb-11' >
                     <div className="form-wrapper mt-5">
@@ -134,15 +153,15 @@ const Register = () => {
                         <div className='grid grid-cols-[45%_10%_45%]'>
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >Mobile No</label>
-                                <Input className=" !py-2 border-[#086BD8]" value={mobile} disabled={!otpVerified} />
+                                <Input className=" !py-2 border-[#086BD8]" value={mobile} disabled={true} />
                             </div>
                             <div></div>
                             <div className="form-group mb-3">
                                 <label htmlFor="" className='mb-2 block' >Pincode</label>
-                                <Input className=" !py-2 border-[#086BD8]" disabled={!otpVerified} value={address.pincode} name='pincode' onChange={(e) => { 
+                                <Input className=" !py-2 border-[#086BD8]" disabled={!otpVerified} value={address.pincode} name='pincode' onChange={(e) => {
                                     handlePhoneValid(e.target.value) &&
-                                    setAddress({...address,[e.target.name]:e.target.value})
-                                    if ( e.target.value.length >= 6) {
+                                        setAddress({ ...address, [e.target.name]: e.target.value })
+                                    if (e.target.value.length >= 6) {
                                         handlePincode(e.target.value)
                                     }
                                 }} />

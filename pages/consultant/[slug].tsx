@@ -1,13 +1,20 @@
-import React from 'react'
-import { FaVideo, FaRegHandshake, FaStar, FaYoutube } from "react-icons/fa"
-import { MdCall } from "react-icons/md"
-import { BsFillCalendarDateFill, BsFillClockFill } from "react-icons/bs"
-import img3 from "../public/images/Rectangle 19.png"
+import React, { useEffect } from 'react'
+import { FaStar } from "react-icons/fa"
+import { AiOutlineHome } from "react-icons/ai"
+import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
-import TopConsultant from "../Components/Home/TopConsultant"
-import LatestCourse from "../Components/Home/LatestCourse"
+import TopConsultant from "../../Components/Home/TopConsultant"
+import LatestCourse from "../../Components/Home/LatestCourse"
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../../redux/store'
+import { BsFillEmojiSmileFill } from "react-icons/bs"
+import { RiMessage2Fill } from "react-icons/ri"
+import { useRouter } from 'next/router'
+import { getConsultantDetails } from "../../redux/actions/HomeAction"
+import { MdVideocam, MdCall } from "react-icons/md"
+import { FaHandshake } from "react-icons/fa"
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -26,83 +33,160 @@ const responsive = {
     }
 };
 const expertdetail = () => {
+    const dispatch: AppDispatch = useDispatch()
+    const { slug } = useRouter().query
+    const { IndexReducer: { consultantDetails } } = useSelector((state: RootState) => state)
+
+    useEffect(() => {
+        if (slug) {
+            dispatch(getConsultantDetails(slug))
+        }
+    }, [slug])
+console.log(consultantDetails);
+
+
     return (
-        <>
-            <div className="container py-14">
-                <div className='grid md:grid-cols-[2fr_1fr] gap-x-[10rem] '>
+        <div className=' bg-[#D9D9D94D]'>
+            <div className="container grid md:grid-cols-[auto_minmax(294px,1fr)] gap-x-5 py-16 ">
+                <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
-                        <h3 className='text-3xl font-medium'>FOOD PROCESSING</h3>
-                        <p className='text-[#9D9898] text-xs'>French fries, Macroni, Potato chips, Roasted peanut, </p>
-                        <p className='text-[#9D9898] text-[14px]'>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting. It has survived not only five centuries, but also the leap into electronic typesetting.</p>
-                        <div className='flex gap-x-8 mt-9'>
-                            <div className='bg-primary py-2 px-4 rounded-md text-white flex gap-x-2 items-center cursor-pointer'>Video Call<span><FaVideo fontSize={20} /></span></div>
-                            <div className='bg-[#EDF2F6] py-2 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer'>Audio Call<span ><MdCall color='#2A79FF' fontSize={21} /></span></div>
-                            <div className='bg-[#EDF2F6] py-2 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer'>Meeting<span><FaRegHandshake fontSize={24} color='#2A79FF' /></span></div>
-                        </div>
-                        <div className='rounded-md py-4 px-3 shadow-lg mt-9 grid grid-cols-[1fr_1fr_1fr]'>
-                            <div className='text-sm '>
-                                Date
-                                <div className='flex gap-x-6 mt-2'>
-                                    <div className='bg-[#EDF2F6] py-1 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer text-sm'>3/12/22</div>
-                                    <div className='bg-[#EDF2F6] py-1 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer'><BsFillCalendarDateFill /></div>
+                        <Image src={img3} alt="consultant" />
+                        <div className='bg-primary/5 p-[14px] mt-6 rounded-[5px]' >
+
+                            <span className='py-2 bg-[#F1F1F1] text-[#202020B2] text-sm block mx-auto w-max rounded-3xl px-4'>
+                                600/hourly
+                            </span>
+
+                            <div className="mt-8">
+                                <div className="flex mb-4 items-start justify-between">
+                                    <div className='text-primary' >
+                                        <BsFillEmojiSmileFill size={24} />
+                                    </div>
+
+                                    <div>
+                                        <span className="font-bold text-xl">
+                                            200
+                                        </span>
+                                        <span className="block text-gray/50">
+                                            happy clients
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='text-sm '>
-                                Time
-                                <div className='flex gap-x-6 mt-2'>
-                                    <div className='bg-[#EDF2F6] py-1 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer text-sm'>2:00 PM</div>
-                                    <div className='bg-[#EDF2F6] py-1 px-4 rounded-md text-gray/70 flex gap-x-2 items-center cursor-pointer'><BsFillClockFill /></div>
+
+                                <div className="flex items-start justify-between">
+                                    <div className='text-primary' >
+                                        <RiMessage2Fill size={24} />
+                                    </div>
+
+                                    <div>
+                                        <span className="font-bold text-xl">
+                                            200
+                                        </span>
+                                        <span className="block text-gray/50">
+                                            happy clients
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className='flex items-end justify-end'>
-                                <div className='bg-primary py-2 px-7 rounded-md text-white   items-center cursor-pointer text-center'>Book Now</div>
                             </div>
 
                         </div>
                     </div>
-                    <div className='relative mt-14 md:mt-3' >
+                    <div>
+                        <h3 className='text-3xl font-medium'> {consultantDetails?.['name']} </h3>
+                        <p className='text-primary' > Food Processing </p>
+                        <p className='text-[#9D9898] text-xs'>French fries, Macroni, Potato chips, Roasted peanut, </p>
+                        <p className='text-[#9D9898] text-[14px]'> {consultantDetails?.['consultant_profile']?.['ProfileSummary']} </p>
+                        <div className='w-full mt-5' >
+                            <div className='bg-primary text-center py-2' >
 
-                        <div className=' absolute top-[-38px]  left-[39%] '>
-                            <Image src={img3} alt="" width={90} height={70} />
-                        </div>
-                        <div className='rounded-[20px] px-20 py-5 pt-[3.5rem] shadow-lg mt-5 text-center relative'>
-                            <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[12px] '>
-                                ₹600/hourly
-                            </span>
-                            <h6 className='mt-2 text-xl'>Rohit Tiwari</h6>
-                            <p className='text-[#9D9898] text-[12px] mt-2'>Food Processing</p>
-                            <div className='grid grid-cols-[45%_10%_45%] mt-8'>
-                                <div><h4 className='text-2xl text-primary font-semibold'>
-                                    200
-                                </h4>
-                                    <p className='text-[#9D9898] text-[12px]' >Happy Clients</p> </div>
-                                <div className='border-r-2 h-[55px] border-[#dddd] mx-auto'></div>
-                                <div>
-                                    <div className='flex  justify-center items-baseline' >
-                                        <div className="icon-wrapper mx-1">
-
-                                            <FaStar color='#FFC107' fontSize={22} />
-                                        </div>
-                                        <h4 className='text-2xl text-primary font-semibold'>4.5</h4>
-                                    </div>
-                                    <p className='text-[#9D9898] text-[12px]' >175 Reviews</p>
-                                </div>
-
+                                <span className="text-center text-white rounded-xl py-2" > About Me</span>
                             </div>
-                            <div className='bg-[#EC4216] py-2 px-4 mt-8 rounded-md text-white flex gap-x-2 items-center cursor-pointer justify-center'><span><FaYoutube fontSize={20} /></span>Introduction</div>
-                        </div>
 
+                            <div className='flex flex-wrap' >
+                                <span className='py-3 font-bold fw-bold border-x border-b border-[#D5D5D5] text-center w-2/4 text-sm' >
+                                    Experience
+                                </span>
+                                <span className='py-3 text-sm border-r border-b text-gray/50 border-[#D5D5D5] text-center w-2/4' >
+                                    10 year in food processing
+                                </span>
+                                <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
+                                    Experience
+                                </span>
+
+                                <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
+                                    10 year in food processing
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div className=' bg-white rounded-[5px] overflow-hidden relative ' >
+                    <div className="bg-primary flex items-center  justify-between py-[13px] px-3">
+                        <div className="flex space-x-3 items-center ">
+                            <div className='w-[30px] h-[30px] bg-white rounded-full flex items-center justify-center text-primary'>
+                                <AiOutlineHome />
+                            </div>
+                            <span className='text-white text-sm' >
+                                Book Appointment
+                            </span>
+                        </div>
+                        <span className='text-white text-sm' >
+                            5000 fee
+                        </span>
+                    </div>
 
+                    <div className="px-3 py-8 space-y-7 ">
+                        <div className="flex items-center justify-between">
+                            <div className="flex space-x-4 items-center">
+                                <div className="w-[30px] text-primary grid place-items-center rounded-full bg-primary/10 h-[30px]" >
+                                    <MdVideocam />
+                                </div>
+                                <span className='text-[12px]' >
+                                    Video Call
+                                </span>
+                            </div>
+
+                            <span className='text-[12px]' >
+                                10 mintue
+                            </span>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <div className="flex space-x-4 items-center">
+                                <div className="w-[30px] text-primary grid place-items-center rounded-full bg-primary/10 h-[30px]" >
+                                    <MdCall />
+                                </div>
+                                <span className='text-[12px]' >
+                                    Audio Call
+                                </span>
+                            </div>
+
+                            <span className='text-[12px]' >
+                                10 mintue
+                            </span>
+                        </div>
+
+                        <div className="flex items-center justify-between border-b border-black/20 pb-8">
+                            <div className="flex space-x-4 items-center">
+                                <div className="w-[30px] text-primary grid place-items-center rounded-full bg-primary/10 h-[30px]" >
+                                    <FaHandshake />
+                                </div>
+                                <span className='text-[12px]' >
+                                    Meeting
+                                </span>
+                            </div>
+
+                            <span className='text-[12px]' >
+                                10 mintue
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div className="bg-primary pt-[70px] pb-[50px]">
                 <div className="container text-white text-center">
-
                     <div className=' items-center'>
                         <h4 className='text-3xl leading-[52px]'>Happy Client</h4>
-
-
                     </div>
                     <p className=" text-white mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
                         tempor incididunt ut labore et dolore magna aliqua.</p>
@@ -294,9 +378,9 @@ const expertdetail = () => {
 
 
             </div>
-            <TopConsultant value="expertdetail"/>
-            <LatestCourse value="latestcourse"/>
-        </>
+            <TopConsultant value="expertdetail" />
+            <LatestCourse value="latestcourse" />
+        </div>
 
     )
 }

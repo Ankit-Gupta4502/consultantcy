@@ -1,6 +1,6 @@
 import axios from "axios"
 import { AppDispatch } from "../store"
-import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED } from "../Constant"
+import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED, VERIFY_CONSULTANT_PENDING, VERIFY_CONSULTANT_FULFILLED, VERIFY_CONSULTANT_FAILED, CONSULTANT_LOGIN_PENDING, CONSULTANT_LOGIN_FULFILLED, CONSULTANT_LOGIN_FAILED } from "../Constant"
 export const login = (mobile: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: "LOGIN_PENDING" })
@@ -52,10 +52,10 @@ export const verifyOtp = (mobile: string, otp: string) => async (dispatch: AppDi
     }
 }
 
-export const registerUser = (data: object) => async (dispatch: AppDispatch) => {
+export const registerUser = (data: object, type: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: "REGISTER_USER_PENDING" })
-        const response = await axios.post(`/api/mobile/v1/user/register`, data)
+        const response = await axios.post(type === "user" ? `/api/mobile/v1/user/register` : "/api/mobile/v1/consultant/register", data)
         localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data.user))
         dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data })
     } catch (error) {
@@ -74,5 +74,30 @@ export const getUserDetails = (token: string | undefined) => async (dispatch: Ap
         dispatch({ type: GET_USER_DETAILS_FULFILLED, payload: response.data?.data || {} })
     } catch (error) {
         dispatch({ type: GET_USER_DETAILS_REJECTED, payload: error.response.data || {} })
+    }
+}
+
+
+export const verifyConsultant = (mobile: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch({ type: VERIFY_CONSULTANT_PENDING })
+        const response = await axios.post(`/api/mobile/v1/consultant/verify`, { mobile })
+        dispatch({ type: VERIFY_CONSULTANT_FULFILLED, payload: response.data?.data })
+    } catch (error) {
+        dispatch({ type: VERIFY_CONSULTANT_FAILED, payload: { ...error.response.data, mobile, } })
+    }
+}
+
+export const loginConsultant = (mobile: string, password: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch({ type: CONSULTANT_LOGIN_PENDING })
+        const response = await axios.post("/api/mobile/v1/consultant/login", {
+            mobile,
+            password
+        })
+        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
+        dispatch({ type: CONSULTANT_LOGIN_FULFILLED, payload: response.data?.data })
+    } catch (error) {
+        dispatch({ type: CONSULTANT_LOGIN_FAILED, payload: error.response.data || {} })
     }
 }

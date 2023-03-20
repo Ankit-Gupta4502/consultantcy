@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useState,memo } from 'react'
+import React, { useEffect, Fragment, useState, memo } from 'react'
 import Image from 'next/image'
 import img4 from "../../public/images/Rectangle 13.png"
 import { useDispatch } from 'react-redux'
@@ -13,7 +13,7 @@ import Button from '../UI/Button'
 import Loader from '../UI/Loader'
 import Carousel from 'react-multi-carousel'
 import { FiChevronRight } from "react-icons/fi"
-import {MdClose} from "react-icons/md"
+import { MdClose } from "react-icons/md"
 const Category = memo(() => {
   const dispatch: AppDispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
@@ -101,29 +101,29 @@ const Category = memo(() => {
 
                       <div className="flex items-center space-x-3">
 
-                      <div className="img-holder relative w-[48px] h-[48px] rounded-full overflow-hidden">
-                        <Image className='object-cover' src={`/basepath/${modalData?.avatar_english}`} fill alt='' />
-                      </div>
-                    <Dialog.Title
-                      as="h6"
-                      className=" mb-0 font-medium text-white leading-6 "
-                    >
-                      {modalData?.name_english}
-                    </Dialog.Title>
+                        <div className="img-holder relative w-[48px] h-[48px] rounded-full overflow-hidden">
+                          <Image className='object-cover' src={`/basepath/${modalData?.avatar_english}`} fill alt='' />
+                        </div>
+                        <Dialog.Title
+                          as="h6"
+                          className=" mb-0 font-medium text-white leading-6 "
+                        >
+                          {modalData?.name_english}
+                        </Dialog.Title>
                       </div>
 
-                    <span role="button" className='text-white' onClick={()=>setIsOpen(false)} >
-                      <MdClose  size={20} />
-                    </span>
+                      <span role="button" className='text-white' onClick={() => setIsOpen(false)} >
+                        <MdClose size={20} />
+                      </span>
 
                     </div>
                     <div className="p-6">
-                      
-                    <div className="mt-2">
-                      <p dangerouslySetInnerHTML={{__html:modalData?.description_english}} />
-                        
-                      
-                    </div>
+
+                      <div className="mt-2">
+                        <p dangerouslySetInnerHTML={{ __html: modalData?.description_english }} />
+
+
+                      </div>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
@@ -134,7 +134,7 @@ const Category = memo(() => {
       </div>
       {
         loading ? <Loader /> : <div className="relative ">
-          <Carousel 
+          <Carousel
             swipeable={false}
             draggable={false}
             showDots={true}
@@ -151,9 +151,7 @@ const Category = memo(() => {
             itemClass="px-3 carousel-item-padding-40-px"
             arrows={false}
             renderDotsOutside={true}
-
           >
-
             {
               categories?.map?.((item: item) => {
                 return (
@@ -178,7 +176,7 @@ const Category = memo(() => {
                         setModalData(item)
                       }
                       } className='text-[0.813rem] font-semibold text-gray/70
-            '>
+          '>
                         Check Benefits
                       </button>
                     </div>

@@ -1,42 +1,65 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, } from 'react'
 import Input from '../UI/Input'
 import { handlePhoneValid, returnKey } from "../../utils/utilities"
 import Button from '../UI/Button'
-import { verfiyMobile, login } from '../../redux/actions/AuthAction'
+import { verfiyMobile, login, verifyConsultant, loginConsultant } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 import { useRouter } from 'next/router'
 const Login = () => {
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState("")
+    const [loginAs, setLoginAs] = useState("user")
     const dispatch: AppDispatch = useDispatch()
     const { AuthReducer: { auth, errors, isAuthentiCated, loading } } = useSelector((state: RootState) => state)
     const router = useRouter()
     const verfiyUser = () => {
-        dispatch(verfiyMobile(mobile))
+        if (loginAs === "user") {
+            dispatch(verfiyMobile(mobile))
+        } else {
+            dispatch(verifyConsultant(mobile))
+        }
     }
 
+
     useEffect(() => {
-        if (returnKey(errors, "message") === "This number is not register. Please register first.") {
+        if (errors["status"] === 422) {
             router.replace('/register')
         }
     }, [errors])
 
     useEffect(() => {
-        if (isAuthentiCated && router) {
+        if (isAuthentiCated ) {
             router.back()
         }
-    }, [isAuthentiCated,router])
+    }, [isAuthentiCated])
 
     const handleLogin = () => {
-        dispatch(login(mobile,password))
+        if (loginAs === "user") {
+            dispatch(login(mobile, password))
+        }
+        else {
+            dispatch(loginConsultant(mobile, password))
+        }
     }
+
 
     return (
         <div className='bg-white pt-4 pb-11' >
             <div className="form-wrapper mt-5">
-                <div className="mb-10">
-                    <h2 className='font-medium text-3xl'>Login Now</h2>
+                <div className="mb-10 flex justify-center space-x-10 items-center ">
+                    <div className={`tab ${loginAs === "user" ? "bg-primary text-white" : ""}  px-4 py-3 rounded-md`}>
+                        <span role="button" onClick={() => setLoginAs("user")}>
+                            Login As User
+                        </span>
+                    </div>
+                    <div className={`tab px-4 py-3 rounded-md ${loginAs === "consultant" ? "bg-primary text-white" : ""} `}>
+                        <span role="button" onClick={() => setLoginAs("consultant")}>
+
+                            Login As Consultant
+                        </span>
+                    </div>
+
                 </div>
                 <div className="form-group mb-3">
                     <label htmlFor="" className='mb-2 block' >Mobile</label>

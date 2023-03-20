@@ -45,7 +45,7 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                     <h4 className='text-3xl leading-[52px]'>{value == "expertdetail" ? "More Experts" : "We have industry  best consultants"}</h4>
                     <Link href="/our-consultants">
 
-                    <Button variant='outlined'>View All</Button>
+                        <Button variant='outlined'>View All</Button>
                     </Link>
 
                 </div>}
@@ -95,7 +95,10 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                                     ₹600/hourly
                                 </span>
                                 <div className='flex justify-between mt-4'>
-                                    <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                    <Link href={`/consultant/${item?.slug}`} >
+                                        <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                    </Link>
+
                                     <Button className='text-sm !px-2.7'>Book Now</Button>
 
                                 </div>
