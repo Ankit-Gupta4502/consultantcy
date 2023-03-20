@@ -54,7 +54,7 @@ const exportProfilePage = () => {
             </div>
             <div className='container '>
                 <div className='  grid md:grid-cols-[.95fr_2.5fr] gap-[40px]  py-[50px] items-start'>
-                    <div  >
+                    <div >
 
 
                         <div className='rounded-[20px] px-10 py-5  shadow-lg  text-center '>
