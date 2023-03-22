@@ -1,5 +1,5 @@
 
 export interface actionsFace {
-    payload?: object | object[] | boolean | string,
+    payload?: any,
     type: string
 }
