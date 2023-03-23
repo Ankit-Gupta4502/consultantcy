@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 import { item } from '../../interface'
 import { getIndustries } from '../../redux/actions/IndustryAction'
-import { toast } from '../UI/Toast'
+import {toast} from "react-toastify"
 const Hero = () => {
     const { IndexReducer: { categories }, IndustriesReducer: { categories: industries } } = useSelector((state: RootState) => state)
     const dispatch: AppDispatch = useDispatch()
@@ -25,6 +25,7 @@ const Hero = () => {
 
     return (
         <div className=' bg-light-primary relative overflow-hidden'>
+            
             <div className="absolute top-[-75px] left-0 ...">
                 <Image src={img} alt="" />
             </div>
