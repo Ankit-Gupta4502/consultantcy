@@ -103,7 +103,8 @@ const Register = () => {
                             <OtpInput
                                 value={otp}
                                 numInputs={6}
-                                separator={<span className="mx-2 block">*</span>}
+                                renderSeparator={<span className="mx-2 block">*</span>}
+                                renderInput={(props) => <input {...props} />}
                                 onChange={(value: string) => {
                                     handlePhoneValid(value) &&
                                         setOtp(value)
