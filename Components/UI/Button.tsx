@@ -21,13 +21,11 @@ const Button = ({
 }: propType) => {
   return (
     <button
-      className={` ${className} ${
-        size === "md" ? "px-8" : "px-6"
-      } py-3 rounded-3xl  text-sm font-bold ${
-        variant === "filled"
+      className={` ${className} ${size === "md" ? "px-8" : "px-6"
+        } py-2 rounded-3xl  text-sm font-bold ${variant === "filled"
           ? "text-white bg-primary"
           : "text-primary bg-white border border-primary"
-      } `}
+        } `}
       onClick={onClick}
       disabled={disabled}
       type={type}

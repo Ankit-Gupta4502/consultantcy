@@ -14,6 +14,8 @@ import Loader from '../UI/Loader'
 import Carousel from 'react-multi-carousel'
 import { FiChevronRight } from "react-icons/fi"
 import { MdClose } from "react-icons/md"
+import { FaSearch } from "react-icons/fa"
+import { CiSearch } from "react-icons/ci"
 const Category = memo(() => {
   const dispatch: AppDispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(false)
@@ -47,27 +49,45 @@ const Category = memo(() => {
   const closeModal = () => setIsOpen(false)
   return (
     <div
-      className='py-[100px] overflow-hidden'
+      className='py-[100px] overflow-hidden bg-ligt-secondary'
     >
       <div className="container ">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className='text-primary uppercase mb-[9px]'>Services</p>
-            <h3 className=' font-normal mb-3.5  '>Explore our best services</h3>
-            <p className='text-gray/50 font-normal mb-14'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
+
+        <div className='grid grid-cols-[40%_10%_30%_20%]'>
+          <div className='flex flex-col justify-center'>
+
+            <h3 className=' font-semibold mb-3.5  '> <span className='text-primary'>250+</span> best services</h3>
+            <p className='text-gray/50 font-normal mb-14 text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
               tempor incididunt ut labore et dolore magna aliqua.</p>
           </div>
+          <div>
 
-          <Link href={`/industries/${"all"}`} className='cursor-pointer font-semibold text-primary
-       ' passHref >
-            <div className="flex items-center">
+          </div>
+          <div className='text-end'>
+            <div className='grid md:grid-cols-[85%_15%] '>
+              <input type="text" placeholder='Search from 250+ Industry' className='rounded-l-[30px]  border-[#ddd] bg-[#F6F6F6] px-5 py-2  text-gray/70 flex focus: outline-none w-100'>
+              </input>
+              <div className='rounded-r-[30px]  border-[#dddd] bg-[#F6F6F6] px-2 py-2  text-gray/70 flex focus: outline-none w-100 relative items-center '>
+                <CiSearch className='mx-auto ' color='text-gray/60' size={23} />
+              </div>
 
-              All Services
-              <FiChevronRight className='ml-2' />
+
+
             </div>
-          </Link>
+          </div>
+          <div className='text-center'>
 
+            <Link href={`/industries/${"all"}`} className='cursor-pointer font-semibold text-primary
+       ' passHref >
+
+              <Button className="rounded-[30px] text-xs py-3" >View All</Button>
+            </Link>
+          </div>
         </div>
+
+
+
+
 
 
         {/* Modal */}
@@ -155,11 +175,11 @@ const Category = memo(() => {
             {
               categories?.map?.((item: item) => {
                 return (
-                  <div className='border-[1px] min-h-[260px] max-h-[260px] border-[#EEEEEE] rounded-xl py-6 shadow-[0px_2px_4px_0px_#0000001A]    cursor-pointer overflow-hidden pl-[13px] pr-[18px]' key={item.id}>
+                  <div className='border-[1px] min-h-[260px] max-h-[260px] border-[#EEEEEE] rounded-xl py-6 shadow-[0px_2px_4px_0px_#0000001A]    cursor-pointer overflow-hidden pl-[13px] pr-[18px] bg-white' key={item.id}>
                     <div className='rounded-full bg-[#EAF2FF]  overflow-hidden relative w-[60px] h-[60px] mb-[19px] flex justify-center items-center'>
                       <Image src={`/basepath/${item?.avatar_english}`} className=" object-cover" alt="" fill />
                     </div>
-                    <h6 className='font-semibold text-sm mb-[6px] line-clamp-1' >{item?.name_english}</h6>
+                    <h6 className='font-semibold text-sm mb-[6px] line-clamp-1 text-primary' >{item?.name_english}</h6>
                     <p className='mb-5 line-clamp-3' dangerouslySetInnerHTML={{ __html: item?.description_english }} >
 
                     </p>
@@ -177,7 +197,7 @@ const Category = memo(() => {
                       }
                       } className='text-[0.813rem] font-semibold text-gray/70
           '>
-                        Check Benefits
+                        View Benefits
                       </button>
                     </div>
 

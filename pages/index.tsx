@@ -5,6 +5,7 @@ import Hero from '../Components/Home/Hero'
 import TopConsultant from '../Components/Home/TopConsultant'
 import LatestCourse from '../Components/Home/LatestCourse'
 import ClientReview from "../Components/Home/ClientReview"
+import Feature from "../Components/Home/Feature"
 export default function Home() {
   return (
     <>
@@ -15,10 +16,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Hero />
-      <Category />
       <TopConsultant />
+      <Category />
+
       <LatestCourse />
-      <ClientReview />
+      <Feature />
+      {/* <ClientReview /> */}
       <Enquiry />
 
     </>

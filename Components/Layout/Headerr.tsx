@@ -126,7 +126,7 @@ function Headerr() {
               Courses
             </Link>
 
-            <Button className="rounder-full">Book Consultant</Button>
+            <Button className="rounded-full">Book Consultant</Button>
 
             {/* {isAuth ? (
               <div className="group relative group duration-300 ease-in-out cursor-pointer text-gray/70">

@@ -10,6 +10,7 @@ import { getConsultants } from '../../redux/actions/HomeAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { item } from '../../interface';
+import { CiSearch } from "react-icons/ci"
 import Link from 'next/link';
 interface IPROPS { value?: string }
 const TopConsultant = memo(({ value = "" }: IPROPS) => {
@@ -38,24 +39,41 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
         }
     };
     return (
-        <div className={value == "expertdetail" ? "bg-white pt-[100px] pb-[50px]" : "bg-primary pt-[70px] pb-[50px]"}>
-            <div className={`container ${value == "expertdetail" ? "text-black text-center" : "text-white"} `}>
-                {value !== "expertdetail" ? <p className=" text-white mb-0">TOP CONSULTANT</p> : null}
-                {value == "expertdetail" ? <h4 className='text-3xl leading-[52px]'>{value == "expertdetail" ? "More Experts" : "We have industry  best consultants"}</h4> : <div className='flex justify-between items-center'>
-                    <h4 className='text-3xl leading-[52px]'>{value == "expertdetail" ? "More Experts" : "We have industry  best consultants"}</h4>
-                    <Link href="/our-consultants">
+        <div className="bg-white pt-[100px] pb-[50px] overflow-hidden">
+            <div className="container ">
+                <div className='grid grid-cols-[40%_10%_30%_20%]'>
+                    <div className='flex flex-col justify-center'>
 
-                        <Button variant='outlined'>View All</Button>
-                    </Link>
+                        <h3 className=' font-semibold mb-3.5  '>Explore <span className='text-primary'>3K+</span> consultants</h3>
+                        <p className='text-gray/50 font-normal mb-14 text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                    <div>
 
-                </div>}
+                    </div>
+                    <div className='text-end'>
+                        <div className='grid md:grid-cols-[85%_15%] '>
+                            <input type="text" placeholder='Book from 3000+ consultant' className='rounded-l-[30px]  border-[#ddd] bg-[#F6F6F6] px-5 py-2  text-gray/70 flex focus: outline-none w-100'>
+                            </input>
+                            <div className='rounded-r-[30px]  border-[#dddd] bg-[#F6F6F6] px-2 py-2  text-gray/70 flex focus: outline-none w-100 relative items-center '>
+                                <CiSearch className='mx-auto ' color='text-gray/60' size={23} />
+                            </div>
 
 
-                <p className={` ${value == "expertdetail" ? "text-black" : "text-white"} mb-0 `}>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod<br />
-                    tempor incididunt ut labore et dolore magna aliqua.</p>
 
+                        </div>
+                    </div>
+                    <div className='text-center'>
+
+                        <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary
+       ' passHref >
+
+                            <Button className="rounded-[30px] text-xs py-3" >View All</Button>
+                        </Link>
+                    </div>
+                </div>
             </div>
-            <div className="container relative ">
+            <div className=" container relative ">
                 <Carousel className='my-10'
                     swipeable={false}
                     draggable={false}
@@ -67,7 +85,7 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                     keyBoardControl={true}
                     customTransition="all .5s"
                     transitionDuration={500}
-                    containerClass={`carousel-container `}
+                    containerClass={`carousel-container md:translate-x-[10%] pb-4`}
                     removeArrowOnDeviceType={["tablet", "mobile"]}
                     dotListClass={`custom-dot-list-style !bottom-[-30px] ${Styles.dots}`}
                     itemClass="px-[10px] carousel-item-padding-40-px"
@@ -77,7 +95,7 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                 >
                     {
                         consultants?.map?.((item: item) => {
-                            return <div key={item.id} className={`border p-3  bg-white  rounded-xl text-center overflow-hidden  ${value == "expertdetail" ? "border-gray/30" : "border-white"}`}>
+                            return <div key={item.id} className={`border p-3  bg-white  rounded-xl text-center overflow-hidden   border-primary max-w-[290px]`}>
                                 <div className='border w-[120px] h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
                                     <Image src={item?.thmbnail ? `/basepath/${item?.thmbnail}` : img3} alt="" />
                                 </div>
@@ -91,15 +109,15 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                                 </div>
                                 <h6 className='text-primary text-xl'>{item?.name}</h6>
                                 <p className='text-sm'>Income Tax</p>
-                                <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[16px]'>
+                                <span className='rounded bg-slate px-3.5 py-2 font-light  text-xs my-2'>
                                     ₹600/hourly
                                 </span>
                                 <div className='flex justify-between mt-4'>
                                     <Link href={`/consultant/${item?.slug}`} >
-                                        <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                        <Button variant='outlined' className='text-xs !px-5 !py-3 rounded-[30px]'>View Profile</Button>
                                     </Link>
 
-                                    <Button className='text-sm !px-2.7'>Book Now</Button>
+                                    <Button className='text-xs !px-7 !py-3 rounded-[30px]'>Book Now</Button>
 
                                 </div>
                             </div>
@@ -110,7 +128,7 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
             </div>
 
 
-        </div>
+        </div >
     )
 })
 
