@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import Header from './Header'
-import Footer from './Footer'
-import { ToastContainer } from 'react-toastify'
+import React, { useState } from "react";
+import Headerr from "./Headerr";
+import Footer from "./Footer";
+import { ToastContainer } from "react-toastify";
 interface types {
-  children?: React.ReactNode 
+  children?: React.ReactNode;
 }
 const Layout = ({ children }: types) => {
   return (
     <>
-      <ToastContainer/>
-      <Header />
+      <ToastContainer />
+      <Headerr />
       {children}
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
