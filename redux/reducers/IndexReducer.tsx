@@ -1,42 +1,16 @@
 import { actionsFace } from "../actionInterface/interface"
-import { GET_SECTORS_PENDING, GET_SECTORS_FULFILLED, GET_SECTORS_REJECTED, GET_CONSULTANTS_PENDING, GET_CONSULTNATS_FULFILLED, GET_CONSULTNATS_REJECTED, GET_CONSULTANT_DETAILS_PENDING, GET_CONSULTANT_DETAILS_FULFILLED } from "../Constant"
+import { GET_SECTORS_PENDING, GET_SECTORS_FULFILLED, GET_SECTORS_REJECTED, GET_CONSULTANTS_PENDING, GET_CONSULTNATS_FULFILLED, GET_CONSULTNATS_REJECTED, GET_CONSULTANT_DETAILS_PENDING, GET_CONSULTANT_DETAILS_FULFILLED, GET_CONSULTANT_SERVICES_PENDING, GET_CONSULTANT_SERVICES_FULFILLED, GET_CONSULTANT_SERVICES_REJECTED, GET_NAV_LINKS_FULFILLED, GET_NAV_LINKS_PENDING, GET_NAV_LINKS_REJECTED,GET_TOP_CONSULTANTS_PENDING,GET_TOP_CONSULTANTS_FULFILLED,GET_TOP_CONSULTANTS_REJECTED } from "../Constant"
 
-interface initState {
-    loading: boolean,
-    categories: [],
-    errors: object,
-    consultants: [],
-    consultantDetails: {
-        name?: string,
-        password?: string,
-        email?: string,
-        consultant_slots?: {
-            id?: number
-            dayIndex?: string,
-            periodList: string,
-            [key: string]: any
-        }[]
-        consultant_profile?: {
-            whatsAppNumber?: string,
-            skill?: string,
-            designation?: string,
-            preferredIndustry?: string,
-            experience?: string,
-            preferredSector?: string,
-            workExperience?: string,
-            ProfileSummary: string
-            [key: string]: any
-        },
-        consultant_sectors?:string[]
-        [key: string]: any
-    }
-}
-const initialState: initState = {
+const initialState = {
     loading: false,
     categories: [],
     errors: {},
     consultants: [],
-    consultantDetails: {}
+    consultantDetails: {},
+    services: [],
+    servicesCount: 0,
+    navLinks:[],
+    topConsultants:[]
 }
 
 const IndexReducer = (state = initialState, action: actionsFace) => {
@@ -44,6 +18,9 @@ const IndexReducer = (state = initialState, action: actionsFace) => {
         case GET_SECTORS_PENDING:
         case GET_CONSULTANTS_PENDING:
         case GET_CONSULTANT_DETAILS_PENDING:
+        case GET_NAV_LINKS_PENDING:
+        case GET_CONSULTANT_SERVICES_PENDING:
+        case GET_TOP_CONSULTANTS_PENDING:
             return { ...state, loading: true }
 
         case GET_SECTORS_FULFILLED:
@@ -55,8 +32,27 @@ const IndexReducer = (state = initialState, action: actionsFace) => {
         case GET_CONSULTANT_DETAILS_FULFILLED:
             return { ...state, loading: false, consultantDetails: action.payload }
 
+        case GET_TOP_CONSULTANTS_FULFILLED:
+            return { ...state,loading:false,errors:{},topConsultants:action.payload }
+
+
+        case GET_CONSULTANT_SERVICES_FULFILLED:
+            return { ...state, loading: false, error: {}, services: action.payload?.rows?.slice(0, 30), servicesCount: action.payload?.count }
+
+        case GET_NAV_LINKS_FULFILLED:
+            return {
+                ...state,
+                loading:false,
+                errors:{},
+                navLinks:action.payload
+            }
+
         case GET_SECTORS_REJECTED:
         case GET_CONSULTNATS_REJECTED:
+        case GET_NAV_LINKS_REJECTED:
+        case GET_CONSULTANT_SERVICES_REJECTED:
+        case GET_TOP_CONSULTANTS_REJECTED:
+        case GET_NAV_LINKS_FULFILLED:
             return { ...state, loading: false, errors: action.payload }
 
 

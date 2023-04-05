@@ -2,13 +2,13 @@ import React, { useEffect } from 'react'
 import { FaSearch } from "react-icons/fa"
 import { FaStar } from "react-icons/fa"
 import 'react-multi-carousel/lib/styles.css'
-import img3 from "../public/images/Rectangle 19.png"
+import img3 from "../../../public/images/Rectangle 19.png"
 import Image from 'next/image'
-import Button from "../Components/UI/Button";
+import Button from "../../../Components/UI/Button";
 import { useDispatch, useSelector } from "react-redux"
-import { AppDispatch, RootState } from '../redux/store'
-import { getConsultants } from '../redux/actions/HomeAction'
-import { item } from '../interface'
+import { AppDispatch, RootState } from '../../../redux/store'
+import { getConsultants } from '../../../redux/actions/HomeAction'
+import { item } from '../../../interface'
 const expertpage = () => {
     const dispatch: AppDispatch = useDispatch()
     const { IndexReducer: { consultants } } = useSelector((state: RootState) => state)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { HtmlHTMLAttributes, useState } from 'react'
 import Image from 'next/image'
 import img from "../../public/images/download.jpeg"
 import img2 from "../../public/images/enquiry2.png"
@@ -7,9 +7,36 @@ import Select from "../UI/Select"
 import Button from '../UI/Button'
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
-
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { handlePhoneValid } from '../../utils/utilities'
 
 const Enquiry = React.memo(() => {
+    const [formData, setFormData] = useState({ name: '', mobile: "", industry: "1", email: "" })
+    const [errors, setErrors] = useState<{ name?: string, mobile?: string, email?: string }>({})
+    const [loading, setLoading] = useState(false)
+    const handleForm = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target
+        setFormData(prev => { return { ...prev, [name]: value } })
+    }
+
+    const handleSubmit = () => {
+        axios.post("/api/web/v1/enquiry-request", formData)
+            .then((res) => {
+                setFormData({
+                    name: "",
+                    mobile: "",
+                    email: "",
+                    industry: ""
+                })
+                setErrors({})
+                toast.success(res.data?.message)
+            })
+            .catch((err) => {
+                setErrors(err.response.data?.data)
+                toast.error(err.response.data?.message);
+            })
+    }
 
     return (
         <div className=' py-24'>
@@ -29,20 +56,29 @@ const Enquiry = React.memo(() => {
                                 </p>
 
                                 <div className='space-y-[30px]' >
-                                    <Input placeholder='Full Name*' className='bg-primary !text-white placeholder-white' />
-                                    <div className="flex space-x-[17px]">
-                                        <Input placeholder='Email' className='bg-primary text-white placeholder-white' />
-                                        <Input placeholder='Mobile' className='bg-primary text-white placeholder-white' />
+                                    <div>
+                                        <Input placeholder='Full Name*' invalid={Boolean(errors?.name)} value={formData.name} name='name' onChange={handleForm} className='bg-primary !text-white placeholder-white' />
+                                        <div className="flex space-x-[17px]">
+                                            <span className="text-danger block my-3"> {errors?.name} </span>
+                                        </div>
+                                        <div>
+                                            <Input invalid={Boolean(errors?.email)} placeholder='Email' value={formData.email} name='email' onChange={handleForm} className='bg-primary text-white placeholder-white' />
+                                            <span className="text-danger block my-3"> {errors?.email} </span>
+                                        </div>
+                                        <div>
+                                            <Input placeholder='Mobile' invalid={Boolean(errors?.mobile)} value={formData.mobile} name='mobile' onChange={(e) => handlePhoneValid(e.target.value) && handleForm(e)} className='bg-primary text-white placeholder-white' />
+                                            <span className="text-danger block my-3"> {errors?.mobile} </span>
+                                        </div>
                                     </div>
-                                    <Select className="!bg-primary !rounded-md !text-white cursor-pointer" iconStyles="!text-white"  >
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
+                                    <Select className="!bg-primary !rounded-md !text-white cursor-pointer" iconStyles="!text-white" value={formData.industry} name='gender' onChange={handleForm}  >
+                                        <option value="">Select Industry</option>
+                                        <option value="1">Dummy</option>
+
                                     </Select>
-                                    <Button className='bg-white text-primary text-xs'>Send Enquery</Button>
+                                    <Button onClick={handleSubmit} className='bg-white text-primary text-xs'>Send Enquery</Button>
                                 </div>
-                            </div></div>
+                            </div>
+                        </div>
                     </div>
 
                 </div>

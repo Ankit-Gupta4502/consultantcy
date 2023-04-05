@@ -2,7 +2,7 @@ import React from 'react'
 import { FaSearch } from "react-icons/fa"
 import 'react-multi-carousel/lib/styles.css'
 import Image from 'next/image'
-import img4 from "../public/images/Rectangle 13.png"
+import img4 from "../../public/images/Rectangle 13.png"
 const expertcategory = () => {
 
     return (

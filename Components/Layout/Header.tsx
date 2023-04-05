@@ -1,101 +1,190 @@
 import React, { useState, useEffect } from "react";
+import { MdOutlineCall, MdEmail } from "react-icons/md";
+import { AiFillApple } from "react-icons/ai";
+import { FaGooglePlay } from "react-icons/fa";
 import img from "../../public/images/iid-logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { FaAngleDown } from "react-icons/fa";
 import { LOG_OUT } from "../../redux/Constant";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 import { AppDispatch, RootState } from "../../redux/store";
-const Header = () => {
-  const dispatch: AppDispatch = useDispatch();
+import Button from "../UI/Button";
+import { BiChevronDown } from "react-icons/bi"
+import { getNavLinks } from "../../redux/actions/HomeAction";
+interface navlinks {
+  id: number,
+  name?: string,
+  slug?: string,
+  subSubCategories: Array<{ id?: number, name?: string, slug?: string, }>
+}
+function TopHeader() {
   const {
     AuthReducer: { isAuthentiCated },
-  } = useSelector((state: RootState) => state);
+    IndexReducer: { navLinks }
+  } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch()
   const [isAuth, setIsAuth] = useState(false);
+  const [showDrop, setShowDrop] = useState(false)
+  const [subCategories, setSubCategories] = useState<{ id: number, slug?: string, category: Array<{ name?: string, title?: string, slug?: string, id?: number }> }>({ id: 0, category: [], slug: '' })
 
   useEffect(() => {
     setIsAuth(isAuthentiCated);
   }, [isAuthentiCated]);
 
+  useEffect(() => {
+    dispatch(getNavLinks())
+  }, [])
+
+  useEffect(() => {
+    if (Array.isArray(navLinks)) {
+      setSubCategories(
+        {
+          id: navLinks?.[0]?.id,
+          category: navLinks?.[0]?.subSubCategories,
+          slug: navLinks?.[0]?.slug
+        }
+      )
+    }
+  }, [navLinks])
+
+
   return (
     <>
-      <div className="container py-[18px]   ">
+      <div>
+        <div className="bg-[#262626]">
+          <div className="container">
+            <div className="flex justify-between items-center">
+              <div className="flex">
+                <div className="flex gap-5 py-2">
+                  <div>
+                    <MdOutlineCall className="text-white/50" size={25} />
+                  </div>
+                  <div>
+                    <a className="text-white/50">1800-123-1234</a>
+                  </div>
+                </div>
+
+                <div className="py-2 pl-4">
+                  <p className="text-white/50 mb-0">|</p>
+                </div>
+
+                <div className="flex gap-5 py-2 px-4">
+                  <div>
+                    <MdEmail className="text-white/50" size={25} />
+                  </div>
+                  <div>
+                    <a className="text-white/50">1800-123-1234</a>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="flex py-2 gap-5 items-center">
+                  <Link href="/" className="text-white/50">
+                    Home
+                  </Link>
+                  <Link href="#" className="text-white/50">
+                    About us
+                  </Link>
+                  <Link href="/login" className="text-white/50">
+                    Login/Register
+                  </Link>
+                  <div className="flex  items-center rounded-full border-2 border-white/50 p-2">
+                    <p className="text-white/50 mb-0">Download App</p>
+                    <div className="text-white/50 pl-4">
+                      <AiFillApple size={25} />
+                    </div>
+                    <div className="text-white/50 pt-1">
+                      <FaGooglePlay size={20} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="container relative py-[25px]   ">
         <div className="flex justify-between ">
           <Link href="/">
             <Image src={img} alt="" />
           </Link>
 
           <div className="flex space-x-10 items-center ">
-            <div className="flex space-x-4 cursor-pointer text-gray/70 relative group duration-300 ease-in-out">
-              <span>All Services</span>
-              <span className="flex items-center">
-                <FaAngleDown fontSize={18} />
-              </span>
+            <Link className=" cursor-pointer text-gray/70" href="#">
+              Consultant
+            </Link>
 
-              <div className="group-hover:visible group-hover:translate-y-0 translate-y-7 duration-300 ease-in-out invisible  py-5 rounded-xl bg-white px-2 absolute top-9 z-10 left-0 !ml-0">
-                <Link
-                  href="#"
-                  className="hover:bg-gray/10 rounded-md ease-out w-full pl-5 pr-32 py-3 block duration-300"
-                >
-                  {" "}
-                  Test{" "}
-                </Link>
-                <Link
-                  href="#"
-                  className=" hover:bg-gray/10 rounded-md ease-out w-full pl-5 pr-32 py-3 block duration-300"
-                >
-                  {" "}
-                  Test{" "}
-                </Link>
-                <Link
-                  href="#"
-                  className=" hover:bg-gray/10 rounded-md ease-out w-full pl-5 pr-32 py-3 block duration-300"
-                >
-                  {" "}
-                  Test{" "}
-                </Link>
+            <Link className=" cursor-pointer text-gray/70" href="#">
+              Services
+            </Link>
+
+            <div className="flex    items-center space-x-2 " onMouseLeave={() => setShowDrop(false)} onMouseOver={() => setShowDrop(true)}>
+              <span className=" cursor-pointer text-gray/70" >
+                Shop
+              </span>
+              <span className={`cursor-pointer text-gray/70 duration-300 ${showDrop ? " rotate-180 " : "rotate-0"}`} >
+                <BiChevronDown size={22} />
+              </span>
+              <div className={`  absolute w-32 top-[58px] h-10`}>
+
+              </div>
+
+              <div className={`absolute z-40 !mx-0 grid overflow-hidden  items-start grid-cols-[288px_auto]  w-full     top-24 left-0  duration-500 bg-white   ${showDrop ? "  opacity-1" : "opacity-0 h-0"}`} >
+                <div className="bg-[#DFDFDF80]  h-full" >
+                  {
+                    navLinks?.map?.((item: navlinks, index) => {
+                      return index < 8 && <div className={`flex items-center gap-4 justify-center py-4 ${subCategories?.id === item.id ? "bg-primary text-white" : "text-black"}  duration-300 transition-all border-b border-[#C8C8C8]`} key={item.id} >
+                        <span className="block text-center cursor-pointer text-sm " onMouseMove={() => setSubCategories({
+                          id: item.id,
+                          category: item.subSubCategories,
+                          slug: item.slug
+                        })} >
+                          {item?.name}
+                        </span>
+                      </div>
+                    })
+                  }
+
+                  <Link href="/category/all" className="block py-4 w-full text-center cursor-pointer text-sm"  >
+                    View All
+                  </Link>
+                </div>
+
+                <div className="pt-10 p-16 px-[74px] grid gap-x-2 gap-y-3 items-start grid-cols-3" >
+                  {
+                    subCategories.category?.map((item, index) => {
+                      return index < 24 && <Link key={item.id} onClick={()=>setShowDrop(false)} href={`/category/${subCategories.slug}/${item.slug}`} className="text-sm text-black/70"  >
+                        {item?.title}
+                      </Link>
+                    })
+                  }
+                  <div className="col-start-3" >
+
+                  <Link className=" text-primary font-semibold underline" onClick={()=>setShowDrop(false)}  href={`/category/${subCategories.slug}/all`} >
+                    View All
+                  </Link>
+                  </div>
+
+                </div>
+
               </div>
             </div>
-            <Link className=" cursor-pointer text-gray/70" href="#">
-              Courses
-            </Link>
+
+
             <Link className=" cursor-pointer text-gray/70" href="#">
               {" "}
-              About us
+              Courses
             </Link>
-            {isAuth ? (
-              <div className="group relative group duration-300 ease-in-out cursor-pointer text-gray/70">
-                <span>My Account</span>
-
-                <div className="group-hover:visible group-hover:translate-y-0 translate-y-7 duration-300 ease-in-out invisible  py-5 rounded-xl bg-white px-2 absolute top-9 z-10 left-0 !ml-0 shadow-2xl">
-                  <Link href="/dashboard">
-                    <span
-                      role="button"
-                      className="w-max hover:bg-gray/10 rounded-md ease-out  pl-5 py-3 block duration-300 text-sm pr-32"
-                    >
-                      Dashboard
-                    </span>
-                  </Link>
-                  <span
-                    role="button"
-                    className="w-max hover:bg-gray/10 rounded-md ease-out  pl-5 py-3 block duration-300 text-sm pr-32"
-                    onClick={() => dispatch({ type: LOG_OUT })}
-                  >
-                    Log out
-                  </span>
-                </div>
-              </div>
-            ) : (
-              <Link href="/login" className="text-gray/70">
-                Log in
-              </Link>
-            )}
+            <Button >Book Consultant</Button>
           </div>
         </div>
       </div>
       <div className="border-b-[1px] h-[1px] border-[#DDDDDD]"></div>
     </>
   );
-};
+}
 
-export default Header;
+export default TopHeader;

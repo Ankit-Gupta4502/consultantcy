@@ -18,12 +18,9 @@ export default function Home() {
       <Hero />
       <TopConsultant />
       <Category />
-
-      <LatestCourse />
+      {/* <LatestCourse /> */}
       <Feature />
-      {/* <ClientReview /> */}
       <Enquiry />
-
     </>
   )
 }

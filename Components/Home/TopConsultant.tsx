@@ -6,16 +6,15 @@ import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 import { FaStar } from "react-icons/fa"
-import { getConsultants } from '../../redux/actions/HomeAction';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../redux/store';
 import { item } from '../../interface';
 import { CiSearch } from "react-icons/ci"
 import Link from 'next/link';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getConsultants } from '../../redux/actions/HomeAction';
 interface IPROPS { value?: string }
 const TopConsultant = memo(({ value = "" }: IPROPS) => {
-    const dispatch: AppDispatch = useDispatch()
-    const { IndexReducer: { consultants } } = useSelector((state: RootState) => state)
+    const dispatch = useAppDispatch()
+    const { IndexReducer: { consultants } } = useAppSelector((state ) => state)
 
     useEffect(() => {
         dispatch(getConsultants())
@@ -58,16 +57,11 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                             <div className='rounded-r-[30px]  border-[#dddd] bg-[#F6F6F6] px-2 py-2  text-gray/70 flex focus: outline-none w-100 relative items-center '>
                                 <CiSearch className='mx-auto ' color='text-gray/60' size={23} />
                             </div>
-
-
-
                         </div>
                     </div>
                     <div className='text-center'>
 
-                        <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary
-       ' passHref >
-
+                        <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
                             <Button className="rounded-[30px] text-xs py-3" >View All</Button>
                         </Link>
                     </div>
@@ -85,7 +79,7 @@ const TopConsultant = memo(({ value = "" }: IPROPS) => {
                     keyBoardControl={true}
                     customTransition="all .5s"
                     transitionDuration={500}
-                    containerClass={`carousel-container md:translate-x-[10%] pb-4`}
+                    containerClass={`carousel-container  pb-4`}
                     removeArrowOnDeviceType={["tablet", "mobile"]}
                     dotListClass={`custom-dot-list-style !bottom-[-30px] ${Styles.dots}`}
                     itemClass="px-[10px] carousel-item-padding-40-px"

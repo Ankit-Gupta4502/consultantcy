@@ -10,6 +10,7 @@ import { item } from '../../interface'
 import { getIndustries } from '../../redux/actions/IndustryAction'
 import { toast } from "react-toastify"
 import Select from '../../Components/UI/Select'
+import { getSectors } from '../../redux/actions/HomeAction'
 const Hero = () => {
     const { IndexReducer: { categories }, IndustriesReducer: { categories: industries } } = useSelector((state: RootState) => state)
     const dispatch: AppDispatch = useDispatch()
@@ -20,6 +21,11 @@ const Hero = () => {
             dispatch(getIndustries(sector))
         }
     }, [sector])
+
+    useEffect(() => {
+    dispatch(getSectors())
+    }, [])
+    
 
 
 
@@ -38,8 +44,7 @@ const Hero = () => {
                             <p className='text-gray/70 mb-5'>Explore consultant from 250+ Industry </p>
 
                             <div className="grid md:grid-cols-[35%_35%_30%] items-center grid-cols-1 gap-x-2 ">
-                                <div className=" flex md:space-x-4 cursor-pointer text-gray/70">
-
+                                
                                     <Select className={"focus: outline-none bg-white cursor-pointer w-full px-4 py-3 border-white   rounded-[40px]"} id="cars" name='gender' value={sector} onChange={((({ target: { value } }) => setSector(value)))}>
                                         <option value="">Select Sector</option>
                                         {
@@ -48,7 +53,6 @@ const Hero = () => {
                                             })
                                         }
                                     </Select>
-                                </div>
 
                                 <div className="   cursor-pointer text-gray/70 ">
                                     <Select className={`focus: outline-none bg-white cursor-pointer w-full px-4 py-1 border-white   rounded-full`} id="cars" name='gender' value={industry} onChange={((({ target: { value } }) => setIndustry(value)))}>

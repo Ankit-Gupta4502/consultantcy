@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Headerr from "./Headerr";
+import Headerr from "./Header";
 import Footer from "./Footer";
 import { ToastContainer } from "react-toastify";
 interface types {
