@@ -1,4 +1,4 @@
-import React, { HtmlHTMLAttributes, useState } from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import img from "../../public/images/download.jpeg"
 import img2 from "../../public/images/enquiry2.png"
@@ -9,18 +9,23 @@ import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { getCategoryType } from '../../redux/actions/HomeAction'
 import { handlePhoneValid } from '../../utils/utilities'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 
 const Enquiry = React.memo(() => {
     const [formData, setFormData] = useState({ name: '', mobile: "", industry: "1", email: "" })
     const [errors, setErrors] = useState<{ name?: string, mobile?: string, email?: string }>({})
     const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch()
+    const { IndexReducer: { categoryTypes } } = useAppSelector(state => state)
     const handleForm = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
         setFormData(prev => { return { ...prev, [name]: value } })
     }
 
     const handleSubmit = () => {
+        setLoading(true)
         axios.post("/api/web/v1/enquiry-request", formData)
             .then((res) => {
                 setFormData({
@@ -30,13 +35,20 @@ const Enquiry = React.memo(() => {
                     industry: ""
                 })
                 setErrors({})
+                setLoading(false)
                 toast.success(res.data?.message)
             })
             .catch((err) => {
                 setErrors(err.response.data?.data)
                 toast.error(err.response.data?.message);
+                setLoading(false)
             })
     }
+
+    React.useEffect(() => {
+        dispatch(getCategoryType())
+    }, [])
+
 
     return (
         <div className=' py-24'>
@@ -75,7 +87,7 @@ const Enquiry = React.memo(() => {
                                         <option value="1">Dummy</option>
 
                                     </Select>
-                                    <Button onClick={handleSubmit} className='bg-white text-primary text-xs'>Send Enquery</Button>
+                                    <Button disabled={loading} onClick={handleSubmit} className='bg-white text-primary text-xs'>Send Enquery</Button>
                                 </div>
                             </div>
                         </div>

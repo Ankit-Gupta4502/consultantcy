@@ -5,7 +5,7 @@ import img3 from "../../public/images/Rectangle 19.png"
 import Image from 'next/image'
 import Carousel from "react-multi-carousel";
 import 'react-multi-carousel/lib/styles.css'
-import TopConsultant from "../../Components/Home/TopConsultant"
+import TopConsultant from "../../Components/Home/Consultants"
 import LatestCourse from "../../Components/Home/LatestCourse"
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
@@ -42,7 +42,7 @@ const expertdetail = () => {
             dispatch(getConsultantDetails(slug))
         }
     }, [slug])
-console.log(consultantDetails);
+
 
 
     return (

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Enquiry from '../Components/Home/Enquiry'
 import Category from '../Components/Home/Category'
 import Hero from '../Components/Home/Hero'
-import TopConsultant from '../Components/Home/TopConsultant'
+import TopConsultant from '../Components/Home/Consultants'
 import LatestCourse from '../Components/Home/LatestCourse'
 import ClientReview from "../Components/Home/ClientReview"
 import Feature from "../Components/Home/Feature"

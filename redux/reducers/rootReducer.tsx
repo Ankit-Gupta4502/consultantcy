@@ -3,11 +3,13 @@ import AuthReducer from "./AuthReducer"
 import IndexReducer from "./IndexReducer"
 import IndustriesReducer from "./IndustriesReducer"
 import UserDashBoardReducer from "./UserDashBoardReducer"
+import SubSubCategoryReducer from "./SubSubCategoryReducer"
 export default combineReducers(
     {
         AuthReducer,
         IndexReducer,
         IndustriesReducer,
-        UserDashBoardReducer
+        UserDashBoardReducer,
+        SubSubCategory: SubSubCategoryReducer
     }
 )

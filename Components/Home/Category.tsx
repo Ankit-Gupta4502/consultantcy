@@ -72,8 +72,8 @@ const Category = memo(() => {
       </div>
       {
         loading ? <Loader /> :
-          <div className="relative ">
-            <div className="container">
+          
+            <div className="relative">
               <Carousel
                 swipeable={false}
                 draggable={false}
@@ -82,15 +82,16 @@ const Category = memo(() => {
                 ssr={false} 
                 infinite={true}
                 autoPlaySpeed={1000}
+                renderButtonGroupOutside
                 keyBoardControl={true}
                 customTransition="all .5s"
                 transitionDuration={500}
-                containerClass={`carousel-container  pb-4`}
+                containerClass={`carousel-container  container  pb-4`}
                 removeArrowOnDeviceType={["tablet", "mobile"]}
                 dotListClass={`custom-dot-list-style !bottom-[-35px] `}
                 itemClass="px-3 carousel-item-padding-40-px"
                 arrows={false}
-                customButtonGroup={<CustomButton leftbtnStyle='!bg-white !text-primary  rounded-full shadaow-2xl' rightbtnStyle='!bg-white !text-primary  rounded-full shadaow-2xl' containerClass=' mx-auto' />}
+                customButtonGroup={<CustomButton  leftbtnStyle='!bg-white !text-primary  rounded-full shadaow-2xl' rightbtnStyle='!bg-white !text-primary  rounded-full shadaow-2xl' containerClass=' mx-auto max-w-[1280px] left-[50%] translate-x-[-50%] translate-y-[-50%] top-[50%] ' />}
               >
                 {
                   services?.map?.((item: item) => {
@@ -115,7 +116,7 @@ const Category = memo(() => {
                   })
                 }
               </Carousel>
-            </div>
+          
           </div>
       }
 

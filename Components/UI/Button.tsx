@@ -22,7 +22,7 @@ const Button = ({
   return (
     <button
       className={` ${className} ${size === "md" ? "px-8" : "px-6"
-        } py-2 rounded-3xl  text-sm font-bold ${variant === "filled"
+        } py-2 rounded-3xl  text-sm font-bold ${disabled?"!text-white !bg-primary/50":""} ${variant === "filled"
           ? "text-white bg-primary"
           : "text-primary bg-white border border-primary"
         } `}

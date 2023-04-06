@@ -43,8 +43,9 @@ const forgetpassword = () => {
               <OtpInput
                 value={otp}
                 numInputs={4}
-                separator={<span className="me-2 ms-2">*</span>}
-                onChange={(value: number) => handlePhoneValid(value) && handleOTPChange(value)}
+                renderSeparator={<span className="me-2 ms-2">*</span>}
+                onChange={(value) => handlePhoneValid(value) && handleOTPChange(+value)}
+                renderInput={(props) => <input {...props} />}
                 inputStyle={{
                   width: "100%",
                   borderRadius: "6px",

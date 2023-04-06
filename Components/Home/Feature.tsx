@@ -106,25 +106,15 @@ const Feature = memo(({ value = "" }: IPROPS) => {
 
             <div className="bg-light-primary pt-[100px] pb-[50px] overflow-hidden">
                 <div className="container ">
-                    <div className='grid grid-cols-[40%_10%_30%_20%]'>
-                        <div className='flex flex-col justify-center'>
+                    <div className='flex items-start justify-between'>
+                        <div className='flex flex-col justify-center max-w-[450px] '>
 
                             <h3 className=' font-semibold mb-3.5  '> <span className='text-primary'>Top</span> Consultants</h3>
                             <p className='text-gray/50 font-normal mb-14 text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
-                        <div>
-
-                        </div>
-                        <div className='text-end'>
-                            <div className='grid md:grid-cols-[85%_15%] '>
-                                <input type="text" placeholder='Search Product By Name' className='rounded-l-[30px]  border-[#ddd] bg-[#F6F6F6] px-5 py-2  text-gray/70 flex focus: outline-none w-100'>
-                                </input>
-                                <div className='rounded-r-[30px]  border-[#dddd] bg-[#F6F6F6] px-2 py-2  text-gray/70 flex focus: outline-none w-100 relative items-center '>
-                                    <CiSearch className='mx-auto ' color='text-gray/60' size={23} />
-                                </div>
-                            </div>
-                        </div>
+                        
+                       
                         <div className='text-center'>
 
                             <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >

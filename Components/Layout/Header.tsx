@@ -156,7 +156,7 @@ function TopHeader() {
                 <div className="pt-10 p-16 px-[74px] grid gap-x-2 gap-y-3 items-start grid-cols-3" >
                   {
                     subCategories.category?.map((item, index) => {
-                      return index < 24 && <Link key={item.id} onClick={()=>setShowDrop(false)} href={`/category/${subCategories.slug}/${item.slug}`} className="text-sm text-black/70"  >
+                      return index < 24 && <Link key={item.id} onClick={()=>setShowDrop(false)} href={`/category/${subCategories.slug}/${item.slug}`} className="text-black/70 transition-all duration-300 hover:text-primary hover:translate-x-1 text-sm "  >
                         {item?.title}
                       </Link>
                     })
