@@ -63,7 +63,6 @@ const AuthReducer = (state = initialState, action: actionsFace) => {
             return { ...state, loading: false, errors: action.payload, mobile: returnKey(action.payload, "mobile") }
 
         case LOG_OUT:
-            localStorage.removeItem("iid_consultancy_user")
             return { ...state, loading: false, isAuthentiCated: false, auth: {} }
 
 

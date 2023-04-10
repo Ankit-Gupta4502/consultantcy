@@ -15,6 +15,9 @@ import { useRouter } from 'next/router'
 import { getConsultantDetails } from "../../redux/actions/HomeAction"
 import { MdVideocam, MdCall } from "react-icons/md"
 import { FaHandshake } from "react-icons/fa"
+import { BiRupee } from "react-icons/bi"
+import CustomButton from '../../Components/Enquiry/CustomButton'
+import Button from '../../Components/UI/Button'
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -32,6 +35,43 @@ const responsive = {
         slidesToSlide: 1 // optional, default to 1.
     }
 };
+type constultantDetailType = {
+    id: number,
+    name?: string,
+    mobile?: string,
+    email?: string,
+    city?: string,
+    state?: string,
+    pincode?: string,
+    thumbnail?: string,
+    consultant_slots?: { id?: number, dayIndex?: string,}[],
+    consultant_sectors?: {
+        id: number, subCategory?: { id: number, name_english?: string }, subSubCategory: {
+            id: number,
+            title_english?: string
+        }
+    }[] | null,
+    consultant_profile: {
+        experience: string,
+        highestQualification?: string,
+        nameOfOrgnization?: string,
+        skill?: string,
+        designation?: string,
+        ProfileSummary?: string,
+        audioFee?: number
+        videoFee?: number,
+        workExperience?: string,
+        websiteUrl?: string
+    }
+}
+type sectorType = {
+    subCategory?: { id: number, name_english?: string }
+}
+type industryType = {
+    subSubCategory: {
+        id: number, title_english?: string
+    }
+}
 const expertdetail = () => {
     const dispatch: AppDispatch = useDispatch()
     const { slug } = useRouter().query
@@ -43,18 +83,18 @@ const expertdetail = () => {
         }
     }, [slug])
 
-
+    const consultantDetail: constultantDetailType = consultantDetails
 
     return (
         <div className=' bg-[#D9D9D94D]'>
-            <div className="container grid md:grid-cols-[auto_minmax(294px,1fr)] gap-x-5 py-16 ">
+            <div className="container items-start grid grid-cols-[auto_294px] gap-x-5 py-16 ">
                 <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
-                        <Image src={img3} alt="consultant" />
+                        <Image src={consultantDetail?.thumbnail ? `/basepath/${consultantDetail?.thumbnail}` : img3} alt="consultant" />
                         <div className='bg-primary/5 p-[14px] mt-6 rounded-[5px]' >
 
-                            <span className='py-2 bg-[#F1F1F1] text-[#202020B2] text-sm block mx-auto w-max rounded-3xl px-4'>
-                                600/hourly
+                            <span className='py-2 flex items-center bg-[#F1F1F1] text-[#202020B2] text-md  mx-auto w-max rounded-3xl px-4'>
+                                <BiRupee />  {consultantDetail.consultant_profile?.audioFee}
                             </span>
 
                             <div className="mt-8">
@@ -93,9 +133,10 @@ const expertdetail = () => {
                     </div>
                     <div>
                         <h3 className='text-3xl font-medium'> {consultantDetails?.['name']} </h3>
-                        <p className='text-primary' > Food Processing </p>
-                        <p className='text-[#9D9898] text-xs'>French fries, Macroni, Potato chips, Roasted peanut, </p>
-                        <p className='text-[#9D9898] text-[14px]'> {consultantDetails?.['consultant_profile']?.['ProfileSummary']} </p>
+                        <p className='text-primary' >{consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory?.name_english)?.join(",")
+                        }  </p>
+                        <p className='text-[#9D9898] text-xs'> {consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory?.title_english)?.join(",")} </p>
+                        <p className='text-[#9D9898] text-[14px]'> {consultantDetail?.['consultant_profile']?.['ProfileSummary']} </p>
                         <div className='w-full mt-5' >
                             <div className='bg-primary text-center py-2' >
 
@@ -104,18 +145,52 @@ const expertdetail = () => {
 
                             <div className='flex flex-wrap' >
                                 <span className='py-3 font-bold fw-bold border-x border-b border-[#D5D5D5] text-center w-2/4 text-sm' >
-                                    Experience
+                                    Work   Experience
                                 </span>
                                 <span className='py-3 text-sm border-r border-b text-gray/50 border-[#D5D5D5] text-center w-2/4' >
-                                    10 year in food processing
+                                    {consultantDetail?.consultant_profile?.workExperience}
                                 </span>
                                 <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
-                                    Experience
+                                    Skill
                                 </span>
 
                                 <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
-                                    10 year in food processing
+                                    {consultantDetail.consultant_profile?.skill}
                                 </span>
+
+                                <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
+                                    Designation
+                                </span>
+                                <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
+                                    {consultantDetail.consultant_profile?.designation}
+                                </span>
+
+                                <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
+                                    Website
+                                </span>
+
+                                <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
+                                    {consultantDetail.consultant_profile?.websiteUrl}
+                                </span>
+
+                                <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
+                                    Sector
+                                </span>
+
+                                <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
+                                    {consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory?.name_english)?.join(",")
+                                    }
+                                </span>
+
+
+                                <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
+                                    Industry
+                                </span>
+
+                                <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
+                                    {consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory?.title_english)?.join(",")}
+                                </span>
+
                             </div>
                         </div>
                     </div>
@@ -130,8 +205,8 @@ const expertdetail = () => {
                                 Book Appointment
                             </span>
                         </div>
-                        <span className='text-white text-sm' >
-                            5000 fee
+                        <span className='text-white flex items-center text-sm' >
+                            <BiRupee />    {consultantDetail.consultant_profile?.audioFee}
                         </span>
                     </div>
 
@@ -180,6 +255,55 @@ const expertdetail = () => {
                                 10 mintue
                             </span>
                         </div>
+
+                        <div className='mt-10 ' >
+                            <Carousel
+                                swipeable={false}
+                                draggable={false}
+                                showDots={true}
+                                responsive={responsive}
+                                ssr={true}
+                                sliderClass='space-x-5'
+                                infinite={true}
+                                autoPlaySpeed={1000}
+                                keyBoardControl={true}
+                                customTransition="all .5s"
+                                transitionDuration={500}
+                                containerClass={`carousel-container  py-4`}
+                                removeArrowOnDeviceType={["tablet", "mobile"]}
+                                dotListClass={`custom-dot-list-style !bottom-[-30px] `}
+                                itemClass="relative z-40 carousel-item-padding-40-px"
+                                arrows={false}
+                                renderButtonGroupOutside={true}
+                                renderDotsOutside={true}
+                                customButtonGroup={<CustomButton containerClass=' bottom-2 left-[0] z-[1]' rightbtnStyle='!bg-transparent text-primary' leftbtnStyle='!bg-transparent text-primary ' />}
+                            >
+                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                    1
+                                </div>
+
+                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                    2
+                                </div>
+
+
+                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                    3
+                                </div>
+
+
+                                <div className=' border-2 border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                    4
+                                </div>
+
+
+                            </Carousel>
+
+                            <Button className='block mx-auto' >
+                                Book Your Slot
+                            </Button>
+                        </div>
+
                     </div>
                 </div>
             </div>

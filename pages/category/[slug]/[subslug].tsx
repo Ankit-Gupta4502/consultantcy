@@ -9,7 +9,8 @@ import { item } from '../../../interface'
 import { useAppDispatch, useAppSelector } from '../../../hooks'
 import { getConsultantByIndustry } from '../../../redux/actions/SubSubCategoryAction'
 import { useRouter } from 'next/router'
-
+import { getIndustries } from "../../../redux/actions/IndustryAction"
+import Link from 'next/link'
 type consultantDetails = {
     id: number,
     consultantAudioFee: string,
@@ -23,57 +24,44 @@ type consultantDetails = {
         mobile?: string,
         slug: string
         thumbnail?: string,
-        id: number
-
+        id: number,
     }
+   
 }
 const expertpage = () => {
     const dispatch = useAppDispatch()
     const { slug, subslug } = useRouter().query
     const [search, setSearch] = React.useState("")
-    const { SubSubCategory: { consultants, loading } } = useAppSelector(state => state)
+    const { SubSubCategory: { consultants, loading }, IndustriesReducer: { categories } } = useAppSelector(state => state)
     useEffect(() => {
         if (slug && subslug) {
-            dispatch(getConsultantByIndustry(slug, subslug,search))
+            dispatch(getConsultantByIndustry(slug, subslug, search))
         }
-    }, [slug, subslug,search])
+
+    }, [slug, subslug, search])
+    useEffect(() => {
+        if (slug) {
+            dispatch(getIndustries(slug,))
+        }
+    }, [slug])
+
+
+console.log(categories);
+
 
     return (
         <div className="container">
             <div className='  grid md:grid-cols-[.8fr_3.2fr] gap-[23px]  py-[40px] items-start'>
                 <div className='rounded  border-2 border-[#ddd] cursor-pointer overflow-hidden '>
-                    <div className=' p-2 px-5 bg-[#F6F6F6] text-base'>
-                        Category
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Income Tax
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Franchise
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        GST
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food Processing
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food & Beverage
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Home Based Products
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
-                    <div className=' p-2 px-5 text-gray/70 text-base'>
-                        Food Processing
-                    </div>
-                    <div className='border-b-[1px] h-[1px] border-[#ddd]'></div>
+                    {
+                        categories.map((item: { id: number, name_english?: string, slug?: string }) => {
+                            return <Link href={`/category/${slug}/${item.slug}`} key={item.id} className={`block p-2 px-5 bg-[#F6F6F6] text-base border-b ${item?.slug===subslug?"text-primary":"text-black"} border-[#ddd]`}>
+                                {item?.name_english}
+                            </Link>
+                        })
+                    }
+
+
                 </div>
 
                 <div>
@@ -90,7 +78,7 @@ const expertpage = () => {
 
                         {
 
-                            consultants.map((item: consultantDetails) => {
+                            consultants?.map((item: consultantDetails) => {
                                 return <div className='border p-3 bg-white border-[#ddd] rounded-xl text-center overflow-hidden' key={item.id}>
                                     <div className='border w-[120px] h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
                                         <Image src={item.consultant.thumbnail ? `/basepath/${item.consultant.thumbnail}` : img3} alt="" />
@@ -110,7 +98,9 @@ const expertpage = () => {
                                         ₹{item.consultantAudioFee}/hourly
                                     </span>
                                     <div className='flex justify-between mt-4'>
-                                        <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                        <Link href={`/consultant/${item.consultant?.slug}`} >
+                                            <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                        </Link>
                                         <Button className='text-sm !px-2.7'>Book Now</Button>
 
                                     </div>

@@ -41,6 +41,8 @@ const expertcategory = () => {
                 <div className='rounded  border-2 border-[#ddd] cursor-pointer overflow-hidden '>
                     {
                         sectors.map((item: { name_english?: string, id: number, slug: string }) => {
+                            console.log(item)
+                            
                             return <Link href={`/category/${item.slug}`} key={item.id} className={` ${item.slug === slug ? "text-primary" : ""} block w-full p-2 px-5 bg-[#F6F6F6] text-base`}>
                                 {item?.name_english}
                             </Link>

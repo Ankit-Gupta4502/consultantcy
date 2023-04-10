@@ -1,6 +1,6 @@
 import axios from "axios"
 import { AppDispatch } from "../store"
-import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED, VERIFY_CONSULTANT_PENDING, VERIFY_CONSULTANT_FULFILLED, VERIFY_CONSULTANT_FAILED, CONSULTANT_LOGIN_PENDING, CONSULTANT_LOGIN_FULFILLED, CONSULTANT_LOGIN_FAILED } from "../Constant"
+import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED, VERIFY_CONSULTANT_PENDING, VERIFY_CONSULTANT_FULFILLED, VERIFY_CONSULTANT_FAILED, CONSULTANT_LOGIN_PENDING, CONSULTANT_LOGIN_FULFILLED, CONSULTANT_LOGIN_FAILED,LOG_OUT } from "../Constant"
 export const login = (mobile: string, password: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: "LOGIN_PENDING" })
@@ -100,4 +100,9 @@ export const loginConsultant = (mobile: string, password: string) => async (disp
     } catch (error) {
         dispatch({ type: CONSULTANT_LOGIN_FAILED, payload: error.response.data || {} })
     }
+}
+
+export const logout = () => (dispatch: AppDispatch) => {
+    localStorage.removeItem("iid_consultancy_user")
+    dispatch({ type: LOG_OUT })
 }

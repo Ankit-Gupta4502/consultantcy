@@ -6,13 +6,14 @@ import img from "../../public/images/iid-logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { FaAngleDown } from "react-icons/fa";
-import { LOG_OUT } from "../../redux/Constant";
 import { useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { AppDispatch, RootState } from "../../redux/store";
 import Button from "../UI/Button";
 import { BiChevronDown } from "react-icons/bi"
 import { getNavLinks } from "../../redux/actions/HomeAction";
+import { logout } from "../../redux/actions/AuthAction";
+
 interface navlinks {
   id: number,
   name?: string,
@@ -59,46 +60,46 @@ function TopHeader() {
               <div className="flex">
                 <div className="flex gap-5 py-2">
                   <div>
-                    <MdOutlineCall className="text-white/50" size={25} />
+                    <MdOutlineCall className="text-white" size={25} />
                   </div>
                   <div>
-                    <a className="text-white/50">1800-123-1234</a>
+                    <a className="text-white">1800-123-1234</a>
                   </div>
                 </div>
 
                 <div className="py-2 pl-4">
-                  <p className="text-white/50 mb-0">|</p>
+                  <p className="text-white mb-0">|</p>
                 </div>
 
                 <div className="flex gap-5 py-2 px-4">
                   <div>
-                    <MdEmail className="text-white/50" size={25} />
+                    <MdEmail className="text-white" size={25} />
                   </div>
                   <div>
-                    <a className="text-white/50">1800-123-1234</a>
+                    <a className="text-white">1800-123-1234</a>
                   </div>
                 </div>
               </div>
               <div>
                 <div className="flex py-2 gap-5 items-center">
-                  <Link href="/" className="text-white/50">
+                  <Link href="/" className="text-white">
                     Home
                   </Link>
-                  <Link href="#" className="text-white/50">
+                  <Link href="#" className="text-white">
                     About us
                   </Link>
-                  <Link href="/login" className="text-white/50">
+                  {!isAuth ? <Link href="/login" className="text-white">
                     Login/Register
-                  </Link>
-                  <div className="flex  items-center rounded-full border-2 border-white/50 p-2">
-                    <p className="text-white/50 mb-0">Download App</p>
-                    <div className="text-white/50 pl-4">
-                      <AiFillApple size={25} />
+                  </Link> : <div className="group relative"   >
+                    <span role="button" className="text-white">
+                      My Account
+                    </span>
+                    <div className="px-10 py-3  rounded-md absolute group-hover:opacity-100 transition-all duration-500   opacity-0 shadow-2xl space-y-3 bg-white top-10 z-20 ">
+                      <Link href="#" className="block " >Dashboard</Link>
+                      <span className="block" role="button" onClick={() => dispatch(logout())} >Log Out</span>
                     </div>
-                    <div className="text-white/50 pt-1">
-                      <FaGooglePlay size={20} />
-                    </div>
-                  </div>
+                  </div>}
+
                 </div>
               </div>
             </div>
@@ -156,16 +157,16 @@ function TopHeader() {
                 <div className="pt-10 p-16 px-[74px] grid gap-x-2 gap-y-3 items-start grid-cols-3" >
                   {
                     subCategories.category?.map((item, index) => {
-                      return index < 24 && <Link key={item.id} onClick={()=>setShowDrop(false)} href={`/category/${subCategories.slug}/${item.slug}`} className="text-black/70 transition-all duration-300 hover:text-primary hover:translate-x-1 text-sm "  >
+                      return index < 24 && <Link key={item.id} onClick={() => setShowDrop(false)} href={`/category/${subCategories.slug}/${item.slug}`} className="text-black/70 transition-all duration-300 hover:text-primary hover:translate-x-1 text-sm "  >
                         {item?.title}
                       </Link>
                     })
                   }
                   <div className="col-start-3" >
 
-                  <Link className=" text-primary font-semibold underline" onClick={()=>setShowDrop(false)}  href={`/category/${subCategories.slug}/all`} >
-                    View All
-                  </Link>
+                    <Link className=" text-primary font-semibold underline" onClick={() => setShowDrop(false)} href={`/category/${subCategories.slug}/all`} >
+                      View All
+                    </Link>
                   </div>
 
                 </div>
