@@ -26,7 +26,7 @@ type consultantDetails = {
         thumbnail?: string,
         id: number,
     }
-   
+
 }
 const expertpage = () => {
     const dispatch = useAppDispatch()
@@ -46,8 +46,6 @@ const expertpage = () => {
     }, [slug])
 
 
-console.log(categories);
-
 
     return (
         <div className="container">
@@ -55,7 +53,7 @@ console.log(categories);
                 <div className='rounded  border-2 border-[#ddd] cursor-pointer overflow-hidden '>
                     {
                         categories.map((item: { id: number, name_english?: string, slug?: string }) => {
-                            return <Link href={`/category/${slug}/${item.slug}`} key={item.id} className={`block p-2 px-5 bg-[#F6F6F6] text-base border-b ${item?.slug===subslug?"text-primary":"text-black"} border-[#ddd]`}>
+                            return <Link href={`/category/${slug}/${item.slug}`} key={item.id} className={`block p-2 px-5 bg-[#F6F6F6] text-base border-b ${item?.slug === subslug ? "text-primary" : "text-black"} border-[#ddd]`}>
                                 {item?.name_english}
                             </Link>
                         })
@@ -77,35 +75,36 @@ console.log(categories);
                     <div className='grid grid-cols-3 gap-4 mt-5'>
 
                         {
+                            consultants?.length ?
+                                consultants?.map((item: consultantDetails) => {
+                                    return <div className='border p-3 bg-white border-[#ddd] rounded-xl text-center overflow-hidden' key={item.id}>
+                                        <div className='border w-[120px] h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
+                                            <Image src={item.consultant.thumbnail ? `/basepath/${item.consultant.thumbnail}` : img3} alt="" />
 
-                            consultants?.map((item: consultantDetails) => {
-                                return <div className='border p-3 bg-white border-[#ddd] rounded-xl text-center overflow-hidden' key={item.id}>
-                                    <div className='border w-[120px] h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
-                                        <Image src={item.consultant.thumbnail ? `/basepath/${item.consultant.thumbnail}` : img3} alt="" />
-
-                                    </div>
-
-                                    <div className='flex items-center justify-center' >
-                                        <div className="icon-wrapper mx-2">
-
-                                            <FaStar color='yellow' />
                                         </div>
-                                        <span>4.5</span>
-                                    </div>
-                                    <h6 className='text-primary text-xl'>{item.consultant.name}</h6>
-                                    <p className='text-sm  capitalize '> {item.subCategory.name_english} </p>
-                                    <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[16px]'>
-                                        ₹{item.consultantAudioFee}/hourly
-                                    </span>
-                                    <div className='flex justify-between mt-4'>
-                                        <Link href={`/consultant/${item.consultant?.slug}`} >
-                                            <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
-                                        </Link>
-                                        <Button className='text-sm !px-2.7'>Book Now</Button>
 
+                                        <div className='flex items-center justify-center' >
+                                            <div className="icon-wrapper mx-2">
+
+                                                <FaStar color='yellow' />
+                                            </div>
+                                            <span>4.5</span>
+                                        </div>
+                                        <h6 className='text-primary text-xl'>{item.consultant.name}</h6>
+                                        <p className='text-sm  capitalize '> {item.subCategory.name_english} </p>
+                                        <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[16px]'>
+                                            ₹{item.consultantAudioFee}/hourly
+                                        </span>
+                                        <div className='flex justify-between mt-4'>
+                                            <Link href={`/consultant/${item.consultant?.slug}`} >
+                                                <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
+                                            </Link>
+                                            <Button className='text-sm !px-2.7'>Book Now</Button>
+
+                                        </div>
                                     </div>
-                                </div>
-                            })
+                                })
+                                : <h5 className='text-center col-start-2' >There is nothing to show</h5>
                         }
 
 

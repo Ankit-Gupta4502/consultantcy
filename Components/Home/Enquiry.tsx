@@ -14,7 +14,7 @@ import { handlePhoneValid } from '../../utils/utilities'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 
 const Enquiry = React.memo(() => {
-    const [formData, setFormData] = useState({ name: '', mobile: "", industry: "1", email: "" })
+    const [formData, setFormData] = useState({ name: '', mobile: "", industry: "", email: "" })
     const [errors, setErrors] = useState<{ name?: string, mobile?: string, email?: string }>({})
     const [loading, setLoading] = useState(false)
     const dispatch = useAppDispatch()
@@ -45,9 +45,6 @@ const Enquiry = React.memo(() => {
             })
     }
 
-    React.useEffect(() => {
-        dispatch(getCategoryType())
-    }, [])
 
 
     return (
@@ -82,9 +79,13 @@ const Enquiry = React.memo(() => {
                                             <span className="text-danger block my-3"> {errors?.mobile} </span>
                                         </div>
                                     </div>
-                                    <Select className="!bg-primary !rounded-md !text-white cursor-pointer" iconStyles="!text-white" value={formData.industry} name='gender' onChange={handleForm}  >
+                                    <Select className="!bg-primary !rounded-md !text-white cursor-pointer" iconStyles="!text-white" value={formData.industry} name='industry' onChange={handleForm}  >
                                         <option value="">Select Industry</option>
-                                        <option value="1">Dummy</option>
+                                        {
+                                            categoryTypes?.map?.((item)=>{
+                                                return <option key={item.id} value={item.id}> {item.type} </option>
+                                            })
+                                        }
 
                                     </Select>
                                     <Button disabled={loading} onClick={handleSubmit} className='bg-white text-primary text-xs'>Send Enquery</Button>
@@ -94,9 +95,7 @@ const Enquiry = React.memo(() => {
                     </div>
 
                 </div>
-                <div className=' border rounded-tl-[80px] rounded-br-[80px] border-[#dddddd] overflow-hidden grid md:grid-cols-[1fr] w-full h-full bg-[#dddd] bottom-[-20px] right-[-20px] absolute z-[-1]'>
-                    hi
-                </div>
+               
             </div>
 
         </div>

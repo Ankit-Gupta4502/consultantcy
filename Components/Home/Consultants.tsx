@@ -38,7 +38,7 @@ const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
         }
     };
     return (
-        <div className={`${value == "consult" ? "bg-light-primary pt-[50px]" : "bg-white pt-[100px]"}   pb-[50px] overflow-hidden`}>
+        <div className={`${value == "consult" ? "bg-white pt-[100px]" : " bg-light-primary pt-[50px]"}   pb-[50px] overflow-hidden`}>
             <div className="container ">
                 <div className=' flex items-start justify-between '>
                     <div className='flex w-3/6 flex-col justify-center'>

@@ -117,10 +117,10 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                        
                         <div className='text-center'>
 
-                            <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
+                            {/* <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
 
                                 <Button className="rounded-[30px] text-xs py-3" >View All</Button>
-                            </Link>
+                            </Link> */}
                         </div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                  {topConsultants?.length &&   <Carousel className='my-10'
                         swipeable={false}
                         draggable={false}
-                        showDots={true}
+                        showDots={false}
                         responsive={responsive2}
                         ssr={true}
                         infinite={true}

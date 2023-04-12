@@ -114,14 +114,6 @@ function TopHeader() {
           </Link>
 
           <div className="flex space-x-10 items-center ">
-            <Link className=" cursor-pointer text-gray/70" href="/consultant-dashboard">
-              Consultant
-            </Link>
-
-            <Link className=" cursor-pointer text-gray/70" href="#">
-              Services
-            </Link>
-
             <div className="flex    items-center space-x-2 " onMouseLeave={() => setShowDrop(false)} onMouseOver={() => setShowDrop(true)}>
               <span className=" cursor-pointer text-gray/70" >
                 Shop
@@ -173,12 +165,6 @@ function TopHeader() {
 
               </div>
             </div>
-
-
-            <Link className=" cursor-pointer text-gray/70" href="#">
-              {" "}
-              Courses
-            </Link>
             <Button >Book Consultant</Button>
           </div>
         </div>

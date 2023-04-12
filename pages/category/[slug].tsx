@@ -41,8 +41,6 @@ const expertcategory = () => {
                 <div className='rounded  border-2 border-[#ddd] cursor-pointer overflow-hidden '>
                     {
                         sectors.map((item: { name_english?: string, id: number, slug: string }) => {
-                            console.log(item)
-                            
                             return <Link href={`/category/${item.slug}`} key={item.id} className={` ${item.slug === slug ? "text-primary" : ""} block w-full p-2 px-5 bg-[#F6F6F6] text-base`}>
                                 {item?.name_english}
                             </Link>
@@ -66,14 +64,17 @@ const expertcategory = () => {
                     <div className='grid grid-cols-4 gap-4 mt-5'>
 
                         {
-                            categories?.map?.((item: { name_english?: string, id: number, slug?: string, avatar_english?: string }) => {
-                                return <div key={item.id} className='border-[1px] border-[#EEEEEE] rounded-xl px-3 py-6 shadow-lg text-center'>
+                            categories.length ?
+                                categories?.map?.((item: { name_english?: string, id: number, slug?: string, avatar_english?: string, subCategory: { slug?: string } }) => {
 
-                                    <Image src={`/basepath/${item?.avatar_english}`} className='rounded-full  object-cover w-14  h-14 mb-3 block mx-auto' width={100} height={150} alt="" />
+                                    return <div key={item.id} className='border-[1px] border-[#EEEEEE] rounded-xl px-3 py-6 shadow-lg text-center'>
 
-                                    <Link href={`/category/${slug}/${item.slug}`} className='text-center'>{item.name_english}</Link>
-                                </div>
-                            })
+                                        <Image src={`/basepath/${item?.avatar_english}`} className='rounded-full  object-cover w-14  h-14 mb-3 block mx-auto' width={100} height={150} alt="" />
+
+                                        <Link href={`/category/${item?.subCategory?.slug}/${item.slug}`} className='text-center'>{item.name_english}</Link>
+                                    </div>
+                                })
+                                : <h5 className='text-center col-start-2' >There is nothing to show</h5>
                         }
                     </div>
                 </div>

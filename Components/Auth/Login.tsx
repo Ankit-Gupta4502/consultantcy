@@ -6,6 +6,7 @@ import { verfiyMobile, login, verifyConsultant, loginConsultant } from '../../re
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 const Login = () => {
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState("")
@@ -76,7 +77,7 @@ const Login = () => {
                     <Button className='font-semibold w-full' disabled={loading} onClick={Object.keys(auth).length ? handleLogin : verfiyUser} >{Object.keys(auth).length ? "Login" : "Verify Mobile"}</Button>
                 </div>
                 <div className=' text-end mt-5'>
-                    <h6 className='cursor-pointer'>Forget Password</h6>
+                    <Link href="/forget-password" className='cursor-pointer'>Forget Password</Link>
                 </div>
             </div>
         </div>
