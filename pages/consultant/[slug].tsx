@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaStar } from "react-icons/fa"
 import { AiOutlineHome } from "react-icons/ai"
 import img3 from "../../public/images/Rectangle 19.png"
@@ -18,6 +18,9 @@ import { FaHandshake } from "react-icons/fa"
 import { BiRupee } from "react-icons/bi"
 import CustomButton from '../../Components/Enquiry/CustomButton'
 import Button from '../../Components/UI/Button'
+import { getConsultantSlot, getReviews } from '../../redux/actions/ConsultantAction'
+import moment from 'moment'
+
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -35,6 +38,9 @@ const responsive = {
         slidesToSlide: 1 // optional, default to 1.
     }
 };
+
+
+
 type constultantDetailType = {
     id: number,
     name?: string,
@@ -44,7 +50,7 @@ type constultantDetailType = {
     state?: string,
     pincode?: string,
     thumbnail?: string,
-    consultant_slots?: { id?: number, dayIndex?: string,}[],
+    consultant_slots?: { id?: number, dayIndex?: string, }[],
     consultant_sectors?: {
         id: number, subCategory?: { id: number, name_english?: string }, subSubCategory: {
             id: number,
@@ -72,18 +78,52 @@ type industryType = {
         id: number, title_english?: string
     }
 }
+
+type consultantSlotDetails = {
+    id: number,
+    dateIndex: Date,
+    consultant_slots: { startTime: string, endTime: string, dayIndex: string, id: number, timezone: string }[]
+}
+
+
+
 const expertdetail = () => {
     const dispatch: AppDispatch = useDispatch()
     const { slug } = useRouter().query
-    const { IndexReducer: { consultantDetails } } = useSelector((state: RootState) => state)
+    const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings } } = useSelector((state: RootState) => state)
+    const [active, setActive] = useState<number>(0)
 
     useEffect(() => {
         if (slug) {
             dispatch(getConsultantDetails(slug))
+            dispatch(getReviews(slug))
         }
     }, [slug])
 
+    useEffect(() => {
+        if (slug) {
+            dispatch(getConsultantSlot(slug, active || ""))
+        }
+    }, [slug, active])
+
     const consultantDetail: constultantDetailType = consultantDetails
+    const consultantSlotsDetail: consultantSlotDetails[] = consultantSlots
+    const today = moment().format('YYYY-MM-DD')
+    const slots = consultantSlotsDetail?.map?.(item => item.consultant_slots)?.flat() || []
+
+
+    const handleDates = (date: string | Date) => {
+        const formatDate = moment(date).format('YYYY-MM-DD')
+        switch (formatDate) {
+            case today:
+                return "Today"
+            case moment(date).add(1, 'day').format("YYYY-MM-DD"):
+                return "Tomorrow"
+            default:
+                return `${moment(formatDate).format("DD")} , ${moment(formatDate).format("dddd").substring(0, 3)} ${moment(formatDate).format("MMM")}
+                `
+        }
+    }
 
     return (
         <div className=' bg-[#D9D9D94D]'>
@@ -105,7 +145,7 @@ const expertdetail = () => {
 
                                     <div>
                                         <span className="font-bold text-xl">
-                                            200
+                                            {ratings?.length}
                                         </span>
                                         <span className="block text-gray/50">
                                             happy clients
@@ -113,20 +153,7 @@ const expertdetail = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-start justify-between">
-                                    <div className='text-primary' >
-                                        <RiMessage2Fill size={24} />
-                                    </div>
-
-                                    <div>
-                                        <span className="font-bold text-xl">
-                                            200
-                                        </span>
-                                        <span className="block text-gray/50">
-                                            happy clients
-                                        </span>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                         </div>
@@ -256,14 +283,13 @@ const expertdetail = () => {
                             </span>
                         </div>
 
-                        <div className='mt-10 ' >
+                        <div className='relative' >
                             <Carousel
                                 swipeable={false}
                                 draggable={false}
-                                showDots={true}
+                                showDots={false}
                                 responsive={responsive}
                                 ssr={true}
-                                sliderClass='space-x-5'
                                 infinite={true}
                                 autoPlaySpeed={1000}
                                 keyBoardControl={true}
@@ -272,36 +298,61 @@ const expertdetail = () => {
                                 containerClass={`carousel-container  py-4`}
                                 removeArrowOnDeviceType={["tablet", "mobile"]}
                                 dotListClass={`custom-dot-list-style !bottom-[-30px] `}
-                                itemClass="relative z-40 carousel-item-padding-40-px"
+                                itemClass="relative px-1 z-40 carousel-item-padding-40-px"
                                 arrows={false}
                                 renderButtonGroupOutside={true}
-                                renderDotsOutside={true}
-                                customButtonGroup={<CustomButton containerClass=' bottom-2 left-[0] z-[1]' rightbtnStyle='!bg-transparent text-primary' leftbtnStyle='!bg-transparent text-primary ' />}
+                                
+                                customButtonGroup={<CustomButton containerClass=' !justify-end top-[-10px] left-[0] z-[1]' rightbtnStyle='!bg-transparent text-primary' leftbtnStyle='!bg-transparent text-primary ' />}
                             >
-                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                    1
-                                </div>
-
-                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                    2
-                                </div>
-
-
-                                <div className=' border border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                    3
-                                </div>
-
-
-                                <div className=' border-2 border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                    4
-                                </div>
-
-
+                                {
+                                    consultantSlotsDetail?.map?.((item) => {
+                                        return <div key={item.id} onClick={() => setActive(prev => prev === item.id ? 0 : item.id)} role='button' className={`text-center transition-all duration-300   py-1 ${active === item.id ? "text-white bg-primary" : "border border-primary text-primary"}  rounded-md`} >
+                                            <span className='text-xs  font-bold'  > {handleDates(item.dateIndex)} </span>
+                                            <small className='block text-xs' >
+                                                {item.consultant_slots.length} Slots
+                                            </small>
+                                        </div>
+                                        
+                                    })
+                                }
                             </Carousel>
+                        </div>
 
-                            <Button className='block mx-auto' >
-                                Book Your Slot
-                            </Button>
+                        <div>
+                            <h5 className='mb-2' >Morning</h5>
+                            <div className='!mt-0 grid grid-cols-3 gap-3' >
+                                {
+                                    slots.filter(item => item.timezone === "morning")?.map?.((item) => {
+                                        return <div key={item.id} className='text-xs text-primary border border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                            {item.startTime} - {item.endTime}
+                                        </div>
+                                    })
+                                }
+                            </div>
+                        </div>
+
+                        <div>
+                            <h5 className='mb-2' >Evening</h5>
+                            <div className='!mt-0 grid grid-cols-3 gap-3' >
+                                {
+                                    slots.filter(item => item.timezone === "evening")?.map?.((item) => {
+                                        return <div key={item.id} className='text-xs text-primary border border-primary rounded-md h-[50px] flex items-center justify-center' >
+                                            {item.startTime} - {item.endTime}
+                                        </div>
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <div className="flex gap-2 items-center justify-between">
+                        <Button size='sm' className='block mx-auto !text-xs' >
+                            Book Video Slot
+                        </Button>
+
+                        <Button size='sm' className='block mx-auto !text-xs' variant='outlined' >
+                            Book Audio Slot
+                        </Button>
+
+
                         </div>
 
                     </div>

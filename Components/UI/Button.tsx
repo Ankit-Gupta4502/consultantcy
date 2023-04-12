@@ -21,7 +21,7 @@ const Button = ({
 }: propType) => {
   return (
     <button
-      className={` ${className} ${size === "md" ? "px-8" : "px-6"
+      className={` ${className} ${size === "md" ? "px-8 " : "px-3 text-sm "
         } py-2 rounded-3xl  text-sm font-bold ${disabled?"!text-white !bg-primary/50":""} ${variant === "filled"
           ? "text-white bg-primary"
           : "text-primary bg-white border border-primary"
