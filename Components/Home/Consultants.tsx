@@ -12,9 +12,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getConsultants } from '../../redux/actions/HomeAction';
 import ConsultantCard from '../Layout/ConsultantCard';
 interface IPROPS { value?: string }
-const Consultant = memo(({ value = "" }: IPROPS) => {
+const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
     const dispatch = useAppDispatch()
-    const { IndexReducer: { consultants } } = useAppSelector((state ) => state)
+    const { IndexReducer: { consultants } } = useAppSelector((state) => state)
 
     useEffect(() => {
         dispatch(getConsultants())
@@ -38,7 +38,7 @@ const Consultant = memo(({ value = "" }: IPROPS) => {
         }
     };
     return (
-        <div className="bg-white pt-[100px] pb-[50px] overflow-hidden">
+        <div className={`${value == "consult" ? "bg-light-primary pt-[50px]" : "bg-white pt-[100px]"}   pb-[50px] overflow-hidden`}>
             <div className="container ">
                 <div className=' flex items-start justify-between '>
                     <div className='flex w-3/6 flex-col justify-center'>
@@ -47,7 +47,7 @@ const Consultant = memo(({ value = "" }: IPROPS) => {
                         <p className=' text-gray/50 font-normal mb-14 text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                             tempor incididunt ut labore et dolore magna aliqua.</p>
                     </div>
-                    
+
                     <div className='text-center'>
 
                         <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
@@ -77,8 +77,8 @@ const Consultant = memo(({ value = "" }: IPROPS) => {
 
                 >
                     {
-                        consultants?.map?.((item: item) => {                            
-                            return <ConsultantCard key={item.id} />
+                        consultants?.map?.((item: item) => {
+                            return <ConsultantCard key={item.id} value="consult" />
                         })
                     }
 

@@ -62,7 +62,7 @@ const Enquiry = React.memo(() => {
                         <div className='bg-primary flex flex-col justify-center  '>
                             <div className="form-wrapper max-w-[441px] w-full">
                                 <h2 className='text-white'>Any Enquiry</h2>
-                                <p className='text-gray/70 mb-7 text-white ' >
+                                <p className=' mb-7 text-white ' >
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                                     tempor incididunt.
                                 </p>

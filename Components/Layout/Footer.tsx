@@ -2,8 +2,8 @@ import React from 'react'
 import Image from 'next/image'
 import logo from "../../public/images/iid-logo.png"
 import Link from 'next/link'
-import {BsFacebook} from "react-icons/bs"
-import {FaLinkedinIn,FaTwitter} from "react-icons/fa"
+import { BsFacebook } from "react-icons/bs"
+import { FaLinkedinIn, FaTwitter } from "react-icons/fa"
 const Footer = () => {
     return (
         <footer className="bg-slate relative">
@@ -18,115 +18,107 @@ const Footer = () => {
                     </div>
 
                     <div className="link-wrapper md:border-r md:border-[#DDDDDD]  pl-[26px] pr-[58px]">
-                        <h5 className=' font-semibold mb-[15px]'>Lorem Impsum</h5>
+                        <h5 className=' font-semibold mb-[15px]'>Trending Services</h5>
                         <div className="space-y-2">
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Income Tax
                             </Link>
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Gst Registration
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Food Processing
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Medical Services
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Automobile
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                More 150+
                             </Link>
 
 
-                            <Link href="#" className='text-gray/70 block' >
-                                Home
-                            </Link>
+
                         </div>
                     </div>
 
 
                     <div className="link-wrapper md:border-r md:border-[#DDDDDD]  pl-[26px] pr-[58px]">
-                        <h5 className=' font-semibold mb-[15px]'>Lorem Impsum</h5>
+                        <h5 className=' font-semibold mb-[15px]'>Explore More</h5>
                         <div className="space-y-2">
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                About Us
                             </Link>
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Contact Us
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Privacy Policy
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Terms & Condition
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Feedback
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Enquiry
                             </Link>
 
 
-                            <Link href="#" className='text-gray/70 block' >
-                                Home
-                            </Link>
+
                         </div>
                     </div>
 
                     <div className="link-wrapper md:border-r md:border-[#DDDDDD]  pl-[26px] pr-[58px]">
-                        <h5 className=' font-semibold mb-[15px]'>Lorem Impsum</h5>
+                        <h5 className=' font-semibold mb-[15px]'>More Services</h5>
                         <div className="space-y-2">
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                GST Registration
                             </Link>
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Import Export
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Pan Registration
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Tan Registration
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
-                                Home
-                            </Link>
-
-                            <Link href="#" className='text-gray/70 block' >
-                                Home
+                                Fassai Registration
                             </Link>
 
 
-                            <Link href="#" className='text-gray/70 block' >
-                                Home
-                            </Link>
+
+
+
                         </div>
                     </div>
                 </div>
                 <div className="foot-mark py-[18px] flex  md:justify-between md:flex-row flex-col">
                     <span className='text-gray/70'>Copyright © 2022 IID Mart. All Rights Reserved.</span>
                     <div className="icons-wrapper flex space-x-2 mt-3 justify-center md:justify-start md:mt-0">
-                            <BsFacebook color='#3b5998' size={32} />
-                            <div className='w-[35px] h-[35px] grid place-items-center rounded-full bg-[#0077b5]' >
-                                    <FaLinkedinIn color='#fff' size={15} />
-                            </div>
-                            <div className='w-[35px] h-[35px] grid place-items-center rounded-full bg-[#00acee]' >
-                                    <FaTwitter color='#fff' size={15} />
-                            </div>                            
+                        <BsFacebook color='#3b5998' size={32} />
+                        <div className='w-[35px] h-[35px] grid place-items-center rounded-full bg-[#0077b5]' >
+                            <FaLinkedinIn color='#fff' size={15} />
+                        </div>
+                        <div className='w-[35px] h-[35px] grid place-items-center rounded-full bg-[#00acee]' >
+                            <FaTwitter color='#fff' size={15} />
+                        </div>
                     </div>
                 </div>
             </div>

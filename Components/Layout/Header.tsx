@@ -114,7 +114,7 @@ function TopHeader() {
           </Link>
 
           <div className="flex space-x-10 items-center ">
-            <Link className=" cursor-pointer text-gray/70" href="#">
+            <Link className=" cursor-pointer text-gray/70" href="/consultant-dashboard">
               Consultant
             </Link>
 
