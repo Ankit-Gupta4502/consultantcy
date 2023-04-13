@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from 'next/image'
 import John from "../../public/images/john.png"
 import { BiCategoryAlt } from 'react-icons/bi'
 import { FiCheckCircle } from "react-icons/fi"
 import { AiFillStar, AiOutlineVideoCamera } from "react-icons/ai"
 import Link from 'next/link'
+import { BiRupee } from "react-icons/bi"
 import { VscCallIncoming } from "react-icons/vsc"
-const Consultant = ({ name = "", sector = '', experience = "" }: { name?: string, sector?: string, experience?: string }) => {
+import { modalDataType } from '../../pages/consultants'
+import { Dispatch, SetStateAction } from 'react'
+import {consultantInfoType} from "../../pages/consultants"
+type cardProps = {
+  name?: string,
+  sector?: string,
+  experience?: string,
+  fee: string | number,
+  slug: string,
+  setIsOpen: Function,
+  rating?: number | string,
+  setConsultantInfo?: Dispatch<SetStateAction<consultantInfoType>>,
+  setModalData?: Function,
+  slots: modalDataType[],
+  id: number
+}
+const Consultant = React.memo(({ name = "", sector = '', experience = "", fee, slug, setIsOpen, rating, setConsultantInfo, setModalData, slots, id }: cardProps) => {
   return (
     <div className="py-[15px]  rounded-[10px] pl-11 pr-9 border border-[#D9D9D9] ">
 
@@ -39,34 +56,52 @@ const Consultant = ({ name = "", sector = '', experience = "" }: { name?: string
                   <AiFillStar size={20} className=' text-yellow-300 ' />
                   <span>
 
-                    4.5
+                    {rating}
                   </span>
                 </div>
-                <div className="bg-gray/5 rounded-[30px] px-4 py-1 border border-[#ddd] ">
-                  600/hourly
+                <div className="bg-gray/5 flex items-center text-sm font-semibold rounded-[30px] px-4 py-1 border border-[#ddd] ">
+                  <span className='inline-block' >
+                    <BiRupee size={16} />
+                  </span>
+                  <span>
+                    {fee}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className='flex flex-col justify-between items-end' >
-          <Link href='#' className='underline text-primary' >
+          <Link href={`/consultant/${slug}`} className='underline text-primary' >
             View Profile
           </Link>
 
 
           <div className="flex items-center space-x-4">
-            <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center border text-primary bg-white border-primary'>
+            <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center border text-primary bg-white border-primary' onClick={() => {
+              setIsOpen(true)
+              setModalData(slots)
+              setConsultantInfo({
+                consultancyType:"video",
+                id
+              })
+            }} >
               <AiOutlineVideoCamera />
               <span className='text-sm' >
-
                 Video Call
               </span>
             </button>
 
-            <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center  text-white bg-primary'>
+            <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center  text-white bg-primary' onClick={() => {
+              setIsOpen(true)
+              setModalData(slots)
+              setConsultantInfo({
+                consultancyType:"audio",
+                id
+              })
+            }}>
               <VscCallIncoming />
-              <span className='text-sm' >
+              <span className='text-sm'  >
 
                 Audio Call
               </span>
@@ -79,6 +114,6 @@ const Consultant = ({ name = "", sector = '', experience = "" }: { name?: string
 
     </div>
   )
-}
+})
 
 export default Consultant

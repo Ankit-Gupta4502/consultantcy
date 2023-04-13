@@ -22,10 +22,10 @@ export const getReviews = (slug: string | string[]) => async (dispatch: AppDispa
     }
 }
 
-export const getAllConsultants = () => async (dispatch: AppDispatch) => {
+export const getAllConsultants = (search: string = "", sectorId: string = "", industryId: string = '', sort: string = "") => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: GET_ALL_CONSULTANTS_PENDING })
-        const response = await axios('/api/mobile/v1/get-consultants')
+        const response = await axios(`/api/mobile/v1/get-consultants?search=${search}&sector=${sectorId}&industry=${industryId}&sort=${sort}`)
         dispatch({ type: GET_ALL_CONSULTANTS_FULFILLED, payload: response.data?.data })
     } catch (error) {
         dispatch({ type: GET_ALL_CONSULTANTS_REJECTED, error: error.response.data })

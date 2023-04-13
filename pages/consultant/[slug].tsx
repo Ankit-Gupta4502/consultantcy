@@ -134,7 +134,7 @@ const expertdetail = () => {
                         <div className='bg-primary/5 p-[14px] mt-6 rounded-[5px]' >
 
                             <span className='py-2 flex items-center bg-[#F1F1F1] text-[#202020B2] text-md  mx-auto w-max rounded-3xl px-4'>
-                                <BiRupee />  {consultantDetail.consultant_profile?.audioFee}
+                                <BiRupee />  {consultantDetail.consultant_profile?.videoFee}
                             </span>
 
                             <div className="mt-8">
@@ -233,7 +233,7 @@ const expertdetail = () => {
                             </span>
                         </div>
                         <span className='text-white flex items-center text-sm' >
-                            <BiRupee />    {consultantDetail.consultant_profile?.audioFee}
+                            <BiRupee />    {consultantDetail.consultant_profile?.videoFee}
                         </span>
                     </div>
 
@@ -320,7 +320,7 @@ const expertdetail = () => {
 
                         <div>
                             <h5 className='mb-2' >Morning</h5>
-                            <div className='!mt-0 grid grid-cols-3 gap-3' >
+                            <div className='!mt-0 grid grid-cols-2 gap-3' >
                                 {
                                     slots.filter(item => item.timezone === "morning")?.map?.((item) => {
                                         return <div key={item.id} className='text-xs text-primary border border-primary rounded-md h-[50px] flex items-center justify-center' >

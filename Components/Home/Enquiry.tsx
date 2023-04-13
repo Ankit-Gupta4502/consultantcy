@@ -82,20 +82,20 @@ const Enquiry = React.memo(() => {
                                     <Select className="!bg-primary !rounded-md !text-white cursor-pointer" iconStyles="!text-white" value={formData.industry} name='industry' onChange={handleForm}  >
                                         <option value="">Select Industry</option>
                                         {
-                                            categoryTypes?.map?.((item)=>{
+                                            categoryTypes?.map?.((item) => {
                                                 return <option key={item.id} value={item.id}> {item.type} </option>
                                             })
                                         }
 
                                     </Select>
-                                    <Button disabled={loading} onClick={handleSubmit} className='bg-white text-primary text-xs'>Send Enquery</Button>
+                                    <Button disabled={loading} onClick={handleSubmit} className=' !bg-white !text-primary text-xs'>Send Enquery</Button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
-               
+
             </div>
 
         </div>

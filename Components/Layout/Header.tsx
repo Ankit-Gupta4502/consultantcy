@@ -113,7 +113,11 @@ function TopHeader() {
             <Image src={img} alt="" />
           </Link>
 
+
           <div className="flex space-x-10 items-center ">
+          <Link href="/consultants" className=" text-gray/70" >
+            Consultants
+          </Link>
             <div className="flex    items-center space-x-2 " onMouseLeave={() => setShowDrop(false)} onMouseOver={() => setShowDrop(true)}>
               <span className=" cursor-pointer text-gray/70" >
                 Shop

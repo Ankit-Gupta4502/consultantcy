@@ -24,6 +24,7 @@ const IndustriesReducer = (state = initialState, action: actionsFace) => {
                     categories: Array.isArray(action.payload) ? action.payload : []
                 }
             }
+
         case GET_INDUSTRIES_REJECTED:
             {
                 return {
