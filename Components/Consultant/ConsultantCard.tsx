@@ -7,23 +7,28 @@ import { AiFillStar, AiOutlineVideoCamera } from "react-icons/ai"
 import Link from 'next/link'
 import { BiRupee } from "react-icons/bi"
 import { VscCallIncoming } from "react-icons/vsc"
-import { modalDataType } from '../../pages/consultants'
 import { Dispatch, SetStateAction } from 'react'
-import {consultantInfoType} from "../../pages/consultants"
+import { consultantInfoType, consultantExpertiseType, sectorType } from "../../pages/consultants"
 type cardProps = {
   name?: string,
   sector?: string,
   experience?: string,
-  fee: string | number,
+  audiofee: number,
   slug: string,
   setIsOpen: Function,
   rating?: number | string,
   setConsultantInfo?: Dispatch<SetStateAction<consultantInfoType>>,
   setModalData?: Function,
-  slots: modalDataType[],
-  id: number
+  id: number,
+  videofee: number,
+  setConsultantExpertise: Dispatch<SetStateAction<consultantExpertiseType>>,
+  sectors: { id?: number, name_english?: string }[],
+  industry: { id?: number, name_english?: string, subCategoryId?: number }[]
+  slots: any[]
 }
-const Consultant = React.memo(({ name = "", sector = '', experience = "", fee, slug, setIsOpen, rating, setConsultantInfo, setModalData, slots, id }: cardProps) => {
+const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry }: cardProps) => {
+  console.log(slots);
+  
   return (
     <div className="py-[15px]  rounded-[10px] pl-11 pr-9 border border-[#D9D9D9] ">
 
@@ -64,7 +69,7 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", fee, s
                     <BiRupee size={16} />
                   </span>
                   <span>
-                    {fee}
+                    {audiofee}
                   </span>
                 </div>
               </div>
@@ -80,10 +85,19 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", fee, s
           <div className="flex items-center space-x-4">
             <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center border text-primary bg-white border-primary' onClick={() => {
               setIsOpen(true)
-              setModalData(slots)
+
               setConsultantInfo({
-                consultancyType:"video",
-                id
+                consultancyType: "video",
+                id,
+                amount: videofee,
+                 slots
+              })
+              setConsultantExpertise(prev => {
+                return {
+                  ...prev,
+                  sector: sectors,
+                  industry
+                }
               })
             }} >
               <AiOutlineVideoCamera />
@@ -94,10 +108,18 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", fee, s
 
             <button className='flex px-3 py-[6px] space-x-1 rounded-[30px] items-center  text-white bg-primary' onClick={() => {
               setIsOpen(true)
-              setModalData(slots)
               setConsultantInfo({
-                consultancyType:"audio",
-                id
+                consultancyType: "audio",
+                id,
+                amount: audiofee,
+                 slots
+              })
+              setConsultantExpertise(prev => {
+                return {
+                  ...prev,
+                  sector: sectors,
+                  industry
+                }
               })
             }}>
               <VscCallIncoming />

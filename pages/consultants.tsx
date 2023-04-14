@@ -6,6 +6,20 @@ import { getAllConsultants } from '../redux/actions/ConsultantAction'
 import BookSlotModal from '../Components/Consultant/BookSlotModal'
 import { getSectors } from '../redux/actions/HomeAction'
 import { getIndustries } from '../redux/actions/IndustryAction'
+import { getUserWallet } from '../redux/actions/UserAction'
+import { toast } from "react-toastify"
+
+export interface consultantSlotType {
+    dateIndex?: string,
+    id: number,
+    consultant_slots: {
+        startTime: string,
+        endTime: string,
+        slotDateId: string,
+        id: number,
+        timeZone?:"morning"|"evening"
+    }[]
+}
 type consultantType = {
     id: number,
     name: string,
@@ -17,35 +31,36 @@ type consultantType = {
         comment?: string,
         id: number
     }[],
-    consultant_slots: {
-        id: number,
-        startTime?: string,
-        endTime?: string,
-        timeZone?: string
-    }[]
+    consultant_slote_dates: consultantType[]
 }
 type rating = {
     rating?: number,
     comment?: string,
     id: number
 }[]
-type sectorType = {
+export type sectorType = {
     subCategory: { id: number, name_english: string }
 }[]
-export type modalDataType = {
-    id?: number,
-    startTime?: string,
-    endTime?: string,
-    timeZone?: string
-}
+export type industryType = {
 
-export type consultantInfoType = {
+}
+export type slotsType = {
+    sector: string,
+    industry: string
+}
+export interface consultantInfoType {
     consultancyType: "audio" | "video" | "",
-    id: number
+    id: number,
+    amount: number,
+    slots?: consultantSlotType[]
+}
+export type consultantExpertiseType = {
+    sector: { id?: number, name_english?: string }[],
+    industry: { id?: number, name_english?: string, subCategoryId?: number }[]
 }
 const consultants = () => {
     const dispatch = useAppDispatch()
-    const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries } } = useAppSelector(state => state)
+    const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
     const [isOpen, setIsOpen] = useState(false)
     const [filter, setFilter] = useState<{ search: string, sector: string, industry: string, sort: string }>({
         search: "",
@@ -53,12 +68,14 @@ const consultants = () => {
         industry: "",
         sort: ""
     })
-    const [modalData, setModalData] = useState<modalDataType[]>([])
     const [consultantInfo, setConsultantInfo] = useState<consultantInfoType>({
         consultancyType: '',
-        id: 0
+        id: 0,
+        amount: 0,
+        slots:[]
     })
-    const [slot, setSlot] = useState<modalDataType>({})
+    const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
+    const [consultantExpertise, setConsultantExpertise] = useState<consultantExpertiseType>({ sector: [], industry: [] })
     const allConsultants: consultantType[] = consultants || []
     useEffect(() => {
         dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort))
@@ -84,6 +101,37 @@ const consultants = () => {
         return sector.map((item) => item?.subCategory?.name_english).join(',')
     }, [])
 
+    useEffect(() => {
+        if (slot.sector) {
+            setConsultantExpertise(prev => {
+                return { ...prev, industry: prev.industry.filter((item) => item.subCategoryId === parseInt(slot.sector)) }
+            })
+            setSlot(prev => { return { ...prev, industry: "" } })
+        }
+        if (!slot.sector) {
+            setSlot(prev => { return { ...prev, industry: "" } })
+        }
+
+    }, [slot.sector])
+
+    useEffect(() => {
+        if (isAuthentiCated) {
+            dispatch(getUserWallet(auth?.token))
+        }
+    }, [isAuthentiCated])
+
+
+    const getSectorsAndIndustry = useCallback((arr: any[], key: string) => {
+        return arr.map((item) => item[key])
+    }, [])
+    const handleBooking = () => {
+        if (consultantInfo.amount > walletAmount) {
+            toast.error("Insufficient Wallet Amount Please Top Up Your Wallet")
+        }
+    }
+   console.log(consultantInfo.slots);
+   
+
     return (
         <div className='py-16 bg-[#1F51FF0F] ' >
             <div className="container">
@@ -97,20 +145,24 @@ const consultants = () => {
                                         name={item.name}
                                         sector={concatArr(item.consultant_sectors)}
                                         experience={item.consultant_profile?.workExperience}
-                                        fee={item?.consultant_profile?.videoFee}
+                                        audiofee={item?.consultant_profile?.audioFee}
+                                        videofee={item?.consultant_profile?.videoFee}
                                         rating={countRating(item.user_reviews) || 0}
                                         slug={item.slug} setIsOpen={setIsOpen}
-                                        setModalData={setModalData}
                                         setConsultantInfo={setConsultantInfo}
-                                        slots={item.consultant_slots}
+                                        slots={item.consultant_slote_dates}
                                         id={item.id}
+                                        sectors={getSectorsAndIndustry(item.consultant_sectors, 'subCategory')}
+                                        industry={getSectorsAndIndustry(item.consultant_sectors, 'subSubCategory')}
+                                        setConsultantExpertise={setConsultantExpertise}
                                     />
                                 }) : <span className='text-center block mx-auto'>No Consultants Found</span>
                         }
 
                     </div>
                     <ConsultantFilter industries={industries} filter={filter} setFilter={setFilter} sectors={categories} />
-                    <BookSlotModal slot={slot} modalData={modalData} setSlotId={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} />
+                    <BookSlotModal handleBooking={handleBooking
+                    } sectors={consultantExpertise.sector} industries={consultantExpertise.industry} slot={slot} amount={consultantInfo.amount} modalData={consultantInfo.slots} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} />
                 </div>
             </div>
         </div>

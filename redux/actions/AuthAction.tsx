@@ -106,3 +106,4 @@ export const logout = () => (dispatch: AppDispatch) => {
     localStorage.removeItem("iid_consultancy_user")
     dispatch({ type: LOG_OUT })
 }
+
