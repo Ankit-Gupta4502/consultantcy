@@ -1,41 +1,40 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { slotsType, consultantSlotType } from '../../pages/consultants'
+import { slotsType, consultantSlotType, selectedSlotType } from '../../pages/consultants'
 import { Dispatch, SetStateAction } from "react"
 import Select from '../UI/Select'
 import { useAppSelector, useAppDispatch } from '../../hooks'
 import { useRouter } from 'next/router'
 import { BiRupee } from 'react-icons/bi'
+import moment from 'moment'
 interface modalProps {
     isOpen: boolean,
     setIsOpen: Function,
     modalData: consultantSlotType[],
     setSlot?: Dispatch<SetStateAction<slotsType>>,
     slot?: slotsType,
+    selectedSlot: selectedSlotType,
     sectors?: { id?: number, name_english?: string }[],
     industries?: { id?: number, name_english?: string, subCategoryId?: number }[],
     amount?: number,
-    handleBooking?: (() => void)
+    handleBooking?: (() => void),
+    setSelectedSlot?: Dispatch<SetStateAction<selectedSlotType>>
 }
-const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors, industries, amount, handleBooking }: modalProps) => {
+const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, sectors, industries, amount, handleBooking, setSelectedSlot, selectedSlot }: modalProps) => {
+    const [activeSlot, setActiveSlot] = useState([])
     const toggle = () => {
         setIsOpen(!isOpen)
         if (isOpen) {
             setSlot({ sector: "", industry: "" })
+            setSelectedSlot({})
+            setActiveSlot([])
         }
     }
+    const today = moment().format('YYYY-MM-DD')
     const { AuthReducer: { isAuthentiCated }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
     const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "morning")).flat()
-
-
-    const eveningSlots =  modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "evening")).flat()
+    const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "evening")).flat()
     const router = useRouter()
-
-
-
-
-
-
     return (
         <>
             <Transition appear show={isOpen} as={Fragment}>
@@ -115,6 +114,21 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors
                                                 }
                                             </Select>
                                         </div>
+                                        <div className='my-3 grid grid-cols-3 gap-6' >
+                                            {modalData?.map((item) => {
+                                                return <div role="button" key={item.id} className={`${selectedSlot.slotDateId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} onClick={() => {
+                                                    setActiveSlot(item.consultant_slots)
+                                                    setSelectedSlot(prev => ({ ...prev, slotDateId: item.id === prev.slotDateId ? 0 : item.id }))
+                                                }} >
+                                                    <span className='block text-center text-xs' role='button'  >
+                                                        {moment(today).isSame(item.dateIndex) ? "Today" : item.dateIndex}
+                                                    </span>
+                                                </div>
+                                            })
+
+                                            }
+
+                                        </div>
                                         {
                                             (!morningSlots?.length && !eveningSlots?.length) &&
                                             <h5 className='font-semibold text-primary text-center' >No Slots Available</h5>
@@ -126,8 +140,8 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors
                                             </h5> : ''}
 
                                             {
-                                                morningSlots?.map?.((item) => {
-                                                    return <div role="button" key={item.id} className={`${2 === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} >
+                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "morning") : morningSlots)?.map?.((item) => {
+                                                    return <div role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}
                                                         </span>
@@ -140,8 +154,8 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors
                                             </h5> : ''}
 
                                             {
-                                                eveningSlots?.map?.((item) => {
-                                                    return <div role="button" key={item.id} className={`${1 === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `}  >
+                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "evening") : eveningSlots)?.map?.((item) => {
+                                                    return <div role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `}  >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}
                                                         </span>
@@ -155,7 +169,7 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors
                                     <div className="mt-4 space-y-3 ">
                                         <button
                                             type="button"
-
+                                            disabled={!slot.industry || !slot.industry || !selectedSlot.slotDateId || !selectedSlot.timeSlotId}
                                             className="block disabled:opacity-70 w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-sm font-medium text-white   "
                                             onClick={() => isAuthentiCated ? handleBooking() : router.push('/login')}
                                         >
@@ -163,7 +177,8 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData=[], setSlot, slot, sectors
                                         </button>
                                         <button
                                             type="button"
-                                            className="block w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+
+                                            className="block w-full justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 disbaled:opactiy-70 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                             onClick={toggle}
                                         >
                                             Close

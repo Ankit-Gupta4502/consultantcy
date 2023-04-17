@@ -10,7 +10,7 @@ import { CiSearch } from "react-icons/ci"
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getConsultants } from '../../redux/actions/HomeAction';
-import ConsultantCard from '../Layout/ConsultantCard';
+import ConsultantCard from './ConsultantCard';
 interface IPROPS { value?: string }
 const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
     const dispatch = useAppDispatch()

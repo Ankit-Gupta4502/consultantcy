@@ -6,8 +6,9 @@ import { getAllConsultants } from '../redux/actions/ConsultantAction'
 import BookSlotModal from '../Components/Consultant/BookSlotModal'
 import { getSectors } from '../redux/actions/HomeAction'
 import { getIndustries } from '../redux/actions/IndustryAction'
-import { getUserWallet } from '../redux/actions/UserAction'
+import { bookConsultancy, getUserWallet } from '../redux/actions/UserAction'
 import { toast } from "react-toastify"
+
 
 export interface consultantSlotType {
     dateIndex?: string,
@@ -17,7 +18,7 @@ export interface consultantSlotType {
         endTime: string,
         slotDateId: string,
         id: number,
-        timeZone?:"morning"|"evening"
+        timeZone?: "morning" | "evening"
     }[]
 }
 type consultantType = {
@@ -58,6 +59,10 @@ export type consultantExpertiseType = {
     sector: { id?: number, name_english?: string }[],
     industry: { id?: number, name_english?: string, subCategoryId?: number }[]
 }
+export type selectedSlotType = {
+    slotDateId?: number,
+    timeSlotId?: number
+}
 const consultants = () => {
     const dispatch = useAppDispatch()
     const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
@@ -72,10 +77,11 @@ const consultants = () => {
         consultancyType: '',
         id: 0,
         amount: 0,
-        slots:[]
+        slots: []
     })
     const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
     const [consultantExpertise, setConsultantExpertise] = useState<consultantExpertiseType>({ sector: [], industry: [] })
+    const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
     const allConsultants: consultantType[] = consultants || []
     useEffect(() => {
         dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort))
@@ -125,12 +131,27 @@ const consultants = () => {
         return arr.map((item) => item[key])
     }, [])
     const handleBooking = () => {
+        const data = {
+            consultancyType: consultantInfo.consultancyType,
+            amount: consultantInfo.amount,
+            consultantId: consultantInfo.id,
+            timeSlotId: selectedSlot.timeSlotId,
+            dateSlotId: selectedSlot.slotDateId,
+            sector: slot.sector,
+            industry: slot.industry,
+            gatewayType: 'topup'
+        }
         if (consultantInfo.amount > walletAmount) {
             toast.error("Insufficient Wallet Amount Please Top Up Your Wallet")
+        } else {
+            dispatch(bookConsultancy(auth.token, data))
         }
+
     }
-   console.log(consultantInfo.slots);
-   
+
+
+
+
 
     return (
         <div className='py-16 bg-[#1F51FF0F] ' >
@@ -162,7 +183,7 @@ const consultants = () => {
                     </div>
                     <ConsultantFilter industries={industries} filter={filter} setFilter={setFilter} sectors={categories} />
                     <BookSlotModal handleBooking={handleBooking
-                    } sectors={consultantExpertise.sector} industries={consultantExpertise.industry} slot={slot} amount={consultantInfo.amount} modalData={consultantInfo.slots} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} />
+                    } sectors={consultantExpertise.sector} industries={consultantExpertise.industry} slot={slot} amount={consultantInfo.amount} modalData={consultantInfo.slots} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} setSelectedSlot={setSelectedSlot} selectedSlot={selectedSlot} />
                 </div>
             </div>
         </div>

@@ -25,6 +25,10 @@ type consultantDetails = {
         slug: string
         thumbnail?: string,
         id: number,
+        consultant_profile: {
+            audioFee: number,
+            videoFee: number
+        }
     }
 
 }
@@ -93,7 +97,7 @@ const expertpage = () => {
                                         <h6 className='text-primary text-xl'>{item.consultant.name}</h6>
                                         <p className='text-sm  capitalize '> {item.subCategory.name_english} </p>
                                         <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[16px]'>
-                                            ₹{item.consultantAudioFee}/hourly
+                                            ₹{item.consultant?.consultant_profile?.audioFee}/hourly
                                         </span>
                                         <div className='flex justify-between mt-4'>
                                             <Link href={`/consultant/${item.consultant?.slug}`} >

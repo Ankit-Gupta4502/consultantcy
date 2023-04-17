@@ -26,8 +26,7 @@ type cardProps = {
   industry: { id?: number, name_english?: string, subCategoryId?: number }[]
   slots: any[]
 }
-const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry }: cardProps) => {
-  console.log(slots);
+const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry }: cardProps) => {;
   
   return (
     <div className="py-[15px]  rounded-[10px] pl-11 pr-9 border border-[#D9D9D9] ">
