@@ -40,7 +40,7 @@ const Hero = () => {
                                 to your solution</h1>
                             <p className='text-gray/70 mb-5'>Explore consultant from 250+ Industry </p>
 
-                            <div className="grid md:grid-cols-[35%_35%_30%] items-center grid-cols-1 gap-x-2 ">
+                            <div className="grid md:grid-cols-2 items-center grid-cols-1 gap-x-2 ">
 
                                 <div className="   cursor-pointer text-gray/70 ">
                                     <Select className={`focus: outline-none bg-white cursor-pointer w-full px-4 py-1 border-white   rounded-full`} value={categoryType} onChange={((({ target: { value } }) => setCategoryType(value)))}>

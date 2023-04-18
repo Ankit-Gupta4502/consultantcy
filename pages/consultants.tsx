@@ -6,6 +6,7 @@ import { getAllConsultants } from '../redux/actions/ConsultantAction'
 import BookSlotModal from '../Components/Consultant/BookSlotModal'
 import { getSectors } from '../redux/actions/HomeAction'
 import { getIndustries } from '../redux/actions/IndustryAction'
+import dynamic from 'next/dynamic'
 import { bookConsultancy, getUserWallet } from '../redux/actions/UserAction'
 import { toast } from "react-toastify"
 
@@ -157,7 +158,7 @@ const consultants = () => {
         <div className='py-16 bg-[#1F51FF0F] ' >
             <div className="container">
                 <div className="grid items-start grid-cols-[auto_295px] gap-7">
-                    <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>
+                    <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>                        
                         {
                             allConsultants.length ?
                                 allConsultants.map((item) => {
