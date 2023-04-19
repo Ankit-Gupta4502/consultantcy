@@ -11,7 +11,8 @@ const UserWalletReducer = (state = initialState, action: actionsFace) => {
             return { ...state, loading: true }
 
         case GET_USER_WALLET_FULFILLED:
-            return { ...state, loading: false, errors: {}, walletAmount: action.payload }
+            const wallet = (action.payload?.creditAmount?.total_amount || 0) -(action.payload?.debitAmount?.total_amount || 0)
+            return { ...state, loading: false, errors: {}, walletAmount: wallet }
 
         case GET_USER_WALLET_REJECTED:
             return { ...state, loading: false, errors: action.payload }
