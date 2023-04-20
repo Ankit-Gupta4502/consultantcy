@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { slotsType, consultantSlotType, selectedSlotType } from '../../pages/consultants'
+import { slotsType, consultantSlotType, selectedSlotType } from '../../interface/consultant'
 import { Dispatch, SetStateAction } from "react"
 import Select from '../UI/Select'
 import { useAppSelector, useAppDispatch } from '../../hooks'
@@ -14,7 +14,7 @@ interface modalProps {
     setSlot?: Dispatch<SetStateAction<slotsType>>,
     slot?: slotsType,
     selectedSlot: selectedSlotType,
-    sectors?: { id?: number, name_english?: string }[],
+    sectors?: { id?: number, name_english?: string, }[],
     industries?: { id?: number, name_english?: string, subCategoryId?: number }[],
     amount?: number,
     handleBooking?: (() => void),
@@ -32,8 +32,10 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
     }
     const today = moment().format('YYYY-MM-DD')
     const { AuthReducer: { isAuthentiCated }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
-    const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "morning")).flat()
-    const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "evening")).flat()
+    const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone || item['timezone'] === "morning")).flat()
+    const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone || item['timezone'] === "evening")).flat()
+
+    
     const router = useRouter()
     return (
         <>

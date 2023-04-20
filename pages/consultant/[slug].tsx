@@ -14,13 +14,14 @@ import { RiMessage2Fill } from "react-icons/ri"
 import { useRouter } from 'next/router'
 import { getConsultantDetails } from "../../redux/actions/HomeAction"
 import { MdVideocam, MdCall } from "react-icons/md"
+import BookSlotModal from '../../Components/Consultant/BookSlotModal'
 import { FaHandshake } from "react-icons/fa"
 import { BiRupee } from "react-icons/bi"
 import CustomButton from '../../Components/Enquiry/CustomButton'
 import Button from '../../Components/UI/Button'
 import { getConsultantSlot, getReviews } from '../../redux/actions/ConsultantAction'
 import moment from 'moment'
-
+import {constultantDetailType,consultantSlotDetails,slotsType,selectedSlotType} from "../../interface/consultant"
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -40,51 +41,15 @@ const responsive = {
 };
 
 
-
-type constultantDetailType = {
-    id: number,
-    name?: string,
-    mobile?: string,
-    email?: string,
-    city?: string,
-    state?: string,
-    pincode?: string,
-    thumbnail?: string,
-    consultant_slots?: { id?: number, dayIndex?: string, }[],
-    consultant_sectors?: {
-        id: number, subCategory?: { id: number, name_english?: string }, subSubCategory: {
-            id: number,
-            title_english?: string
-        }
-    }[] | null,
-    consultant_profile: {
-        experience: string,
-        highestQualification?: string,
-        nameOfOrgnization?: string,
-        skill?: string,
-        designation?: string,
-        ProfileSummary?: string,
-        audioFee?: number
-        videoFee?: number,
-        workExperience?: string,
-        websiteUrl?: string
-    }
-}
 type sectorType = {
     subCategory?: { id: number, name_english?: string }
 }
+
 type industryType = {
     subSubCategory: {
         id: number, title_english?: string
     }
 }
-
-type consultantSlotDetails = {
-    id: number,
-    dateIndex: Date,
-    consultant_slots: { startTime: string, endTime: string, dayIndex: string, id: number, timezone: string }[]
-}
-
 
 
 const expertdetail = () => {
@@ -92,7 +57,10 @@ const expertdetail = () => {
     const { slug } = useRouter().query
     const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings } } = useSelector((state: RootState) => state)
     const [active, setActive] = useState<number>(0)
-
+    const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
+    const [consultancyType,setConsultancyType] = useState<{type:"audio"|"video"|"",amount:number}>({type:"",amount:0})
     useEffect(() => {
         if (slug) {
             dispatch(getConsultantDetails(slug))
@@ -106,11 +74,20 @@ const expertdetail = () => {
         }
     }, [slug, active])
 
+    useEffect(() => {
+        if (slot.sector) {
+            setSlot(prev => { return { ...prev, industry: "" } })
+        }
+        if (!slot.sector) {
+            setSlot(prev => { return { ...prev, industry: "" } })
+        }
+
+    }, [slot.sector])
+
     const consultantDetail: constultantDetailType = consultantDetails
     const consultantSlotsDetail: consultantSlotDetails[] = consultantSlots
     const today = moment().format('YYYY-MM-DD')
-    const slots = consultantSlotsDetail?.map?.(item => item.consultant_slots)?.flat() || []
-
+    const handleBooking = () => 0
 
     const handleDates = (date: string | Date) => {
         const formatDate = moment(date).format('YYYY-MM-DD')
@@ -124,9 +101,14 @@ const expertdetail = () => {
                 `
         }
     }
+    const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
+    const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
+
 
     return (
         <div className=' bg-[#D9D9D94D]'>
+            <BookSlotModal handleBooking={handleBooking
+            } sectors={sectors} industries={industries} slot={slot} amount={consultancyType.amount} modalData={consultantSlotsDetail} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} setSelectedSlot={setSelectedSlot} selectedSlot={selectedSlot} />
             <div className="container items-start grid grid-cols-[auto_294px] gap-x-5 py-16 ">
                 <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
@@ -153,7 +135,7 @@ const expertdetail = () => {
                                     </div>
                                 </div>
 
-                                
+
                             </div>
 
                         </div>
@@ -283,74 +265,21 @@ const expertdetail = () => {
                             </span>
                         </div>
 
-                        <div className='relative' >
-                            <Carousel
-                                swipeable={false}
-                                draggable={false}
-                                showDots={false}
-                                responsive={responsive}
-                                ssr={true}
-                                infinite={true}
-                                autoPlaySpeed={1000}
-                                keyBoardControl={true}
-                                customTransition="all .5s"
-                                transitionDuration={500}
-                                containerClass={`carousel-container  py-4`}
-                                removeArrowOnDeviceType={["tablet", "mobile"]}
-                                dotListClass={`custom-dot-list-style !bottom-[-30px] `}
-                                itemClass="relative px-1 z-40 carousel-item-padding-40-px"
-                                arrows={false}
-                                renderButtonGroupOutside={true}
-                                
-                                customButtonGroup={<CustomButton containerClass=' !justify-end top-[-10px] left-[0] z-[1]' rightbtnStyle='!bg-transparent text-primary' leftbtnStyle='!bg-transparent text-primary ' />}
-                            >
-                                {
-                                    consultantSlotsDetail?.map?.((item) => {
-                                        return <div key={item.id} onClick={() => setActive(prev => prev === item.id ? 0 : item.id)} role='button' className={`text-center transition-all duration-300   py-1 ${active === item.id ? "text-white bg-primary" : "border border-primary text-primary"}  rounded-md`} >
-                                            <span className='text-xs  font-bold'  > {handleDates(item.dateIndex)} </span>
-                                            <small className='block text-xs' >
-                                                {item.consultant_slots.length} Slots
-                                            </small>
-                                        </div>
-                                        
-                                    })
-                                }
-                            </Carousel>
-                        </div>
 
-                        <div>
-                            <h5 className='mb-2' >Morning</h5>
-                            <div className='!mt-0 grid grid-cols-2 gap-3' >
-                                {
-                                    slots.filter(item => item.timezone === "morning")?.map?.((item) => {
-                                        return <div key={item.id} className='text-xs text-primary border border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                            {item.startTime} - {item.endTime}
-                                        </div>
-                                    })
-                                }
-                            </div>
-                        </div>
-
-                        <div>
-                            <h5 className='mb-2' >Evening</h5>
-                            <div className='!mt-0 grid grid-cols-3 gap-3' >
-                                {
-                                    slots.filter(item => item.timezone === "evening")?.map?.((item) => {
-                                        return <div key={item.id} className='text-xs text-primary border border-primary rounded-md h-[50px] flex items-center justify-center' >
-                                            {item.startTime} - {item.endTime}
-                                        </div>
-                                    })
-                                }
-                            </div>
-                        </div>
                         <div className="flex gap-2 items-center justify-between">
-                        <Button size='sm' className='block mx-auto !text-xs' >
-                            Book Video Slot
-                        </Button>
+                            <Button size='sm' className='block mx-auto !text-xs' onClick={() => {
+                                setConsultancyType({type:'video',amount:consultantDetail.consultant_profile.videoFee})
+                                setIsOpen(true)
+                                }} >
+                                Book Video Slot
+                            </Button>
 
-                        <Button size='sm' className='block mx-auto !text-xs' variant='outlined' >
-                            Book Audio Slot
-                        </Button>
+                            <Button size='sm' className='block mx-auto !text-xs' variant='outlined' onClick={() => {
+                                setIsOpen(true)
+                                setConsultancyType({type:'audio',amount:consultantDetail.consultant_profile.audioFee})
+                            }} >
+                                Book Audio Slot
+                            </Button>
 
 
                         </div>

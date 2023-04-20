@@ -2,21 +2,24 @@ import React, { useState, useEffect, } from 'react'
 import Input from '../UI/Input'
 import { handlePhoneValid, returnKey } from "../../utils/utilities"
 import Button from '../UI/Button'
-import { verfiyMobile, login, verifyConsultant, loginConsultant } from '../../redux/actions/AuthAction'
+import { verfiyMobile, login, verifyConsultant, loginConsultant, sendOtp } from '../../redux/actions/AuthAction'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../../redux/store'
+import { verifyOtp } from '../../redux/actions/AuthAction'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import OTPInput from 'react-otp-input'
 const Login = () => {
     const [mobile, setMobile] = useState('')
-    const [password, setPassword] = useState("")
     const [loginAs, setLoginAs] = useState("user")
     const dispatch: AppDispatch = useDispatch()
-    const { AuthReducer: { auth, errors, isAuthentiCated, loading } } = useSelector((state: RootState) => state)
+    const [otp, setOtp] = useState('')
+    const { AuthReducer: { auth, errors, isAuthentiCated, loading, otpVerified } } = useSelector((state: RootState) => state)
     const router = useRouter()
     const verfiyUser = () => {
         if (loginAs === "user") {
             dispatch(verfiyMobile(mobile))
+            dispatch(sendOtp(mobile))
         } else {
             dispatch(verifyConsultant(mobile))
         }
@@ -30,19 +33,28 @@ const Login = () => {
     }, [errors])
 
     useEffect(() => {
-        if (isAuthentiCated ) {
+        if (isAuthentiCated) {
             router.back()
         }
     }, [isAuthentiCated])
 
     const handleLogin = () => {
         if (loginAs === "user") {
-            dispatch(login(mobile, password))
         }
         else {
-            dispatch(loginConsultant(mobile, password))
+            dispatch(loginConsultant(mobile, ''))
         }
     }
+
+    useEffect(() => {
+        if (otpVerified) {
+            if (loginAs === 'user') {
+                dispatch(login(mobile))
+            }
+
+        }
+    }, [otpVerified, loginAs])
+
 
 
     return (
@@ -69,8 +81,26 @@ const Login = () => {
                 </div>
 
                 {Object.keys(auth).length ? <div className="form-group mb-[30px]">
-                    <label htmlFor="" className='mb-2 block' >Password</label>
-                    <Input value={password} type="password" onChange={(e) => setPassword(e.target.value)} />
+                    <label htmlFor="" className='mb-2 block' >OTP</label>
+                    <OTPInput
+                        value={otp}
+                        numInputs={6}
+                        renderSeparator={<span className="mx-2 block">*</span>}
+                        renderInput={(props) => <input {...props} />}
+                        onChange={(value: string) => {
+                            handlePhoneValid(value) &&
+                                setOtp(value)
+                            if (value.length === 6) {
+                                dispatch(verifyOtp(mobile, value))
+                            }
+                        }}
+                        inputStyle={{
+                            width: "100%",
+                            borderRadius: "6px",
+                            border: "1px solid #dddddd",
+                            height: "38px",
+                        }}
+                    />
                 </div> : ""}
 
                 <div className="btn-container">

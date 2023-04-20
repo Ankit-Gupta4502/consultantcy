@@ -45,7 +45,7 @@ const AuthReducer = (state = initialState, action: actionsFace) => {
             return { ...state, loading: false, otpSendStatus: true, errors: {} }
 
         case "REGISTER_USER_FULFILLED":
-            return { ...state, loading: false, errors: {}, auth: returnKey(action.payload, "user"), isAuthentiCated: false }
+            return { ...state, loading: false, errors: {}, auth: action.payload, isAuthentiCated: true }
 
         case GET_USER_DETAILS_FULFILLED:
             return { ...state, loading: false, user: action.payload }

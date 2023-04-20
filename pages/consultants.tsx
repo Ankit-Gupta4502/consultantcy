@@ -6,64 +6,10 @@ import { getAllConsultants } from '../redux/actions/ConsultantAction'
 import BookSlotModal from '../Components/Consultant/BookSlotModal'
 import { getSectors } from '../redux/actions/HomeAction'
 import { getIndustries } from '../redux/actions/IndustryAction'
-import dynamic from 'next/dynamic'
 import { bookConsultancy, getUserWallet } from '../redux/actions/UserAction'
 import { toast } from "react-toastify"
+import { consultantType, rating, sectorType, slotsType, consultantInfoType, consultantExpertiseType, selectedSlotType } from "../interface/consultant"
 
-
-export interface consultantSlotType {
-    dateIndex?: string,
-    id: number,
-    consultant_slots: {
-        startTime: string,
-        endTime: string,
-        slotDateId: string,
-        id: number,
-        timeZone?: "morning" | "evening"
-    }[]
-}
-type consultantType = {
-    id: number,
-    name: string,
-    consultant_sectors: { id: number, consultantAudioFee?: string, consultantVideoFee?: string, subCategory: { id: number, name_english: string } }[],
-    consultant_profile: { workExperience?: string, audioFee?: number, videoFee?: number } | null,
-    slug: string | null,
-    user_reviews: {
-        rating?: number,
-        comment?: string,
-        id: number
-    }[],
-    consultant_slote_dates: consultantType[]
-}
-type rating = {
-    rating?: number,
-    comment?: string,
-    id: number
-}[]
-export type sectorType = {
-    subCategory: { id: number, name_english: string }
-}[]
-export type industryType = {
-
-}
-export type slotsType = {
-    sector: string,
-    industry: string
-}
-export interface consultantInfoType {
-    consultancyType: "audio" | "video" | "",
-    id: number,
-    amount: number,
-    slots?: consultantSlotType[]
-}
-export type consultantExpertiseType = {
-    sector: { id?: number, name_english?: string }[],
-    industry: { id?: number, name_english?: string, subCategoryId?: number }[]
-}
-export type selectedSlotType = {
-    slotDateId?: number,
-    timeSlotId?: number
-}
 const consultants = () => {
     const dispatch = useAppDispatch()
     const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
@@ -158,7 +104,7 @@ const consultants = () => {
         <div className='py-16 bg-[#1F51FF0F] ' >
             <div className="container">
                 <div className="grid items-start grid-cols-[auto_295px] gap-7">
-                    <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>                        
+                    <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>
                         {
                             allConsultants.length ?
                                 allConsultants.map((item) => {
