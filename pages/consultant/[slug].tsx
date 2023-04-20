@@ -14,6 +14,7 @@ import { RiMessage2Fill } from "react-icons/ri"
 import { useRouter } from 'next/router'
 import { getConsultantDetails } from "../../redux/actions/HomeAction"
 import { MdVideocam, MdCall } from "react-icons/md"
+import {toast} from "react-toastify"
 import BookSlotModal from '../../Components/Consultant/BookSlotModal'
 import { FaHandshake } from "react-icons/fa"
 import { BiRupee } from "react-icons/bi"
@@ -21,7 +22,9 @@ import CustomButton from '../../Components/Enquiry/CustomButton'
 import Button from '../../Components/UI/Button'
 import { getConsultantSlot, getReviews } from '../../redux/actions/ConsultantAction'
 import moment from 'moment'
+
 import {constultantDetailType,consultantSlotDetails,slotsType,selectedSlotType} from "../../interface/consultant"
+import { bookConsultancy } from '../../redux/actions/UserAction'
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -55,7 +58,7 @@ type industryType = {
 const expertdetail = () => {
     const dispatch: AppDispatch = useDispatch()
     const { slug } = useRouter().query
-    const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings } } = useSelector((state: RootState) => state)
+    const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings },UserWalletReducer: { walletAmount },AuthReducer:{auth} } = useSelector((state: RootState) => state)
     const [active, setActive] = useState<number>(0)
     const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
     const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -87,20 +90,24 @@ const expertdetail = () => {
     const consultantDetail: constultantDetailType = consultantDetails
     const consultantSlotsDetail: consultantSlotDetails[] = consultantSlots
     const today = moment().format('YYYY-MM-DD')
-    const handleBooking = () => 0
-
-    const handleDates = (date: string | Date) => {
-        const formatDate = moment(date).format('YYYY-MM-DD')
-        switch (formatDate) {
-            case today:
-                return "Today"
-            case moment(date).add(1, 'day').format("YYYY-MM-DD"):
-                return "Tomorrow"
-            default:
-                return `${moment(formatDate).format("DD")} , ${moment(formatDate).format("dddd").substring(0, 3)} ${moment(formatDate).format("MMM")}
-                `
+    const handleBooking = () => {
+        const data = {
+            consultancyType: consultancyType.type,
+            amount: consultancyType.amount,
+            consultantId:consultantDetail.id,
+            timeSlotId: selectedSlot.timeSlotId,
+            dateSlotId: selectedSlot.slotDateId,
+            sector: slot.sector,
+            industry: slot.industry,
+            gatewayType: 'topup'
+        }
+        if (consultancyType.amount > walletAmount) {
+            toast.error("Insufficient Wallet Amount Please Top Up Your Wallet")
+        } else {
+            dispatch(bookConsultancy(auth.token, data))
         }
     }
+
     const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
     const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
 
