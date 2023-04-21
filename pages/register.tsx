@@ -96,7 +96,7 @@ const Register = () => {
                                 }}
                             />
                             <div className="flex justify-between items-center">
-                                <small className=' text-danger' role="button" onClick={() => sendOtp(mobile)}  > {otpSendStatus ? "Resend OTP" : "wait...."} </small>
+                                <small className=' text-danger' role="button" onClick={() => dispatch(sendOtp(mobile))}  > {otpSendStatus ? "Resend OTP" : "wait...."} </small>
 
                                 {
 

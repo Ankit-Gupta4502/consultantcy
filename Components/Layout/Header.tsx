@@ -95,7 +95,7 @@ function TopHeader() {
                       My Account
                     </span>
                     <div className="px-10 py-3  rounded-md absolute group-hover:opacity-100 transition-all duration-500   opacity-0 shadow-2xl space-y-3 bg-white top-10 z-20 ">
-                      <Link href="#" className="block " >Dashboard</Link>
+                      <Link href="/dashboard" className="block " >Dashboard</Link>
                       <span className="block" role="button" onClick={() => dispatch(logout())} >Log Out</span>
                     </div>
                   </div>}
@@ -115,9 +115,9 @@ function TopHeader() {
 
 
           <div className="flex space-x-10 items-center ">
-          <Link href="/consultants" className=" text-gray/70" >
-            Consultants
-          </Link>
+            <Link href="/consultants" className=" text-gray/70" >
+              Consultants
+            </Link>
             <div className="flex    items-center space-x-2 " onMouseLeave={() => setShowDrop(false)} onMouseOver={() => setShowDrop(true)}>
               <span className=" cursor-pointer text-gray/70" >
                 Shop

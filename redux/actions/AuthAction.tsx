@@ -1,11 +1,12 @@
 import axios from "axios"
 import { AppDispatch } from "../store"
 import { GET_USER_DETAILS_PENDING, GET_USER_DETAILS_REJECTED, GET_USER_DETAILS_FULFILLED, VERIFY_CONSULTANT_PENDING, VERIFY_CONSULTANT_FULFILLED, VERIFY_CONSULTANT_FAILED, CONSULTANT_LOGIN_PENDING, CONSULTANT_LOGIN_FULFILLED, CONSULTANT_LOGIN_FAILED,LOG_OUT } from "../Constant"
-export const login = (mobile: string,) => async (dispatch: AppDispatch) => {
+export const login = (mobile: string,otp:string) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: "LOGIN_PENDING" })
         const response = await axios.post("/api/mobile/v1/user/login", {
             mobile,
+            otp
         })
         localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
         dispatch({ type: "LOGIN_SUCCESS", payload: response.data?.data })
@@ -87,12 +88,12 @@ export const verifyConsultant = (mobile: string) => async (dispatch: AppDispatch
     }
 }
 
-export const loginConsultant = (mobile: string, password: string) => async (dispatch: AppDispatch) => {
+export const loginConsultant = (mobile: string,otp:string ) => async (dispatch: AppDispatch) => {
     try {
         dispatch({ type: CONSULTANT_LOGIN_PENDING })
         const response = await axios.post("/api/mobile/v1/consultant/login", {
             mobile,
-            password
+            otp
         })
         localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
         dispatch({ type: CONSULTANT_LOGIN_FULFILLED, payload: response.data?.data })

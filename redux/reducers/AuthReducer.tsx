@@ -49,6 +49,9 @@ const AuthReducer = (state = initialState, action: actionsFace) => {
 
         case GET_USER_DETAILS_FULFILLED:
             return { ...state, loading: false, user: action.payload }
+        
+        case "RESET_OTP_STATUS":
+            return{...state,otpVerified: false}
 
         case "LOGIN_FAILED":
         case "OTP_SEND_REJECTED":

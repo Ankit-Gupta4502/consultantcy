@@ -19,11 +19,18 @@ const Login = () => {
     const verfiyUser = () => {
         if (loginAs === "user") {
             dispatch(verfiyMobile(mobile))
-            dispatch(sendOtp(mobile))
         } else {
             dispatch(verifyConsultant(mobile))
+
         }
     }
+
+    useEffect(() => {
+        if (Object.keys(auth).length) {
+            dispatch(sendOtp(mobile))
+        }
+    }, [auth])
+
 
 
     useEffect(() => {
@@ -38,20 +45,17 @@ const Login = () => {
         }
     }, [isAuthentiCated])
 
-    const handleLogin = () => {
-        if (loginAs === "user") {
-        }
-        else {
-            dispatch(loginConsultant(mobile, ''))
-        }
-    }
 
     useEffect(() => {
         if (otpVerified) {
             if (loginAs === 'user') {
-                dispatch(login(mobile))
+                dispatch(login(mobile,otp))
+            } else {
+                dispatch(loginConsultant(mobile,otp))
             }
-
+        }
+        return () => {
+            dispatch({ type: "RESET_OTP_STATUS" })
         }
     }, [otpVerified, loginAs])
 
@@ -104,7 +108,7 @@ const Login = () => {
                 </div> : ""}
 
                 <div className="btn-container">
-                    <Button className='font-semibold w-full' disabled={loading} onClick={Object.keys(auth).length ? handleLogin : verfiyUser} >{Object.keys(auth).length ? "Login" : "Verify Mobile"}</Button>
+                    <Button className='font-semibold w-full' disabled={loading} onClick={verfiyUser} > Verify Mobile</Button>
                 </div>
                 <div className=' text-end mt-5'>
                     <Link href="/forget-password" className='cursor-pointer'>Forget Password</Link>
