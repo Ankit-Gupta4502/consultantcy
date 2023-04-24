@@ -32,10 +32,11 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
     }
     const today = moment().format('YYYY-MM-DD')
     const { AuthReducer: { isAuthentiCated }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
-    const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone || item['timezone'] === "morning")).flat()
-    const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone || item['timezone'] === "evening")).flat()
+    const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "morning" || item['timezone'] === "morning")).flat()
+    const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "evening" || item['timezone'] === "evening")).flat()
+    console.log(morningSlots, eveningSlots);
 
-    
+
     const router = useRouter()
     return (
         <>
@@ -120,7 +121,7 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                             {modalData?.map((item) => {
                                                 return <div role="button" key={item.id} className={`${selectedSlot.slotDateId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} onClick={() => {
                                                     setActiveSlot(item.consultant_slots)
-                                                    setSelectedSlot(prev => ({ ...prev, slotDateId: item.id === prev.slotDateId ? 0 : item.id }))
+                                                    setSelectedSlot(prev => ({ ...prev, slotDateId: item.id === prev.slotDateId ? 0 : item.id, timeSlotId: 0 }))
                                                 }} >
                                                     <span className='block text-center text-xs' role='button'  >
                                                         {moment(today).isSame(item.dateIndex) ? "Today" : item.dateIndex}
@@ -142,12 +143,12 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                             </h5> : ''}
 
                                             {
-                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "morning") : morningSlots)?.map?.((item) => {
-                                                    return <div role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} >
+                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "morning" || item?.['timezone'] === "morning") : morningSlots)?.map?.((item) => {
+                                                    return <button role="button" disabled={Boolean(item?.bookAppointment?.id)} onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"} disabled:opacity-75 rounded-md py-4  `} >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}
                                                         </span>
-                                                    </div>
+                                                    </button>
                                                 })
                                             }
 
@@ -156,12 +157,12 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                             </h5> : ''}
 
                                             {
-                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "evening") : eveningSlots)?.map?.((item) => {
-                                                    return <div role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `}  >
+                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "evening" || item?.['timezone'] === "evening") : eveningSlots)?.map?.((item) => {
+                                                    return <button disabled={Boolean(item?.bookAppointment?.id)} role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4 disabled:opacity-75 `}  >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}
                                                         </span>
-                                                    </div>
+                                                    </button>
                                                 })
                                             }
                                         </div>

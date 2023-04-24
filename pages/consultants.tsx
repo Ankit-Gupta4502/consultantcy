@@ -8,8 +8,10 @@ import { getSectors } from '../redux/actions/HomeAction'
 import { getIndustries } from '../redux/actions/IndustryAction'
 import { bookConsultancy, getUserWallet } from '../redux/actions/UserAction'
 import { toast } from "react-toastify"
+import uuid4 from "uuid4";
 import { consultantType, rating, sectorType, slotsType, consultantInfoType, consultantExpertiseType, selectedSlotType } from "../interface/consultant"
-
+import dynamic from 'next/dynamic'
+const VideoCall = dynamic(()=>import("../Components/Agora/AgoraVideoCall"),{ssr:false})
 const consultants = () => {
     const dispatch = useAppDispatch()
     const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
@@ -31,8 +33,8 @@ const consultants = () => {
     const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
     const allConsultants: consultantType[] = consultants || []
     useEffect(() => {
-        dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort))
-    }, [filter])
+        dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort,auth.token))
+    }, [filter,auth?.token])
 
     useEffect(() => {
         dispatch(getSectors())
@@ -86,7 +88,7 @@ const consultants = () => {
             dateSlotId: selectedSlot.slotDateId,
             sector: slot.sector,
             industry: slot.industry,
-            gatewayType: 'topup'
+            gatewayType: 'wallet'
         }
         if (consultantInfo.amount > walletAmount) {
             toast.error("Insufficient Wallet Amount Please Top Up Your Wallet")
@@ -99,12 +101,12 @@ const consultants = () => {
 
 
 
-
     return (
         <div className='py-16 bg-[#1F51FF0F] ' >
             <div className="container">
                 <div className="grid items-start grid-cols-[auto_295px] gap-7">
                     <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>
+                        <VideoCall/>
                         {
                             allConsultants.length ?
                                 allConsultants.map((item) => {

@@ -10,39 +10,43 @@ const VideoCall = ({ setInCall, channelName = '' }: { setInCall: React.Dispatch<
     const { ready, tracks } = useMicrophoneAndCameraTracks();
     useEffect(() => {
         const init = async (name: string) => {
-            console.log("init", name);
-            client.on("user-published", async (user, mediaType) => {
-                await client.subscribe(user, mediaType);
-                if (mediaType === "video") {
-                    setUsers((prevUsers) => {
-                        return [...prevUsers, user];
-                    });
-                }
-                if (mediaType === "audio") {
-                    user.audioTrack?.play();
-                }
-            });
+            try {
+                client.on("user-published", async (user, mediaType) => {
+                    await client.subscribe(user, mediaType);
+                    if (mediaType === "video") {
+                        setUsers((prevUsers) => {
+                            return [...prevUsers, user];
+                        });
+                    }
+                    if (mediaType === "audio") {
+                        user.audioTrack?.play();
+                    }
+                });
 
-            client.on("user-unpublished", (user, type) => {
-                if (type === "audio") {
-                    user.audioTrack?.stop();
-                }
-                if (type === "video") {
+                client.on("user-unpublished", (user, type) => {
+                    if (type === "audio") {
+                        user.audioTrack?.stop();
+                    }
+                    if (type === "video") {
+                        setUsers((prevUsers) => {
+                            return prevUsers.filter((User) => User.uid !== user.uid);
+                        });
+                    }
+                });
+
+                client.on("user-left", (user) => {
                     setUsers((prevUsers) => {
                         return prevUsers.filter((User) => User.uid !== user.uid);
                     });
-                }
-            });
-
-            client.on("user-left", (user) => {
-                setUsers((prevUsers) => {
-                    return prevUsers.filter((User) => User.uid !== user.uid);
                 });
-            });
 
-            await client.join(appId, name, token, null);
-            if (tracks) await client.publish([tracks[0], tracks[1]]);
-            setStart(true);
+                await client.join(appId, name, token, null);
+                if (tracks) await client.publish([tracks[0], tracks[1]]);
+                setStart(true);
+            } catch (error) {
+                console.log(error);
+
+            }
 
         };
 
@@ -52,11 +56,11 @@ const VideoCall = ({ setInCall, channelName = '' }: { setInCall: React.Dispatch<
 
     }, [channelName, client, ready, tracks]);
     return (
-        <div className="h-full">
+        <div className="h-screen">
             {ready && tracks && (
                 <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
             )}
-            {start && tracks && 
+            {start && tracks &&
                 <Videos users={users} tracks={tracks} />
             }
         </div>

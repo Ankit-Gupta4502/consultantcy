@@ -73,9 +73,9 @@ const expertdetail = () => {
 
     useEffect(() => {
         if (slug) {
-            dispatch(getConsultantSlot(slug, active || ""))
+            dispatch(getConsultantSlot(slug, active || "",auth.token))
         }
-    }, [slug, active])
+    }, [slug, active,auth?.token])
 
     useEffect(() => {
         if (slot.sector) {

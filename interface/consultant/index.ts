@@ -37,6 +37,7 @@ export type consultantSlotDetails = {
         slotDateId: string,
         id: number,
         timeZone?: "morning" | "evening"
+        bookAppointment?:{id:string}
     }[]
 }
 
