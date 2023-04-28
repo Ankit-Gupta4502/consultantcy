@@ -10,8 +10,7 @@ import { bookConsultancy, getUserWallet } from '../redux/actions/UserAction'
 import { toast } from "react-toastify"
 import uuid4 from "uuid4";
 import { consultantType, rating, sectorType, slotsType, consultantInfoType, consultantExpertiseType, selectedSlotType } from "../interface/consultant"
-import dynamic from 'next/dynamic'
-const VideoCall = dynamic(()=>import("../Components/Agora/AgoraVideoCall"),{ssr:false})
+
 const consultants = () => {
     const dispatch = useAppDispatch()
     const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
@@ -106,7 +105,6 @@ const consultants = () => {
             <div className="container">
                 <div className="grid items-start grid-cols-[auto_295px] gap-7">
                     <div className='px-6 py-[18px] space-y-5 bg-white rounded-[10px] shadow-[0px_0px_20px_0px_#0000001A]'>
-                        <VideoCall/>
                         {
                             allConsultants.length ?
                                 allConsultants.map((item) => {

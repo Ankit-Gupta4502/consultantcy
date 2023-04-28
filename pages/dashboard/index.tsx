@@ -1,11 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "../../Components/Dashboard/Wrapper";
 import { MdOutlineLocalPhone } from "react-icons/md"
 import { AiFillStar } from "react-icons/ai"
+import axios from "axios";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getAgoraToken } from "../../redux/actions/AgoraAction";
 const index = () => {
   const [activeNav, setActiveNav] = useState<string>('upcoming')
   const [rating, setRating] = useState(0)
   const [rated, setRated] = useState(false)
+  const { AuthReducer: { auth } } = useAppSelector(state => state)
+  const dispatch = useAppDispatch()
+  const [app, setApp] = useState<any[]>([])
+  useEffect(() => {
+    axios("/api/mobile/v1/user-appointments", {
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    })
+      .then((res) => setApp(res.data?.data?.rows)).catch(err => console.log(err)
+      )
+  }, [])
+
+  const handleVideo = (channel: string, uid: string) => {
+    dispatch(getAgoraToken(channel, uid))
+  }
+
   return (
     <Wrapper>
       <div className="shadow-[0px_4px_10px_0px_#0000001A] rounded-md" >
@@ -38,41 +58,46 @@ const index = () => {
             </thead>
 
             <tbody>
-              <tr className="border-t border-gray/5" >
-                <td className="py-8 pl-8 ">
-                  <div>
-                    <span className="block" >Raju Raman Singh</span>
-                    <small className="text-gray/50">
-                      Anurag Chaudhary
-                    </small>
-                  </div>
-                </td>
+              {
+                app.map((item) => {
+                  return <tr className="border-t border-gray/5" key={item.id}>
+                    <td className="py-8 pl-8 ">
+                      <div>
+                        <span className="block" >Raju Raman Singh</span>
+                        <small className="text-gray/50">
+                          Anurag Chaudhary
+                        </small>
+                      </div>
+                    </td>
 
-                <td className="text-center" >
-                  <small className="text-gray/50" >
-                    1200
-                  </small>
+                    <td className="text-center" >
+                      <small className="text-gray/50" >
+                        1200
+                      </small>
 
-                </td>
-                <td className="text-center">
-                  <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary" >
-                    11:00AM - 12:00PM
-                  </span>
-                </td>
+                    </td>
+                    <td className="text-center">
+                      <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary" >
+                        11:00AM - 12:00PM
+                      </span>
+                    </td>
 
-                <td>
-                  <div className="flex space-x-4 items-center justify-center">
-                    <button className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
-                      <MdOutlineLocalPhone size={20} className="mr-2" />
-                      Call Now
-                    </button>
+                    <td>
+                      <div className="flex space-x-4 items-center justify-center">
+                        <button onClick={() => handleVideo(item.channelName, item.uid)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
+                          <MdOutlineLocalPhone size={20} className="mr-2" />
+                          Call Now
+                        </button>
 
-                    <button className="border-0 px-9 py-2 flex items-center bg-[#FF0000] text-white rounded-md" >
-                      Cancel
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                        <button className="border-0 px-9 py-2 flex items-center bg-[#FF0000] text-white rounded-md" >
+                          Cancel
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                })
+              }
+
             </tbody>
           </table> :
             <table className=" border border-gray/5 shadow-[0px_4px_10px_rgba(0, 0, 0, 0.1)]  rounded-md overflow-hidden w-full">

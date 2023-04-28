@@ -14,7 +14,7 @@ import { RiMessage2Fill } from "react-icons/ri"
 import { useRouter } from 'next/router'
 import { getConsultantDetails } from "../../redux/actions/HomeAction"
 import { MdVideocam, MdCall } from "react-icons/md"
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import BookSlotModal from '../../Components/Consultant/BookSlotModal'
 import { FaHandshake } from "react-icons/fa"
 import { BiRupee } from "react-icons/bi"
@@ -22,9 +22,10 @@ import CustomButton from '../../Components/Enquiry/CustomButton'
 import Button from '../../Components/UI/Button'
 import { getConsultantSlot, getReviews } from '../../redux/actions/ConsultantAction'
 import moment from 'moment'
-
-import {constultantDetailType,consultantSlotDetails,slotsType,selectedSlotType} from "../../interface/consultant"
+import { getUserWallet } from '../../redux/actions/UserAction'
+import { constultantDetailType, consultantSlotDetails, slotsType, selectedSlotType } from "../../interface/consultant"
 import { bookConsultancy } from '../../redux/actions/UserAction'
+import { useAppSelector } from '../../hooks'
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -58,12 +59,12 @@ type industryType = {
 const expertdetail = () => {
     const dispatch: AppDispatch = useDispatch()
     const { slug } = useRouter().query
-    const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings },UserWalletReducer: { walletAmount },AuthReducer:{auth} } = useSelector((state: RootState) => state)
+    const { IndexReducer: { consultantDetails }, ConsultantReducer: { consultantSlots, ratings }, UserWalletReducer: { walletAmount }, AuthReducer: { auth, isAuthentiCated } } = useAppSelector((state) => state)
     const [active, setActive] = useState<number>(0)
     const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
-    const [consultancyType,setConsultancyType] = useState<{type:"audio"|"video"|"",amount:number}>({type:"",amount:0})
+    const [consultancyType, setConsultancyType] = useState<{ type: "audio" | "video" | "", amount: number }>({ type: "", amount: 0 })
     useEffect(() => {
         if (slug) {
             dispatch(getConsultantDetails(slug))
@@ -73,9 +74,15 @@ const expertdetail = () => {
 
     useEffect(() => {
         if (slug) {
-            dispatch(getConsultantSlot(slug, active || "",auth.token))
+            dispatch(getConsultantSlot(slug, active || "", auth.token))
         }
-    }, [slug, active,auth?.token])
+    }, [slug, active, auth?.token])
+
+    useEffect(() => {
+        if (isAuthentiCated) {
+            dispatch(getUserWallet(auth?.token))
+        }
+    }, [isAuthentiCated])
 
     useEffect(() => {
         if (slot.sector) {
@@ -94,7 +101,7 @@ const expertdetail = () => {
         const data = {
             consultancyType: consultancyType.type,
             amount: consultancyType.amount,
-            consultantId:consultantDetail.id,
+            consultantId: consultantDetail.id,
             timeSlotId: selectedSlot.timeSlotId,
             dateSlotId: selectedSlot.slotDateId,
             sector: slot.sector,
@@ -275,15 +282,15 @@ const expertdetail = () => {
 
                         <div className="flex gap-2 items-center justify-between">
                             <Button size='sm' className='block mx-auto !text-xs' onClick={() => {
-                                setConsultancyType({type:'video',amount:consultantDetail.consultant_profile.videoFee})
+                                setConsultancyType({ type: 'video', amount: consultantDetail?.consultant_profile?.videoFee || 0 })
                                 setIsOpen(true)
-                                }} >
+                            }} >
                                 Book Video Slot
                             </Button>
 
                             <Button size='sm' className='block mx-auto !text-xs' variant='outlined' onClick={() => {
                                 setIsOpen(true)
-                                setConsultancyType({type:'audio',amount:consultantDetail.consultant_profile.audioFee})
+                                setConsultancyType({ type: 'audio', amount: consultantDetail?.consultant_profile?.audioFee || 0 })
                             }} >
                                 Book Audio Slot
                             </Button>

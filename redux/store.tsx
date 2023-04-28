@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunkMiddleware from 'redux-thunk'
 import rootReducer from './reducers/rootReducer'
 
-let store;
+export let store;
  function initStore(initialState: {}) {
     return createStore(
         rootReducer,
@@ -39,6 +39,7 @@ export const initializeStore = (preloadedState: {}) => {
     return _store
 }
 export const initalizeStore = initializeStore({})
+
 export function useStore(initialState: {}) {
     const store = useMemo(() => initializeStore(initialState), [initialState])
     return store

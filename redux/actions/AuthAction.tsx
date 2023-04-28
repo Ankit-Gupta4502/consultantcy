@@ -8,8 +8,8 @@ export const login = (mobile: string,otp:string) => async (dispatch: AppDispatch
             mobile,
             otp
         })
-        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
-        dispatch({ type: "LOGIN_SUCCESS", payload: response.data?.data })
+        localStorage.setItem("iid_consultancy_user", JSON.stringify({...response.data?.data,type:"user"}))
+        dispatch({ type: "LOGIN_SUCCESS", payload: {...response.data?.data,type:"user"} })
     } catch (error) {
         dispatch({ type: "LOGIN_FAILED", payload: error.response.data || {} })
     }
@@ -56,8 +56,8 @@ export const registerUser = (data: object, type: string) => async (dispatch: App
     try {
         dispatch({ type: "REGISTER_USER_PENDING" })
         const response = await axios.post(type === "user" ? `/api/mobile/v1/user/register` : "/api/mobile/v1/consultant/register", data)
-        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data.data))
-        dispatch({ type: "REGISTER_USER_FULFILLED", payload: response.data?.data })
+        localStorage.setItem("iid_consultancy_user", JSON.stringify({...response.data?.data,type:"consultant"}))
+        dispatch({ type: "REGISTER_USER_FULFILLED", payload: {...response.data?.data,type:"consultant"} })
     } catch (error) {
         dispatch({ type: "REGISTER_USER_REJECTED", payload: error.response.data })
     }
@@ -95,8 +95,8 @@ export const loginConsultant = (mobile: string,otp:string ) => async (dispatch: 
             mobile,
             otp
         })
-        localStorage.setItem("iid_consultancy_user", JSON.stringify(response.data?.data))
-        dispatch({ type: CONSULTANT_LOGIN_FULFILLED, payload: response.data?.data })
+        localStorage.setItem("iid_consultancy_user", JSON.stringify({...response.data?.data,type:"consultant"}))
+        dispatch({ type: CONSULTANT_LOGIN_FULFILLED, payload: {...response.data?.data,type:"consultant"} })
     } catch (error) {
         dispatch({ type: CONSULTANT_LOGIN_FAILED, payload: error.response.data || {} })
     }

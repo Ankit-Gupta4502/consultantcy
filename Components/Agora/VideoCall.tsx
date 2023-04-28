@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
-import { useClient, useMicrophoneAndCameraTracks, appId, token } from './AgoraVideoCall';
+import { useClient, useMicrophoneAndCameraTracks, appId } from './AgoraVideoCall';
 import { IAgoraRTCRemoteUser } from "agora-rtc-react"
 import Videos from "./Videos"
 import Controls from './Controls';
-const VideoCall = ({ setInCall, channelName = '' }: { setInCall: React.Dispatch<React.SetStateAction<boolean>>, channelName: string }) => {
+import { useAppSelector } from '../../hooks';
+const VideoCall = () => {
     const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
     const [start, setStart] = useState<boolean>(false);
     const client = useClient();
     const { ready, tracks } = useMicrophoneAndCameraTracks();
+    const { AgoraReducer: { token,channelName } } = useAppSelector(state => state)
     useEffect(() => {
         const init = async (name: string) => {
             try {
@@ -56,9 +58,9 @@ const VideoCall = ({ setInCall, channelName = '' }: { setInCall: React.Dispatch<
 
     }, [channelName, client, ready, tracks]);
     return (
-        <div className="h-screen">
+        <div className="h-screen fixed inset-0 z-50 overflow-hidden">
             {ready && tracks && (
-                <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+                <Controls tracks={tracks} setStart={setStart} />
             )}
             {start && tracks &&
                 <Videos users={users} tracks={tracks} />

@@ -22,7 +22,7 @@ interface navlinks {
 }
 function TopHeader() {
   const {
-    AuthReducer: { isAuthentiCated },
+    AuthReducer: { isAuthentiCated, auth },
     IndexReducer: { navLinks }
   } = useAppSelector((state) => state);
   const dispatch = useAppDispatch()
@@ -95,7 +95,7 @@ function TopHeader() {
                       My Account
                     </span>
                     <div className="px-10 py-3  rounded-md absolute group-hover:opacity-100 transition-all duration-500   opacity-0 shadow-2xl space-y-3 bg-white top-10 z-20 ">
-                      <Link href="/dashboard" className="block " >Dashboard</Link>
+                      <Link href={auth.type === "user" ? "/dashboard" : "/consultant-dashboard"} className="block " >Dashboard</Link>
                       <span className="block" role="button" onClick={() => dispatch(logout())} >Log Out</span>
                     </div>
                   </div>}

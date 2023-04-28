@@ -7,13 +7,13 @@ const Videos = (props: {
   
     return (
    
-        <div id="videos " className="h-full" >
-          <AgoraVideoPlayer   videoTrack={tracks[1]} style={{height: '95%', width: '95%'}} />
+        <div id="videos " className="h-full min-h-[500px] " >
+          <AgoraVideoPlayer   videoTrack={tracks[1]} style={{height: '100%', width: '100%'}} />
           {users.length > 0 &&
             users.map((user) => {
               if (user.videoTrack) {
                 return (
-                  <AgoraVideoPlayer  videoTrack={user.videoTrack} style={{height: '95%', width: '95%'}} key={user.uid} />
+                  <AgoraVideoPlayer className="absolute bottom-0 right-0 w-96 aspect-square " videoTrack={user.videoTrack}  key={user.uid} />
                 );
               } else return null;
             })}
