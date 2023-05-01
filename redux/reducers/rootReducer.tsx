@@ -7,6 +7,7 @@ import SubSubCategoryReducer from "./SubSubCategoryReducer"
 import ConsultantReducer from "./ConsultantReducer"
 import UserWalletReducer from "./UserWalletReducer"
 import AgoraReducer from "./AgoraReducer"
+import ConsultantDashBordRducer from "./ConsultantDashboardReducer"
 export default combineReducers(
     {
         AuthReducer,
@@ -16,6 +17,7 @@ export default combineReducers(
         SubSubCategory: SubSubCategoryReducer,
         ConsultantReducer,
         UserWalletReducer,
-        AgoraReducer
+        AgoraReducer,
+        ConsultantDashBordRducer
     }
 )

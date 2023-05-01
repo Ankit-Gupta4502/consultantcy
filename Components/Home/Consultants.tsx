@@ -50,7 +50,7 @@ const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
 
                     <div className='text-center'>
 
-                        <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
+                        <Link href={`/consultants`} className='cursor-pointer font-semibold text-primary' passHref >
                             <Button className="rounded-[30px] text-xs py-3" >View All</Button>
                         </Link>
                     </div>
@@ -78,7 +78,7 @@ const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
                 >
                     {
                         consultants?.map?.((item: item) => {
-                            return <ConsultantCard key={item.id} value="consult" />
+                            return <ConsultantCard slug={item?.consultant?.slug} sector={item?.subCategory?.name_english} thumbnail={item?.consultant?.thumbnail} name={item?.consultant?.name} key={item.id} value="consult" />
                         })
                     }
 

@@ -1,36 +1,37 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Wrapper from "../../Components/Consultant-Dashboard/Wrapper";
-import Sidebar from "../../Components/Consultant-Dashboard/Sidebar";
-import Header from "../../Components/Consultant-Dashboard/Header";
 import { BiWalletAlt } from "react-icons/bi";
 import { AiOutlineStar } from "react-icons/ai";
 import { MdOutlineLocalPhone } from "react-icons/md";
-import { AiFillStar } from "react-icons/ai";
-import axios from "axios";
-import { useAppSelector,useAppDispatch } from "../../hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 import { getAgoraToken } from "../../redux/actions/AgoraAction";
-
+import { getConsultantAppointments } from "../../redux/actions/ConsultantDashoboardAction";
+import { useRouter } from "next/router";
+import { IAppointments } from "../../redux/actionInterface/IConsultantDashboard";
 function index() {
-  const [activeNav, setActiveNav] = useState<string>("previous");
+  const [activeNav, setActiveNav] = useState<string>("upcoming");
   const [rating, setRating] = useState(0);
   const [rated, setRated] = useState(false);
-  const [users,setUsers] = useState<any[]>([])
-  const {AuthReducer:{auth}} = useAppSelector(state=>state)
+  const [users, setUsers] = useState<any[]>([])
+  const { AuthReducer: { auth, isAuthentiCated }, ConsultantDashBordRducer: { appointments } } = useAppSelector(state => state)
   const dispatch = useAppDispatch()
+  const router = useRouter()
   useEffect(() => {
-    axios("/api/mobile/v1/get-consultant-appointments-list",{
-      headers:{
-        Authorization:`Bearer ${auth.token}`
-      }
-    })
-    .then((res)=>setUsers(res.data?.data))
-    .catch(err=>console.log(err)
-    )
-  }, [auth])
-  const handleVideo = (channel: string, uid: string) => {
-    dispatch(getAgoraToken(channel, uid))
+    if (isAuthentiCated) {
+      dispatch(getConsultantAppointments(auth.token))
+    }
+  }, [auth, isAuthentiCated])
+  const handleVideo = (channel: string) => {
+    dispatch(getAgoraToken(channel))
   }
-  
+
+  useEffect(() => {
+    if (!isAuthentiCated || auth.type !== "consultant") {
+      router.back()
+    }
+  }, [isAuthentiCated, auth.type])
+
+
   return (
     <Wrapper>
       <div>
@@ -49,8 +50,9 @@ function index() {
           <div className="rounded-md bg-gray/80">
             <div className="p-4 flex items-center justify-between">
               <div>
-                <h2 className="text-white">150</h2>
+                <h2 className="text-white"> {appointments.length} </h2>
                 <p className="text-white/70">Total Bookings</p>
+                
               </div>
               <div>
                 <BiWalletAlt className="text-white" size={50} />
@@ -72,11 +74,10 @@ function index() {
         <div className="shadow-[0px_4px_10px_0px_#0000001A] rounded-md mt-10">
           <div className="flex items-center border-b border-gray/10 ">
             <span
-              className={` uppercase font-medium px-10 py-5 text-md   ${
-                activeNav === "upcoming"
-                  ? " text-primary border-primary border-b-2"
-                  : "text-black/70"
-              }`}
+              className={` uppercase font-medium px-10 py-5 text-md   ${activeNav === "upcoming"
+                ? " text-primary border-primary border-b-2"
+                : "text-black/70"
+                }`}
               role="button"
               onClick={() => setActiveNav("upcoming")}
             >
@@ -84,11 +85,10 @@ function index() {
             </span>
 
             <span
-              className={` uppercase font-medium px-10 py-5 text-md  ${
-                activeNav === "previous"
-                  ? " text-primary border-primary border-b-2"
-                  : "text-black/70"
-              }`}
+              className={` uppercase font-medium px-10 py-5 text-md  ${activeNav === "previous"
+                ? " text-primary border-primary border-b-2"
+                : "text-black/70"
+                }`}
               role="button"
               onClick={() => setActiveNav("previous")}
             >
@@ -113,38 +113,35 @@ function index() {
 
                 <tbody>
                   {
-                    users.map((item)=>{
+                    appointments.map((item: IAppointments) => {
                       return <tr className="border-t border-gray/5" key={item.id} >
-                      <td className="py-8 pl-8 ">
-                        <div>
-                          <span className="block">Raju Raman Singh</span>
-                          <small className="text-gray/50">
-                            Software Developer
-                          </small>
-                        </div>
-                      </td>
-  
-                      <td className="text-center">
-                        <small className="text-gray/50">1200</small>
-                      </td>
-                      <td className="text-center">
-                        <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary">
-                          11:00AM - 12:00PM
-                        </span>
-                      </td>
-  
-                      <td>
-                        <div className="flex space-x-4 items-center justify-center">
-                          <button  onClick={() => handleVideo(item.channelName, item.uid)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md">
-                            <MdOutlineLocalPhone size={20} className="mr-2" />
-                            Audio Call
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
+                        <td className="py-8 pl-8 ">
+                          <div>
+                            <span className="block"> {item.user.name} </span>
+
+                          </div>
+                        </td>
+                        <td className="text-center">
+                          <small className="text-gray/50"> {item.amount} </small>
+                        </td>
+                        <td className="text-center">
+                          <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary">
+                            {item.consultant_slot.startTime} - {item.consultant_slot.endTime}
+                          </span>
+                        </td>
+
+                        <td>
+                          <div className="flex space-x-4 items-center justify-center">
+                            <button onClick={() => handleVideo(item.channelName,)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md">
+                              <MdOutlineLocalPhone size={20} className="mr-2" />
+                              Audio Call
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
                     })
                   }
-                  
+
                 </tbody>
               </table>
             ) : (

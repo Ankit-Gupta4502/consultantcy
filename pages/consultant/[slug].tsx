@@ -330,174 +330,54 @@ const expertdetail = () => {
                         renderDotsOutside={true}
 
                     >
+                        {
+                            ratings?.map((item) => {
+                                return <div className='border  bg-white border-white rounded-xl  overflow-hidden py-5 px-3' key={item.id} >
 
-                        <div className='border  bg-white border-white rounded-xl  overflow-hidden py-5 px-3'>
-
-                            <div className='flex items-center mb-3' >
-                                <div className="icon-wrapper mx-2 flex gap-x-2">
-
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#F6F6F6' />
-                                </div>
-
-                            </div>
-
-
-                            <div className='p-3 pb-0'>
-                                <p className='text-sm leading-6 text-gray/70'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.
-                                    tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-
-                            <div className='border  bg-white border-white rounded-xl text-center overflow-hidden'>
-                                <div className='flex justify-start items-center'>
-
-                                    <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
-                                        <Image src={img3} alt="" />
+                                    <div className='flex items-center mb-3' >
+                                        <div className="icon-wrapper mx-2 flex gap-x-2">
+                                            {
+                                                [1, 2, 3, 4, 5].map((_, index) => {
+                                                    return <FaStar color={index + 1 <= item?.rating ? '#FFC107' : "#F6F6F6"} />
+                                                })
+                                            }
+                                        </div>
 
                                     </div>
-                                    <div>
-                                        <h6 className='text-primary text-xl'>Rohit Tiwari</h6>
-                                        <p className='text-gray/70 text-start text-sm'>Income Tax</p>
+
+
+                                    <div className='p-3 pb-0'>
+                                        <p className='text-sm leading-6 text-gray/70'> {item?.comment} </p>
                                     </div>
 
-                                </div>
+                                    <div className='border  bg-white border-white rounded-xl text-center overflow-hidden'>
+                                        <div className='flex justify-start items-center'>
+
+                                            <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
+                                                <Image src={item?.user?.thumbnail ? `/basepath/${item?.user?.thumbnail}` : img3} alt="" />
+
+                                            </div>
+                                            <div>
+                                                <h6 className='text-primary text-xl'> {item?.user?.name} </h6>
+                                            </div>
+
+                                        </div>
 
 
-                            </div>
-
-                        </div>
-                        <div className='border  bg-white border-white rounded-xl  overflow-hidden py-5 px-3'>
-
-                            <div className='flex items-center mb-3' >
-                                <div className="icon-wrapper mx-2 flex gap-x-2">
-
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#F6F6F6' />
-                                </div>
-
-                            </div>
-
-
-                            <div className='p-3 pb-0'>
-                                <p className='text-sm leading-6 text-gray/70'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.
-                                    tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-
-                            <div className='border  bg-white border-white rounded-xl text-center overflow-hidden'>
-                                <div className='flex justify-start items-center'>
-
-                                    <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
-                                        <Image src={img3} alt="" />
-
-                                    </div>
-                                    <div>
-                                        <h6 className='text-primary text-xl'>Rohit Tiwari</h6>
-                                        <p className='text-gray/70 text-start text-sm'>Income Tax</p>
                                     </div>
 
                                 </div>
+                            })
+                        }
 
 
-                            </div>
-
-                        </div>
-                        <div className='border  bg-white border-white rounded-xl  overflow-hidden py-5 px-3'>
-
-                            <div className='flex items-center mb-3' >
-                                <div className="icon-wrapper mx-2 flex gap-x-2">
-
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#F6F6F6' />
-                                </div>
-
-                            </div>
-
-
-                            <div className='p-3 pb-0'>
-                                <p className='text-sm leading-6 text-gray/70'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.
-                                    tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-
-                            <div className='border  bg-white border-white rounded-xl text-center overflow-hidden'>
-                                <div className='flex justify-start items-center'>
-
-                                    <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
-                                        <Image src={img3} alt="" />
-
-                                    </div>
-                                    <div>
-                                        <h6 className='text-primary text-xl'>Rohit Tiwari</h6>
-                                        <p className='text-gray/70 text-start text-sm'>Income Tax</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
-                        <div className='border  bg-white border-white rounded-xl  overflow-hidden py-5 px-3'>
-
-                            <div className='flex items-center mb-3' >
-                                <div className="icon-wrapper mx-2 flex gap-x-2">
-
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#FFC107' />
-                                    <FaStar color='#F6F6F6' />
-                                </div>
-
-                            </div>
-
-
-                            <div className='p-3 pb-0'>
-                                <p className='text-sm leading-6 text-gray/70'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua.
-                                    tempor incididunt ut labore et dolore magna aliqua.</p>
-                            </div>
-
-                            <div className='border  bg-white border-white rounded-xl text-center overflow-hidden'>
-                                <div className='flex justify-start items-center'>
-
-                                    <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
-                                        <Image src={img3} alt="" />
-
-                                    </div>
-                                    <div>
-                                        <h6 className='text-primary text-xl'>Rohit Tiwari</h6>
-                                        <p className='text-gray/70 text-start text-sm'>Income Tax</p>
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
                     </Carousel>
                 </div>
 
 
             </div>
             <TopConsultant value="expertdetail" />
-            <LatestCourse value="latestcourse" />
+            {/* <LatestCourse value="latestcourse" /> */}
         </div>
 
     )

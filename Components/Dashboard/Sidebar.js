@@ -7,18 +7,19 @@ import { MdOutlinePersonOutline, MdPayment } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import Link from "next/link";
+import { useAppSelector } from "../../hooks";
 const Sidebar = () => {
+  const { AuthReducer: { user } } = useAppSelector(state => state)
   return (
     <div>
       <div>
         <div className="border border-md border-none bg-gray/10 rounded-md  grid-cols-1">
           <div className="px-4 py-4 flex gap-4 pb-10">
             <div>
-              <Image src={Pic} alt="pic" height={70} width={70} />
+              <Image src={user?.thumbnail || Pic} alt="pic" height={70} width={70} />
             </div>
             <div className="flex flex-col justify-center">
-              <h5>Raju Raman</h5>
-              <p className="text-primary text-sm">Member</p>
+              <h5> {user?.name} </h5>
             </div>
           </div>
           <div>
@@ -26,7 +27,7 @@ const Sidebar = () => {
               <Link href="/dashboard">
                 <div className="px-5 hover:bg-gray/10">
                   <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer ">
-                    <FiBookmark className="text-2xl"  />{" "}
+                    <FiBookmark className="text-2xl" />{" "}
                     <p className="-py-1 text-lg">Bookings</p>
                   </div>
                 </div>

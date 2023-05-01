@@ -2,11 +2,16 @@ import React from "react";
 import Image from "next/image";
 import Pic from "../../public/images/profilepic.png";
 import Button from "../UI/Button";
+import { useAppSelector } from "../../hooks";
+import NoSSR from "../../utils/NoSSR";
 
 const Header = () => {
+  const { AuthReducer: { auth } } = useAppSelector(state => state)
   return (
     <div>
       <div className="bg-primary">
+        <NoSSR>
+
         <div className=" container py-2">
           <div className="flex justify-between">
             <div className="flex items-center gap-8">
@@ -14,7 +19,7 @@ const Header = () => {
                 <Image src={Pic} alt="pic" />
               </div>
               <div>
-                <h4 className="text-white">Raju Raman Singh</h4>
+                <h4 className="text-white"> {auth?.name || ""} </h4>
                 <p className="text-white/70">Consultancy Expert</p>
               </div>
             </div>
@@ -26,7 +31,7 @@ const Header = () => {
                 </div>
                 <div>
                   <Button
-                    className="bg-white text-primary
+                    className="!bg-white text-primary
                     "
                   >
                     Withdraw
@@ -36,6 +41,7 @@ const Header = () => {
             </div>
           </div>
         </div>
+        </NoSSR>
       </div>
     </div>
   );
