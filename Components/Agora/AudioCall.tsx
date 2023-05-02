@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import AgoraRTC from "agora-rtc-sdk-ng"
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { IAgoraRTCRemoteUser } from 'agora-rtc-sdk-ng';
 import Button from '../UI/Button';
 import { MdOutlineCallEnd } from "react-icons/md"
 import { AiOutlineAudioMuted } from "react-icons/ai"
-import { BiMicrophone } from "react-icons/bi"
 const AudioCall = () => {
     const { AgoraReducer: { channelName, token
     } } = useAppSelector(state => state)
     const [users, setUsers] = useState<IAgoraRTCRemoteUser | {}>({})
     const agoraEngine = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
+    const dispatch = useAppDispatch()
 
     let channelParameters =
     {
@@ -48,6 +48,7 @@ const AudioCall = () => {
     const leave = async () => {
         channelParameters.localAudioTrack.close();
         await agoraEngine.leave();
+        dispatch({ type: "LEFT_CHANNEL" })
     }
 
 
