@@ -23,8 +23,8 @@ const index = () => {
     }
   }, [isAuthentiCated, auth])
 
-  const handleVideo = (channel: string) => {
-    dispatch(getAgoraToken(channel))
+  const handleVideo = (channel: string, type: "audio" | "video") => {
+    dispatch(getAgoraToken(channel, type))
   }
 
   useEffect(() => {
@@ -81,27 +81,27 @@ const index = () => {
                     <td className="text-center" >
                       <div className="flex  items-center justify-center">
 
-                      <span className="mr-1 ">
-                       <BiRupee  />
-                      </span>
-                      <small className="text-gray/50  " >
-                       {item.amount}
-                      </small>
+                        <span className="mr-1 ">
+                          <BiRupee />
+                        </span>
+                        <small className="text-gray/50  " >
+                          {item.amount}
+                        </small>
                       </div>
 
                     </td>
                     <td className="text-center" >
-                          {item.consultant_slote_date.dateIndex}
+                      {item?.consultant_slote_date?.dateIndex}
                     </td>
                     <td className="text-center">
                       <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary" >
-                        {item.consultant_slot.startTime} - {item.consultant_slot.endTime}
+                        {item?.consultant_slot?.startTime} - {item?.consultant_slot?.endTime}
                       </span>
                     </td>
 
                     <td>
                       <div className="flex space-x-4 items-center justify-center">
-                        <button onClick={() => handleVideo(item.channelName)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
+                        <button onClick={() => handleVideo(item.channelName, item.consultancyType)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
                           {
                             item.consultancyType === "audio" ?
                               <MdOutlineLocalPhone size={20} className="mr-2" /> :

@@ -32,8 +32,8 @@ const consultants = () => {
     const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
     const allConsultants: consultantType[] = consultants || []
     useEffect(() => {
-        dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort,auth.token))
-    }, [filter,auth?.token])
+        dispatch(getAllConsultants(filter.search, filter.sector, filter.industry, filter.sort, auth.token))
+    }, [filter, auth?.token])
 
     useEffect(() => {
         dispatch(getSectors())

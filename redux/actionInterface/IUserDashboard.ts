@@ -1,7 +1,7 @@
  export interface Iappointments {
     amount: number,
     id: number,
-    consultancyType: "audio" | "video" | string,
+    consultancyType: "audio" | "video" ,
     consultant: {
         name: string
     },

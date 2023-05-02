@@ -8,11 +8,9 @@ import { getAgoraToken } from "../../redux/actions/AgoraAction";
 import { getConsultantAppointments } from "../../redux/actions/ConsultantDashoboardAction";
 import { useRouter } from "next/router";
 import { IAppointments } from "../../redux/actionInterface/IConsultantDashboard";
+import { FiVideo } from "react-icons/fi"
 function index() {
   const [activeNav, setActiveNav] = useState<string>("upcoming");
-  const [rating, setRating] = useState(0);
-  const [rated, setRated] = useState(false);
-  const [users, setUsers] = useState<any[]>([])
   const { AuthReducer: { auth, isAuthentiCated }, ConsultantDashBordRducer: { appointments } } = useAppSelector(state => state)
   const dispatch = useAppDispatch()
   const router = useRouter()
@@ -21,8 +19,8 @@ function index() {
       dispatch(getConsultantAppointments(auth.token))
     }
   }, [auth, isAuthentiCated])
-  const handleVideo = (channel: string) => {
-    dispatch(getAgoraToken(channel))
+  const handleVideo = (channel: string, type: "audio" | "video") => {
+    dispatch(getAgoraToken(channel, type))
   }
 
   useEffect(() => {
@@ -52,7 +50,7 @@ function index() {
               <div>
                 <h2 className="text-white"> {appointments.length} </h2>
                 <p className="text-white/70">Total Bookings</p>
-                
+
               </div>
               <div>
                 <BiWalletAlt className="text-white" size={50} />
@@ -132,9 +130,17 @@ function index() {
 
                         <td>
                           <div className="flex space-x-4 items-center justify-center">
-                            <button onClick={() => handleVideo(item.channelName,)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md">
-                              <MdOutlineLocalPhone size={20} className="mr-2" />
-                              Audio Call
+                            <button onClick={() => handleVideo(item.channelName, item.consultancyType)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md">
+                              {
+                                item.consultancyType === "audio" ?
+                                  <MdOutlineLocalPhone size={20} className="mr-2" />
+                                  : <FiVideo size={20} className="mr-2" />
+                              }
+                              {
+                                item.consultancyType === "audio" ?
+                                  " Audio Call" :
+                                  "Video Call"
+                              }
                             </button>
                           </div>
                         </td>

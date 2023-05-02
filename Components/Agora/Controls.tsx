@@ -6,7 +6,7 @@ import { AiOutlineAudioMuted } from "react-icons/ai"
 import { BiMicrophone } from "react-icons/bi"
 import { BsCameraVideoOff, BsCameraVideo } from "react-icons/bs"
 import { MdOutlineCallEnd } from "react-icons/md"
-import { useAppSelector,useAppDispatch } from "../../hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks";
 const Controls = (props: {
     tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
     setStart: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +37,7 @@ const Controls = (props: {
         tracks[0].close();
         tracks[1].close();
         setStart(false);
-        dispatch({type:"LEFT_CHANNEL"})
+        dispatch({ type: "LEFT_CHANNEL" })
     };
 
     if (!isStart) {

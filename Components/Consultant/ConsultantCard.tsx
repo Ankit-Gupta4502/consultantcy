@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { BiRupee } from "react-icons/bi"
 import { VscCallIncoming } from "react-icons/vsc"
 import { Dispatch, SetStateAction } from 'react'
-import { consultantInfoType, consultantExpertiseType, sectorType } from "../../pages/consultants"
+import { consultantInfoType,consultantExpertiseType } from '../../interface/consultant'
 type cardProps = {
   name?: string,
   sector?: string,
