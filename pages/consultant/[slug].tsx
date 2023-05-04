@@ -26,6 +26,7 @@ import { getUserWallet } from '../../redux/actions/UserAction'
 import { constultantDetailType, consultantSlotDetails, slotsType, selectedSlotType } from "../../interface/consultant"
 import { bookConsultancy } from '../../redux/actions/UserAction'
 import { useAppSelector } from '../../hooks'
+import NoSSR from '../../utils/NoSSR'
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -117,6 +118,7 @@ const expertdetail = () => {
 
     const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
     const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
+    console.log(consultantDetail?.thumbnail);
 
 
     return (
@@ -126,11 +128,12 @@ const expertdetail = () => {
             <div className="container items-start grid grid-cols-[auto_294px] gap-x-5 py-16 ">
                 <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
-                        <Image src={consultantDetail?.thumbnail ? `/basepath/${consultantDetail?.thumbnail}` : img3} alt="consultant" />
+
+                        <Image src={consultantDetail?.thumbnail ? `/basepath${consultantDetail?.thumbnail}` : img3} alt="consultant" width={150} height={150} />
                         <div className='bg-primary/5 p-[14px] mt-6 rounded-[5px]' >
 
                             <span className='py-2 flex items-center bg-[#F1F1F1] text-[#202020B2] text-md  mx-auto w-max rounded-3xl px-4'>
-                                <BiRupee />  {consultantDetail.consultant_profile?.videoFee}
+                                <BiRupee />  {consultantDetail?.consultant_profile?.videoFee}
                             </span>
 
                             <div className="mt-8">
@@ -178,14 +181,14 @@ const expertdetail = () => {
                                 </span>
 
                                 <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
-                                    {consultantDetail.consultant_profile?.skill}
+                                    {consultantDetail?.consultant_profile?.skill}
                                 </span>
 
                                 <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
                                     Designation
                                 </span>
                                 <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
-                                    {consultantDetail.consultant_profile?.designation}
+                                    {consultantDetail?.consultant_profile?.designation}
                                 </span>
 
                                 <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
@@ -193,7 +196,7 @@ const expertdetail = () => {
                                 </span>
 
                                 <span className='py-3 text-sm border-r text-gray/50 border-b border-[#D5D5D5] text-center w-2/4' >
-                                    {consultantDetail.consultant_profile?.websiteUrl}
+                                    {consultantDetail?.consultant_profile?.websiteUrl}
                                 </span>
 
                                 <span className='py-3 text-sm font-bold border-x border-b border-[#D5D5D5] text-center w-2/4' >
@@ -229,7 +232,7 @@ const expertdetail = () => {
                             </span>
                         </div>
                         <span className='text-white flex items-center text-sm' >
-                            <BiRupee />    {consultantDetail.consultant_profile?.videoFee}
+                            <BiRupee />    {consultantDetail?.consultant_profile?.videoFee}
                         </span>
                     </div>
 
@@ -338,7 +341,7 @@ const expertdetail = () => {
                                         <div className="icon-wrapper mx-2 flex gap-x-2">
                                             {
                                                 [1, 2, 3, 4, 5].map((_, index) => {
-                                                    return <FaStar color={index + 1 <= item?.rating ? '#FFC107' : "#F6F6F6"} />
+                                                    return <FaStar color={index + 1 <= item?.rating ? '#FFC107' : "#F6F6F6"} key={index} />
                                                 })
                                             }
                                         </div>
@@ -354,7 +357,7 @@ const expertdetail = () => {
                                         <div className='flex justify-start items-center'>
 
                                             <div className='border w-[60px] h-[60px] bg-slate overflow-hidden border-slate  mr-3 rounded-full'>
-                                                <Image src={item?.user?.thumbnail ? `/basepath/${item?.user?.thumbnail}` : img3} alt="" />
+                                                <Image src={item?.user?.thumbnail ? `/basepath${item?.user?.thumbnail}` : img3} alt="" width={150} height={150} />
 
                                             </div>
                                             <div>

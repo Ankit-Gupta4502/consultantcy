@@ -8,16 +8,20 @@ import { BiLike } from "react-icons/bi";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import Link from "next/link";
 import { useAppSelector } from "../../hooks";
+import NoSSR from "../../utils/NoSSR";
 const Sidebar = () => {
-  const { AuthReducer: { user } } = useAppSelector(state => state)
+  const { AuthReducer: { user, auth } } = useAppSelector(state => state)
   return (
     <div>
       <div>
         <div className="border border-md border-none bg-gray/10 rounded-md  grid-cols-1">
           <div className="px-4 py-4 flex gap-4 pb-10">
-            <div>
-              <Image src={user?.thumbnail || Pic} alt="pic" height={70} width={70} />
-            </div>
+            <NoSSR>
+              <div>
+                <Image src={auth?.thumbnail ? `/basepath${auth?.thumbnail}` :
+                  Pic} alt="pic" height={70} width={70} />
+              </div>
+            </NoSSR>
             <div className="flex flex-col justify-center">
               <h5> {user?.name} </h5>
             </div>

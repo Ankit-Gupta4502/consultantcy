@@ -95,10 +95,12 @@ const Category = memo(() => {
               >
                 {
                   services?.map?.((item: item) => {
+                    console.log(item?.thumbnail);
+                    
                     return (
                       <div className=' relative border-[1px] min-h-[260px] max-h-[260px] border-[#EEEEEE] rounded-xl py-6 shadow-[0px_2px_4px_0px_#0000001A]    cursor-pointer overflow-hidden pl-[13px] pr-[18px] bg-white' key={item.id}>
                         <div className='rounded-full bg-[#EAF2FF]  overflow-hidden relative w-[60px] h-[60px] mb-[19px] flex justify-center items-center'>
-                          <Image src={`/basepath/${item?.thumbnail}`} className=" object-cover" alt="" fill />
+                          <Image src={`/storage/${item?.thumbnail}`} className=" object-cover" alt="" fill />
                         </div>
                         <h6 className='font-semibold text-sm mb-[6px] line-clamp-1 text-primary' >{item?.title}</h6>
                         <p className='mb-5 line-clamp-3 text-sm' dangerouslySetInnerHTML={{ __html: item?.short_description }} >

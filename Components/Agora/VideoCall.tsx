@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useClient, useMicrophoneAndCameraTracks, appId, useAudioTrack } from './AgoraVideoCall';
+import { useClient, useMicrophoneAndCameraTracks, appId,  } from './AgoraVideoCall';
 import { IAgoraRTCRemoteUser } from "agora-rtc-react"
 import Videos from "./Videos"
 import Controls from './Controls';
@@ -7,11 +7,9 @@ import { useAppSelector } from '../../hooks';
 const VideoCall = () => {
     const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
     const [start, setStart] = useState<boolean>(false);
-    const [audioStart, setAudioStart] = useState(false)
     const client = useClient();
     const { ready, tracks } = useMicrophoneAndCameraTracks();
-    const { ready: audioReady, track: audioTrack } = useAudioTrack()
-    const { AgoraReducer: { token, channelName, mediaType: type } } = useAppSelector(state => state)
+    const { AgoraReducer: { token, channelName, } } = useAppSelector(state => state)
     const init = async (name: string) => {
         console.log("running video");
 
@@ -54,43 +52,12 @@ const VideoCall = () => {
         }
 
     };
-
-    const initAudio = async (name: string) => {
-        console.log("working audioooooooooooo");
-        try {
-            client.on("user-published", async (user) => {
-                await client.subscribe(user, 'audio');
-                user.audioTrack?.play();
-            });
-            client.on("user-unpublished", (user) => {
-                user.audioTrack?.stop();
-            });
-
-            client.on("user-left", (user) => {
-                setUsers((prevUsers) => {
-                    return prevUsers.filter((User) => User.uid !== user.uid);
-                });
-            });
-
-            await client.join(appId, name, token, null);
-            if (tracks) await client.publish(audioTrack);
-            setAudioStart(true);
-        } catch (error) {
-            console.log(error);
-
-        }
-    }
     useEffect(() => {
-        if (type === "audio") {
-            if (audioTrack && audioReady) {
-                initAudio(channelName)
-            }
-        } if (type === "video") {
+       
             if (ready && tracks) {
                 init(channelName);
             }
-        }
-    }, [channelName, client, ready, tracks, type]);
+    }, [channelName, client, ready, tracks,]);
     return (
         <div className="h-screen fixed inset-0 z-50 overflow-hidden">
             {ready && tracks && (

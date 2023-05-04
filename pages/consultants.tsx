@@ -120,6 +120,7 @@ const consultants = () => {
                                         setConsultantInfo={setConsultantInfo}
                                         slots={item.consultant_slote_dates}
                                         id={item.id}
+                                        avatar={item.thumbnail?`/basepath${item.thumbnail}`:""}
                                         sectors={getSectorsAndIndustry(item.consultant_sectors, 'subCategory')}
                                         industry={getSectorsAndIndustry(item.consultant_sectors, 'subSubCategory')}
                                         setConsultantExpertise={setConsultantExpertise}

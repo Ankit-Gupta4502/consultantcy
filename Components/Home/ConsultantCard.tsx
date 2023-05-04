@@ -19,7 +19,7 @@ const ConsultantCard = ({ name = "", thumbnail = '', sector = "", rating = "", p
 
 
                 <div className='border w-[120px] mb-2 h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
-                    <Image className='object-cover w-full h-full' src={img3} alt="" />
+                    <Image className='object-cover w-full h-full' src={ thumbnail? `/basepath${thumbnail}` :img3} alt="" width={150} height={150} />
                 </div>
                 <div></div>
             </div>

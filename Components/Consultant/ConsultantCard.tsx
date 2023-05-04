@@ -24,16 +24,17 @@ type cardProps = {
   setConsultantExpertise: Dispatch<SetStateAction<consultantExpertiseType>>,
   sectors: { id?: number, name_english?: string }[],
   industry: { id?: number, name_english?: string, subCategoryId?: number }[]
-  slots: any[]
+  slots: any[],
+  avatar:string
 }
-const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry }: cardProps) => {;
+const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry,avatar }: cardProps) => {;
   
   return (
     <div className="py-[15px]  rounded-[10px] pl-11 pr-9 border border-[#D9D9D9] ">
 
       <div className="flex justify-between">
         <div className='flex items-center space-x-11' >
-          <Image src={John} alt='' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-full' />
+          <Image src={avatar || John} alt='' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-full' />
           <div>
             <h6 className='text-primary font-semibold mb-3' > {name} </h6>
             <div className='space-y-2' >

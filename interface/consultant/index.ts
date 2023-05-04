@@ -63,7 +63,8 @@ export type consultantType = {
         comment?: string,
         id: number
     }[],
-    consultant_slote_dates: consultantType[]
+    consultant_slote_dates: consultantType[],
+    thumbnail?:string
 }
 export type rating = {
     rating?: number,

@@ -206,7 +206,7 @@ const videoconsultpage = () => {
                                         return (
                                             <div className=' relative border-[1px] min-h-[100%] h-[250px] border-[#EEEEEE] rounded-xl py-2 shadow-[0px_2px_4px_0px_#0000001A]    cursor-pointer overflow-hidden pl-[13px] pr-[18px] bg-white flex flex-col justify-center' key={item.id}>
                                                 <div className='rounded bg-[#EAF2FF]  overflow-hidden relative w-[60px] h-[60px] mb-[19px] flex justify-center items-center'>
-                                                    <Image src={`/basepath/${item?.thumbnail}`} className=" object-cover" alt="" fill />
+                                                    <Image src={item?.thumbnail} className=" object-cover" alt="" fill />
                                                 </div>
                                                 <h6 className='font-semibold text-sm mb-[6px] line-clamp-1 text-primary' >{item?.title}</h6>
                                                 <p className='mb-5 line-clamp-3 text-sm' dangerouslySetInnerHTML={{ __html: item?.short_description }} >
