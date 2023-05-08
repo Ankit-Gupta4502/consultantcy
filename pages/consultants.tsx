@@ -122,7 +122,7 @@ const consultants = () => {
                                         id={item.id}
                                         avatar={item.thumbnail ? `/basepath${item.thumbnail}` : ""}
                                         sectors={getSectorsAndIndustry(item.consultant_sectors, 'subCategory')}
-                                        industry={[]}
+                                        industry={getSectorsAndIndustry(item.consultant_sectors, 'subSubCategory')}
                                         setConsultantExpertise={setConsultantExpertise}
                                     />
                                 }) : <span className='text-center block mx-auto'>No Consultants Found</span>
