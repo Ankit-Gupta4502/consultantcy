@@ -97,7 +97,7 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                 >
                     {(review ? review : [])?.map((item) => {
                         return (< div className='max-w-[700px] mx-auto grid place-items-center' >
-                            <Image alt='' src={`/basepath/${item?.thumbnail}`} width={100} height={100} className='w-[100px] mb-7  h-[100px] rounded-full' />
+                            <Image alt='' src={img} width={100} height={100} className='w-[100px] mb-7  h-[100px] rounded-full' />
                             <p className='text-white text-center' >{item?.comment
                             }</p>
                             <span className='italic text-white' > {item?.user?.name}</span>

@@ -16,7 +16,7 @@ module.exports = {
       },
       {
         source: "/basepath/:path*",
-        destination: "https://consultancy.iid.org.in/storage/:path*",
+        destination: "https://consultancy.iid.org.in/:path*",
       },
       {
         source: "/storage/:path*",

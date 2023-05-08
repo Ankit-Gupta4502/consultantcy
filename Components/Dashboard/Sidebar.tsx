@@ -18,8 +18,7 @@ const Sidebar = () => {
           <div className="px-4 py-4 flex gap-4 pb-10">
             <NoSSR>
               <div>
-                <Image src={auth?.thumbnail ? `/basepath${auth?.thumbnail}` :
-                  Pic} alt="pic" height={70} width={70} />
+                <Image src={Pic} alt="pic" height={70} width={70} />
               </div>
             </NoSSR>
             <div className="flex flex-col justify-center">
@@ -62,12 +61,12 @@ const Sidebar = () => {
             </div>
             <div>
               <Link href="/dashboard/review" >
-              <div className="px-5 hover:bg-gray/10">
-                <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
-                  <BiLike className="text-2xl" />
-                  <p className="-py-1 text-lg">Review</p>
+                <div className="px-5 hover:bg-gray/10">
+                  <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
+                    <BiLike className="text-2xl" />
+                    <p className="-py-1 text-lg">Review</p>
+                  </div>
                 </div>
-              </div>
               </Link>
               <hr className="text-gray/10" />
             </div>

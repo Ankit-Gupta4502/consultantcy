@@ -119,7 +119,6 @@ const expertdetail = () => {
     const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
     const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
 
-
     return (
         <div className=' bg-[#D9D9D94D]'>
             <BookSlotModal handleBooking={handleBooking
@@ -128,7 +127,7 @@ const expertdetail = () => {
                 <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
 
-                        <Image src={consultantDetail?.thumbnail ? `/basepath${consultantDetail?.thumbnail}` : img3} alt="consultant" width={150} height={150} />
+                        <Image src={img3} alt="consultant" width={150} height={150} />
                         <div className='bg-primary/5 p-[14px] mt-6 rounded-[5px]' >
 
                             <span className='py-2 flex items-center bg-[#F1F1F1] text-[#202020B2] text-md  mx-auto w-max rounded-3xl px-4'>
@@ -158,7 +157,7 @@ const expertdetail = () => {
                     </div>
                     <div>
                         <h3 className='text-3xl font-medium'> {consultantDetails?.['name']} </h3>
-                        <p className='text-primary' >{consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory?.name_english)?.join(",")
+                        <p className='text-primary' >{[...new Set(consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory?.name_english))]?.join(",")
                         }  </p>
                         <p className='text-[#9D9898] text-xs'> {consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory?.title_english)?.join(",")} </p>
                         <p className='text-[#9D9898] text-[14px]'> {consultantDetail?.['consultant_profile']?.['ProfileSummary']} </p>
