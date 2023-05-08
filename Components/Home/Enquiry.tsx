@@ -88,7 +88,7 @@ const Enquiry = React.memo(() => {
                                         }
 
                                     </Select>
-                                    <Button disabled={loading} onClick={handleSubmit} className=' !bg-white !text-primary text-xs'>Send Enquery</Button>
+                                    <Button disabled={loading} onClick={handleSubmit} variant='outlined' className=' !bg-white !text-primary text-xs'>Send Enquery</Button>
                                 </div>
                             </div>
                         </div>

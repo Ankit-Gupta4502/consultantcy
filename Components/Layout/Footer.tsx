@@ -13,7 +13,7 @@ const Footer = () => {
                     <div className="logo-wrapper md:border-r md:border-[#DDDDDD]  pr-[58px] pb-[51px]">
                         <Image src={logo} alt='logo' className='mb-[39px]' />
                         <p className='text-gray/70' >
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, ab. Alias quos aspernatur, obcaecati commodi quia porro eligendi veniam ipsa, ut consectetur ipsam voluptatem laboriosam quibusdam sequi eius libero corporis
+                            Institute for Industrial Development (IID) is an incubator with the Government of India, Ministry of Micro, Small and Medium Enterprises (MSME) , and the department of start-ups, an initiative by the Government of Uttar Pradesh.
                         </p>
                     </div>
 
@@ -52,19 +52,22 @@ const Footer = () => {
                     <div className="link-wrapper md:border-r md:border-[#DDDDDD]  pl-[26px] pr-[58px]">
                         <h5 className=' font-semibold mb-[15px]'>Explore More</h5>
                         <div className="space-y-2">
-                            <Link href="#" className='text-gray/70 block' >
+                            <Link href="/about" className='text-gray/70 block' >
                                 About Us
                             </Link>
                             <Link href="#" className='text-gray/70 block' >
                                 Contact Us
                             </Link>
 
-                            <Link href="#" className='text-gray/70 block' >
+                            <Link href="/privacy" className='text-gray/70 block' >
                                 Privacy Policy
                             </Link>
 
-                            <Link href="#" className='text-gray/70 block' >
+                            <Link href="/term-conditions" className='text-gray/70 block' >
                                 Terms & Condition
+                            </Link>
+                            <Link href="/disclaimer" className='text-gray/70 block' >
+                                Disclaimer
                             </Link>
 
                             <Link href="#" className='text-gray/70 block' >
