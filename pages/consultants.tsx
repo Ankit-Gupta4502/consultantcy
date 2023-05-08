@@ -15,6 +15,7 @@ const consultants = () => {
     const dispatch = useAppDispatch()
     const { ConsultantReducer: { consultants }, IndexReducer: { categories }, IndustriesReducer: { categories: industries }, AuthReducer: { isAuthentiCated, auth }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
     const [isOpen, setIsOpen] = useState(false)
+    const [consultantIndustries, setConsultantIndustries] = useState([])
     const [filter, setFilter] = useState<{ search: string, sector: string, industry: string, sort: string }>({
         search: "",
         sector: "",
@@ -58,14 +59,10 @@ const consultants = () => {
     useEffect(() => {
         if (slot.sector) {
             setConsultantExpertise(prev => {
-                return { ...prev, industry: prev.industry.filter((item) => item.subCategoryId === parseInt(slot.sector)) }
+                return { ...prev, industry: consultantIndustries.filter((item) => item.subCategoryId === parseInt(slot.sector)) }
             })
             setSlot(prev => { return { ...prev, industry: "" } })
         }
-        if (!slot.sector) {
-            setSlot(prev => { return { ...prev, industry: "" } })
-        }
-
     }, [slot.sector])
 
     useEffect(() => {
@@ -73,7 +70,6 @@ const consultants = () => {
             dispatch(getUserWallet(auth?.token))
         }
     }, [isAuthentiCated])
-
 
     const getSectorsAndIndustry = useCallback((arr: any[], key: string) => {
         return arr.map((item) => item[key])
@@ -124,6 +120,7 @@ const consultants = () => {
                                         sectors={getSectorsAndIndustry(item.consultant_sectors, 'subCategory')}
                                         industry={getSectorsAndIndustry(item.consultant_sectors, 'subSubCategory')}
                                         setConsultantExpertise={setConsultantExpertise}
+                                        setConsultantIndustries={setConsultantIndustries}
                                     />
                                 }) : <span className='text-center block mx-auto'>No Consultants Found</span>
                         }

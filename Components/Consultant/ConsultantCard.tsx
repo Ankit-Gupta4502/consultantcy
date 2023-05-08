@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { BiRupee } from "react-icons/bi"
 import { VscCallIncoming } from "react-icons/vsc"
 import { Dispatch, SetStateAction } from 'react'
-import { consultantInfoType,consultantExpertiseType } from '../../interface/consultant'
+import { consultantInfoType, consultantExpertiseType } from '../../interface/consultant'
 type cardProps = {
   name?: string,
   sector?: string,
@@ -25,16 +25,18 @@ type cardProps = {
   sectors: { id?: number, name_english?: string }[],
   industry: { id?: number, name_english?: string, subCategoryId?: number }[]
   slots: any[],
-  avatar:string
+  avatar: string,
+  setConsultantIndustries: any
 }
-const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry,avatar }: cardProps) => {;
-  
+const Consultant = React.memo(({ name = "", sector = '', experience = "", audiofee, slug, setIsOpen, rating, setConsultantInfo, slots, id, videofee, setConsultantExpertise, sectors, industry, avatar, setConsultantIndustries }: cardProps) => {
+  ;
+
   return (
     <div className="py-[15px]  rounded-[10px] pl-11 pr-9 border border-[#D9D9D9] ">
 
       <div className="flex justify-between">
         <div className='flex items-center space-x-11' >
-          <Image src={ John} alt='' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-full' />
+          <Image src={John} alt='' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-full' />
           <div className='max-w-[320px]' >
             <h6 className='text-primary font-semibold mb-3' > {name} </h6>
             <div className='space-y-2' >
@@ -90,7 +92,7 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", audiof
                 consultancyType: "video",
                 id,
                 amount: videofee,
-                 slots
+                slots
               })
               setConsultantExpertise(prev => {
                 return {
@@ -99,6 +101,7 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", audiof
                   industry
                 }
               })
+              setConsultantIndustries(industry)
             }} >
               <AiOutlineVideoCamera />
               <span className='text-sm' >
@@ -112,7 +115,7 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", audiof
                 consultancyType: "audio",
                 id,
                 amount: audiofee,
-                 slots
+                slots
               })
               setConsultantExpertise(prev => {
                 return {
@@ -121,6 +124,7 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", audiof
                   industry
                 }
               })
+              setConsultantIndustries(industry)
             }}>
               <VscCallIncoming />
               <span className='text-sm'  >
