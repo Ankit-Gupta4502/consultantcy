@@ -9,14 +9,17 @@ import Image from 'next/image'
 import Styles from "../../styles/CarouselDots.module.css"
 import { FaStar } from "react-icons/fa"
 import { getConsultants, getTopConsultants } from '../../redux/actions/HomeAction';
-import {  useSelector } from 'react-redux';
-import {  RootState } from '../../redux/store';
 import { item } from '../../interface';
 import { CiSearch } from "react-icons/ci"
 import Link from 'next/link';
+import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 import CustomRightArrow from "../Enquiry/CustomButton";
 import Review_bg from "../../public/images/review_bg.png"
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getReview } from "../../redux/actions/ReviewAction"
+
 const responsive1 = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
@@ -57,12 +60,18 @@ const responsive2 = {
 interface IPROPS { value?: string }
 const Feature = memo(({ value = "" }: IPROPS) => {
     const dispatch = useAppDispatch()
-    const { IndexReducer: {topConsultants } } = useSelector((state: RootState) => state)
+    const { IndexReducer: { topConsultants } } = useSelector((state: RootState) => state)
 
     useEffect(() => {
         dispatch(getTopConsultants())
     }, [])
-
+    useEffect(() => {
+        dispatch(getReview())
+    }, [])
+    const {
+        ReviewReducer: { review }
+    } = useAppSelector(state => state);
+    console.log(review, "review")
     return (
         <>
             <div className="relative bg-cover bg-no-repeat bg-center min-h-[466px] grid place-content-center " style={{ backgroundImage: `url('${Review_bg.src}')` }} >
@@ -86,21 +95,22 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                     showDots={false}
                     itemClass="carousel-item-padding-40-px"
                 >
-                    <div className='max-w-[700px] mx-auto grid place-items-center' >
-                        <Image alt='' src={img} className='w-[100px] mb-7  h-[100px] rounded-full' />
-                        <p className='text-white text-center' >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <span className='italic text-white' > test</span>
-                    </div>
+                    {(review ? review : [])?.map((item) => {
+                        return (< div className='max-w-[700px] mx-auto grid place-items-center' >
+                            <Image alt='' src={`/basepath/${item?.thumbnail}`} width={100} height={100} className='w-[100px] mb-7  h-[100px] rounded-full' />
+                            <p className='text-white text-center' >{item?.comment
+                            }</p>
+                            <span className='italic text-white' > {item?.user?.name}</span>
+                        </div>)
 
-                    <div className='max-w-[700px] mx-auto grid place-items-center' >
-                        <Image alt='' src={img} className='w-[100px] mb-7  h-[100px] rounded-full' />
-                        <p className='text-white text-center' >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        <span className='italic text-white' > test2</span>
-                    </div>
+                    })}
 
-                </Carousel>;
 
-            </div>
+
+
+                </Carousel >;
+
+            </div >
 
 
 
@@ -113,8 +123,8 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                             <p className='text-gray/50 font-normal mb-14 text-sm'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
                                 tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
-                        
-                       
+
+
                         <div className='text-center'>
 
                             {/* <Link href={`/our-consultants`} className='cursor-pointer font-semibold text-primary' passHref >
@@ -125,7 +135,7 @@ const Feature = memo(({ value = "" }: IPROPS) => {
                     </div>
                 </div>
                 <div className=" container relative ">
-                 {topConsultants?.length &&   <Carousel className='my-10'
+                    {topConsultants?.length && <Carousel className='my-10'
                         swipeable={false}
                         draggable={false}
                         showDots={false}
