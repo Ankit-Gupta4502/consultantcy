@@ -35,14 +35,14 @@ const Consultant = React.memo(({ name = "", sector = '', experience = "", audiof
       <div className="flex justify-between">
         <div className='flex items-center space-x-11' >
           <Image src={avatar || John} alt='' width={120} height={120} className='object-cover w-[120px] h-[120px] rounded-full' />
-          <div>
+          <div className='max-w-[320px]' >
             <h6 className='text-primary font-semibold mb-3' > {name} </h6>
             <div className='space-y-2' >
               <div className="flex items-center md:space-x-4 ">
                 <span className='text-gray/70'>
                   <BiCategoryAlt size={18} />
                 </span>
-                <span className="text-black/50">
+                <span className="text-black/50 line-clamp-2">
                   {sector}
                 </span>
               </div>

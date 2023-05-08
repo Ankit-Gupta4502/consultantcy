@@ -120,9 +120,9 @@ const consultants = () => {
                                         setConsultantInfo={setConsultantInfo}
                                         slots={item.consultant_slote_dates}
                                         id={item.id}
-                                        avatar={item.thumbnail?`/basepath${item.thumbnail}`:""}
+                                        avatar={item.thumbnail ? `/basepath${item.thumbnail}` : ""}
                                         sectors={getSectorsAndIndustry(item.consultant_sectors, 'subCategory')}
-                                        industry={getSectorsAndIndustry(item.consultant_sectors, 'subSubCategory')}
+                                        industry={[]}
                                         setConsultantExpertise={setConsultantExpertise}
                                     />
                                 }) : <span className='text-center block mx-auto'>No Consultants Found</span>

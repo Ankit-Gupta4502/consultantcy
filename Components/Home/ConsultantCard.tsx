@@ -19,7 +19,7 @@ const ConsultantCard = ({ name = "", thumbnail = '', sector = "", rating = "", p
 
 
                 <div className='border w-[120px] mb-2 h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
-                    <Image className='object-cover w-full h-full' src={ thumbnail? `/basepath${thumbnail}` :img3} alt="" width={150} height={150} />
+                    <Image className='object-cover w-full h-full' src={thumbnail ? `/basepath${thumbnail}` : img3} alt="" width={150} height={150} />
                 </div>
                 <div></div>
             </div>
@@ -32,8 +32,8 @@ const ConsultantCard = ({ name = "", thumbnail = '', sector = "", rating = "", p
                 </div>
                 <span>{rating || 4.5}</span>
             </div>
-            <h6 className='text-primary text-xl'>{name || "John Doe "}</h6>
-            <p className='text-sm'> {sector || "Food Processing"}</p>
+            <h6 className='text-primary text-xl line-clamp-1'>{name || "John Doe "}</h6>
+            <p className='text-sm line-clamp-1'> {sector || "Food Processing"}</p>
             <span className='rounded bg-slate px-3.5 py-[6px] font-light  text-xs my-2'>
                 {price || "500 hourly"}
             </span>
@@ -41,8 +41,10 @@ const ConsultantCard = ({ name = "", thumbnail = '', sector = "", rating = "", p
                 <Link href={`/consultant/${slug}`} >
                     <Button variant='outlined' className='text-xs !px-5 !py-3 rounded-[30px]'>View Profile</Button>
                 </Link>
-
+                <Link href={`/consultant/${slug}`} >
+                
                 <Button className='text-xs !px-7 !py-3 rounded-[30px]'>Book Now</Button>
+                </Link>
 
             </div>
         </div>

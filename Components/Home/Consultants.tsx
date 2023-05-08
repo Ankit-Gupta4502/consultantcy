@@ -78,7 +78,7 @@ const Consultant = memo(({ value = "consult" || "" }: IPROPS) => {
                 >
                     {
                         consultants?.map?.((item: item) => {
-                            return <ConsultantCard slug={item?.consultant?.slug} sector={item?.subCategory?.name_english} thumbnail={item?.consultant?.thumbnail} name={item?.consultant?.name} key={item.id} value="consult" />
+                            return <ConsultantCard slug={item?.slug} sector={[...new Set(item?.consultant_sectors?.map?.(item => item?.subCategory?.name_english))]?.join(',')} thumbnail={item?.consultant?.thumbnail} name={item?.name} key={item.id} value="consult" />
                         })
                     }
 

@@ -11,7 +11,7 @@ export const getRating = (token: string) => async (dispatch: AppDispatch) => {
             }
         })
 
-        dispatch({ type: GET_RATING_FULFILLED, payload: response.data })
+        dispatch({ type: GET_RATING_FULFILLED, payload: response.data?.data })
 
     } catch (error) {
         dispatch({ type: GET_RATING_REJECTED, error: error.response.data })

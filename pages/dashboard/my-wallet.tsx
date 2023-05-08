@@ -52,14 +52,14 @@ const MyWallet = () => {
                                 </td>
 
                                 <td className="py-5 text-center" >
-        Remark
+                                    Remark
                                 </td>
 
                                 <td className="py-5 text-center" >
-                                        Time
+                                    Time
                                 </td>
 
-                                
+
                             </tr>
                         </thead>
 
@@ -70,27 +70,27 @@ const MyWallet = () => {
                                         <td className="py-8 pl-8 ">
                                             <div>
                                                 <span className="block" > {item.transaction_type} </span>
-                                              
+
                                             </div>
                                         </td>
 
                                         <td className="text-center" >
                                             <small className="text-gray/50" >
-                                            {item.transaction_amount}
+                                                {item.transaction_amount}
                                             </small>
 
                                         </td>
                                         <td className="text-center">
-                                                {item.transaction_detail}
-                                            
+                                            {item.transaction_detail}
+
                                         </td>
                                         <td className="text-center">
                                             <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary" >
-                                            {  moment(item.createdAt).format("YYYY-MM-DD HH:MM:SS")}
+                                                {moment(item.createdAt).format("YYYY-MM-DD HH:MM:SS")}
                                             </span>
                                         </td>
 
-                                        
+
                                     </tr>
                                 })
                             }

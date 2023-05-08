@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Wrapper from "../../Components/Dashboard/Wrapper";
+import Wrapper from "../../../Components/Dashboard/Wrapper";
 import { AiFillStar } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../redux/store";
-import { getRating } from "../../redux/actions/RatingAction"
+import { AppDispatch, RootState } from "../../../redux/store";
+import { getRating } from "../../../redux/actions/RatingAction"
 const index = () => {
   const [rating, setRating] = useState(0);
   const [rated, setRated] = useState(false);
@@ -38,11 +38,11 @@ const index = () => {
         </thead>
 
         <tbody>
-          {ratings.map((item) => {
+          {ratings?.map?.((item) => {
             return (
-              <tr className="border-t border-gray/5" key={item?.id}>
+              <tr className="border-t border-gray/5 " key={item?.id}>
 
-                <td className="py-0 pl-8 ">
+                <td className="py-2 pl-8 ">
                   <div>
                     <span className="block">{item?.consultant
                       ?.name}</span>
@@ -50,7 +50,7 @@ const index = () => {
                   </div>
                 </td>
 
-                <td className="text-center">
+                <td className="text-center py-2">
                   <div className="flex items-center  justify-center text-black/70 space-x-3">
                     {[1, 2, 3, 4, 5].map?.((_, index) => {
                       return (
@@ -75,7 +75,7 @@ const index = () => {
                 </td>
 
 
-                <td>
+                <td className="py-2" >
                   <button className=" block mx-auto px-5 py-2  items-center bg-[#0ec15619] border border-[#0EC156] text-[#0EC156] rounded-md font-semibold">
                     Completed
                   </button>

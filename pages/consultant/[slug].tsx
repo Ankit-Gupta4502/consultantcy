@@ -118,7 +118,6 @@ const expertdetail = () => {
 
     const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
     const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
-    console.log(consultantDetail?.thumbnail);
 
 
     return (
