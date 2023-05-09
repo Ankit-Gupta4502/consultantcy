@@ -12,35 +12,35 @@ const Header = () => {
       <div className="bg-primary">
         <NoSSR>
 
-        <div className=" container py-2">
-          <div className="flex justify-between">
-            <div className="flex items-center gap-8">
-              <div>
-                <Image src={Pic} alt="pic" />
-              </div>
-              <div>
-                <h4 className="text-white"> {auth?.name || ""} </h4>
-                <p className="text-white/70">Consultancy Expert</p>
-              </div>
-            </div>
-            <div className="rounded-xl bg-[#055BEC]">
-              <div className="flex items-center p-6 gap-28">
+          <div className=" container py-2">
+            <div className="flex justify-between">
+              <div className="flex items-center gap-8">
                 <div>
-                  <h2 className="text-white">Rs 1200</h2>
-                  <p className="text-white/75">Available Amount</p>
+                  <Image src={Pic} alt="pic" />
                 </div>
                 <div>
-                  <Button
-                    className="!bg-white text-primary
+                  <h4 className="text-white"> {auth?.name || ""} </h4>
+                  <p className="text-white/70">Consultancy Expert</p>
+                </div>
+              </div>
+              <div className="rounded-xl bg-[#055BEC]">
+                <div className="flex items-center p-6 gap-28">
+                  <div>
+                    <h2 className="text-white">Rs 1200</h2>
+                    <p className="text-white/75">Available Amount</p>
+                  </div>
+                  <div>
+                    <Button
+                      className="!bg-white !text-primary
                     "
-                  >
-                    Withdraw
-                  </Button>
+                    >
+                      Withdraw
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
         </NoSSR>
       </div>
     </div>

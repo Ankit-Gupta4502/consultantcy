@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Wrapper from "../../Components/Consultant-Dashboard/Wrapper";
 import { BiWalletAlt } from "react-icons/bi";
 import { AiOutlineStar } from "react-icons/ai";
@@ -9,14 +9,16 @@ import { getConsultantAppointments } from "../../redux/actions/ConsultantDashobo
 import { useRouter } from "next/router";
 import { IAppointments } from "../../redux/actionInterface/IConsultantDashboard";
 import { FiVideo } from "react-icons/fi"
+import { getConsultantRating } from "../../redux/actions/RatingAction"
 function index() {
   const [activeNav, setActiveNav] = useState<string>("upcoming");
-  const { AuthReducer: { auth, isAuthentiCated }, ConsultantDashBordRducer: { appointments } } = useAppSelector(state => state)
+  const { AuthReducer: { auth, isAuthentiCated }, ConsultantDashBordRducer: { appointments }, RatingReducer: { consultantRatings } } = useAppSelector(state => state)
   const dispatch = useAppDispatch()
   const router = useRouter()
   useEffect(() => {
     if (isAuthentiCated) {
-      dispatch(getConsultantAppointments(auth.token))
+      dispatch(getConsultantAppointments(auth.token)),
+        dispatch(getConsultantRating(auth.token))
     }
   }, [auth, isAuthentiCated])
   const handleVideo = (channel: string, type: "audio" | "video") => {
@@ -29,7 +31,14 @@ function index() {
     }
   }, [isAuthentiCated, auth.type])
 
+  const upcoming = appointments.filter((item) => item?.isUsed === false
+  )
+  const previous = appointments.filter((item) => item?.isUsed === true
+  )
 
+  const getRating = useCallback(() => {
+    return consultantRatings.reduce((accu, item) => accu += item.rating, 0) / consultantRatings.length
+  }, [consultantRatings])
   return (
     <Wrapper>
       <div>
@@ -60,7 +69,7 @@ function index() {
           <div className="rounded-md bg-primary">
             <div className="p-4 flex items-center justify-between">
               <div>
-                <h2 className="text-white">184</h2>
+                <h2 className="text-white">{getRating()}</h2>
                 <p className="text-white/70">Rating & Review</p>
               </div>
               <div>
@@ -111,7 +120,7 @@ function index() {
 
                 <tbody>
                   {
-                    appointments.map((item: IAppointments) => {
+                    upcoming.map((item: IAppointments) => {
                       return <tr className="border-t border-gray/5" key={item.id} >
                         <td className="py-8 pl-8 ">
                           <div>
@@ -165,34 +174,44 @@ function index() {
                 </thead>
 
                 <tbody>
-                  <tr className="border-t border-gray/5">
-                    <td className="py-8 pl-8 ">
-                      <div>
-                        <span className="block">Raju Raman Singh</span>
-                        <small className="text-gray/50">
-                          Software Developer
-                        </small>
-                      </div>
-                    </td>
+                  {
+                    previous.map((item: IAppointments) => {
+                      return <tr className="border-t border-gray/5" key={item.id} >
+                        <td className="py-8 pl-8 ">
+                          <div>
+                            <span className="block"> {item.user.name} </span>
 
-                    <td className="text-center">
-                      <small className="text-gray/50">1200</small>
-                    </td>
-                    <td className="text-center">
-                      <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary">
-                        11:00AM - 12:00PM
-                      </span>
-                    </td>
+                          </div>
+                        </td>
+                        <td className="text-center">
+                          <small className="text-gray/50"> {item.amount} </small>
+                        </td>
+                        <td className="text-center">
+                          <span className="px-4 text-sm py-2 font-semibold rounded-full bg-[#2A79FF1A] text-primary">
+                            {item.consultant_slot.startTime} - {item.consultant_slot.endTime}
+                          </span>
+                        </td>
 
-                    <td>
-                      <div className="flex space-x-4 items-center justify-center">
-                        <button className="border px-4 py-2 flex items-center bg-green-200 text-green-500 font-semibold rounded-md">
-                          <MdOutlineLocalPhone size={20} className="mr-2" />
-                          Completed
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
+                        <td>
+                          <div className="flex space-x-4 items-center justify-center">
+                            <button onClick={() => handleVideo(item.channelName, item.consultancyType)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md">
+                              {
+                                item.consultancyType === "audio" ?
+                                  <MdOutlineLocalPhone size={20} className="mr-2" />
+                                  : <FiVideo size={20} className="mr-2" />
+                              }
+                              {
+                                item.consultancyType === "audio" ?
+                                  " Audio Call" :
+                                  "Video Call"
+                              }
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    })
+                  }
+
                 </tbody>
               </table>
             )}

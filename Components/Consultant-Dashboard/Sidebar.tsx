@@ -27,7 +27,7 @@ const Sidebar = () => {
         <hr className="text-gray/10" />
       </div>
       <div>
-        <Link href="/dashboard/my-profile">
+        <Link href="/consultant-dashboard/my-profile">
           <div className="px-4 hover:bg-gray/10">
             <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
               <AiFillBank className="text-2xl" />{" "}
