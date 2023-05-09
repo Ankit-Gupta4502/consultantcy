@@ -16,7 +16,7 @@ const Sidebar = () => {
   return (
     <div className="border border-md border-none bg-white/90 rounded-md shadow-xl h-full">
       <div>
-        <Link href="/dashboard">
+        <Link href="/consultant-dashboard">
           <div className="px-4 hover:bg-gray/10">
             <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer ">
               <FiBookmark className="text-2xl" />{" "}

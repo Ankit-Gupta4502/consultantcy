@@ -37,7 +37,7 @@ function index() {
   )
 
   const getRating = useCallback(() => {
-    return consultantRatings.reduce((accu, item) => accu += item.rating, 0) / consultantRatings.length
+    return consultantRatings?.reduce?.((accu, item) => accu += item.rating, 0) / consultantRatings.length
   }, [consultantRatings])
   return (
     <Wrapper>

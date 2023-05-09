@@ -4,15 +4,22 @@ import Input from '../../Components/UI/Input'
 import Select from '../../Components/UI/Select'
 import { useAppSelector } from '../../hooks'
 import { CiEdit } from "react-icons/ci"
-import { useAppDispatch } from '../../hooks'
 import axios from "axios";
 import Button from '../../Components/UI/Button'
 import { toast } from 'react-toastify'
 // import { updateUserDetail } from '../../redux/actions/UserDashboardActions'
 const MyProfile = () => {
-    const { AuthReducer: { user, auth }, UserDashBoardReducer: { loading } } = useAppSelector(state => state)
+    const { AuthReducer: { user, auth, isAuthentiCated }, UserDashBoardReducer: { loading } } = useAppSelector(state => state)
     const [isEditing, setIsEditing] = useState<boolean>(false)
-    const [userDetails, setUserDetails] = useState({
+    const [userDetails, setUserDetails] = useState<{
+        name: string,
+        city: string,
+        mobile: string,
+        email: string,
+        pinCode: string,
+        state: string,
+        gender: string
+    }>({
         name: "",
         city: "",
         mobile: "",
@@ -22,21 +29,33 @@ const MyProfile = () => {
         gender: ""
     })
     const [Loading, setLoading] = useState(false)
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        if (auth?.name) {
+
+    const getUseDetails = async () => {
+        try {
+            const { data } = await axios("/api/mobile/v1/get-consultant-detail", {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            })
             setUserDetails({
                 ...userDetails,
-                name: auth?.name || "",
-                city: auth?.city || "",
-                mobile: auth?.mobile || "",
-                email: auth?.email || "",
-                state: auth?.state || "",
-                pinCode: auth?.pincode || "",
-                gender: auth?.gender || ""
+                name: data?.data?.name || "",
+                city: data?.data?.city || "",
+                mobile: data?.data?.mobile || "",
+                email: data?.data?.email || "",
+                state: data?.data?.state || "",
+                pinCode: data?.data?.pincode || "",
+                gender: data?.data?.gender || ""
             })
+        } catch (error) {
+            toast.error(error.response.data?.message)
         }
-    }, [auth?.name])
+    }
+    useEffect(() => {
+        if (isAuthentiCated) {
+            getUseDetails()
+        }
+    }, [isAuthentiCated])
 
     const inputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -56,8 +75,10 @@ const MyProfile = () => {
             .then((res) => {
                 setLoading(false)
                 toast.success(res.data?.message)
+                getUseDetails()
+                setIsEditing(false)
             }).catch((err) => {
-
+                setIsEditing(false)
                 toast.error(err.response.data?.message);
                 setLoading(false)
             })
@@ -92,7 +113,7 @@ const MyProfile = () => {
 
                     <div>
                         <label htmlFor="" className='mb-4 block' >Gender</label>
-                        <Select disabled={!isEditing} className={`${!isEditing ? "bg-gray/20" : "!bg-gray/5"} !rounded - md`} name='gender' value={userDetails.gender}  >
+                        <Select disabled={!isEditing} className={`${!isEditing ? "bg-gray/20" : "!bg-gray/5"} !rounded - md`} onChange={inputHandler} name='gender' value={userDetails.gender}  >
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -119,7 +140,7 @@ const MyProfile = () => {
 
                 </div>
 
-                {isEditing && <div className="flex space-x-2 md:space-y-0 space-y-2 px-10 mt-9">
+                {isEditing && <div className="flex space-x-2 md:space-y-0 space-y-2 px-10 my-9">
                     <Button disabled={loading} onClick={handleSubmit} >
                         Submit
                     </Button>
