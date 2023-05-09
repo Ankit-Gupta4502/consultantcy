@@ -52,8 +52,10 @@ type sectorType = {
 
 type industryType = {
     subSubCategory: {
-        id: number, title_english?: string
-    }
+        id: number, title_english?: string,
+        subCategoryId?:number
+    },
+
 }
 
 
@@ -65,6 +67,7 @@ const expertdetail = () => {
     const [slot, setSlot] = useState<slotsType>({ sector: "", industry: "" })
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [selectedSlot, setSelectedSlot] = useState<selectedSlotType>({})
+    const [filteredIndustries, setFilteresindustries] = useState([])
     const [consultancyType, setConsultancyType] = useState<{ type: "audio" | "video" | "", amount: number }>({ type: "", amount: 0 })
     useEffect(() => {
         if (slug) {
@@ -85,15 +88,7 @@ const expertdetail = () => {
         }
     }, [isAuthentiCated])
 
-    useEffect(() => {
-        if (slot.sector) {
-            setSlot(prev => { return { ...prev, industry: "" } })
-        }
-        if (!slot.sector) {
-            setSlot(prev => { return { ...prev, industry: "" } })
-        }
 
-    }, [slot.sector])
 
     const consultantDetail: constultantDetailType = consultantDetails
     const consultantSlotsDetail: consultantSlotDetails[] = consultantSlots
@@ -119,10 +114,16 @@ const expertdetail = () => {
     const sectors = consultantDetail?.consultant_sectors?.map((item: sectorType) => item.subCategory) || []
     const industries = consultantDetail?.consultant_sectors?.map((item: industryType) => item.subSubCategory) || []
 
+    useEffect(() => {
+        setSlot(prev => { return { ...prev, industry: "" } })
+        if (slot.sector) {
+            setFilteresindustries(industries.filter((item) => item['subCategoryId'] === parseInt(slot.sector)))
+        }
+    }, [slot.sector])
     return (
         <div className=' bg-[#D9D9D94D]'>
             <BookSlotModal handleBooking={handleBooking
-            } sectors={sectors} industries={industries} slot={slot} amount={consultancyType.amount} modalData={consultantSlotsDetail} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} setSelectedSlot={setSelectedSlot} selectedSlot={selectedSlot} />
+            } sectors={sectors} industries={filteredIndustries} slot={slot} amount={consultancyType.amount} modalData={consultantSlotsDetail} setSlot={setSlot} isOpen={isOpen} setIsOpen={setIsOpen} setSelectedSlot={setSelectedSlot} selectedSlot={selectedSlot} />
             <div className="container items-start grid grid-cols-[auto_294px] gap-x-5 py-16 ">
                 <div className='bg-white px-[50px] py-11 rounded-[5px] grid md:grid-cols-[200px_auto] gap-x-8' >
                     <div>
