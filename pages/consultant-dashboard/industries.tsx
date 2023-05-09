@@ -7,41 +7,102 @@ import Button from '../../Components/UI/Button'
 import { getSectors } from '../../redux/actions/HomeAction'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { getIndustries } from '../../redux/actions/IndustryAction'
+import axios from 'axios'
+import { toast } from 'react-toastify'
 interface Isector {
     id: number,
     name_english: string
 }
+interface Iindustry {
+    id: number,
+    name_english: string,
+    subCategoryId: string
+}
 interface IsectorIndustry {
     sector: Array<{
-        consultantId: number,
-        subCategoryId: number,
-        consultantAudioFee: 0,
-        consultantVideoFee: 0,
-        subSubCategoryId: number
+        consultantId?: number,
+        subCategoryId?: string,
+        consultantAudioFee?: 0,
+        consultantVideoFee?: 0,
+        subSubCategoryId?: string
     }>,
     industry: Array<{
-        subSubCategoryId: number,
-        subCategoryId: number,
-        consultantId: number
+        subSubCategoryId?: string,
+        subCategoryId?: string,
+        consultantId?: number
     }>
 }
 const Industries = () => {
     const [isOpen, setIsOpen] = useState(false)
     const dispatch = useAppDispatch()
-    const { IndexReducer: { categories } } = useAppSelector(state => state)
-    const [data, setData] = useState<IsectorIndustry[]>([])
-
+    const { IndexReducer: { categories }, AuthReducer: {
+        auth
+    }, IndustriesReducer: { categories: industries } } = useAppSelector(state => state)
+    const [data, setData] = useState<IsectorIndustry>({ sector: [], industry: [] })
+    const [sectorInd, setSectorInd] = useState({ sector: "", industry: "" })
+    const [consultantExpertise, setConsultantExpertise] = useState<{
+        id: number,
+        subCategory: {
+            id: number,
+            name_english: string
+        },
+        subSubCategory: {
+            id: number,
+            name_english: string
+        },
+    }[]>([])
     const toggle = () => {
         setIsOpen(prev => !prev)
+    }
+    const getSectorsindustry = () => {
+        axios("/api/mobile/v1/get-consultant-sector-industry", {
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        }).then((({ data }) => {
+            setConsultantExpertise(data?.data?.consultant_sectors)
+
+        }))
+            .catch(err => toast.error(err?.response?.data))
     }
     useEffect(() => {
         dispatch(getSectors())
     }, [])
+    useEffect(() => {
+        if (data.sector.length) {
+            dispatch(getIndustries(data.sector[0].subCategoryId, '', 'id'))
+        }
+    }, [data.sector.length])
 
+    const updateSector = () => {
+        axios.post("/api/mobile/v1/update-consultant-sector-industry", data, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        }).then((({ data }) => {
+            toast.success(data?.message)
+            toggle()
+            getSectorsindustry()
+        }))
+            .catch((err) => {
+                toast.error(err.response.data?.message)
+                toggle()
+            })
+    }
+
+    useEffect(() => {
+        if (auth.token) {
+            getSectorsindustry()
+        }
+    }, [auth])
+
+    const handleDelete = () => {
+
+    }
 
     return (
         <Wrapper>
-            <div className='shadow-[0px_4px_10px_0px_#0000001A]' draggable >
+            <div className='shadow-[0px_4px_10px_0px_#0000001A]'  >
                 <div className="py-3 px-10 flex items-center justify-between border-b border-b-[#DDDDDD]">
                     <h4 className='text-primary mb-0 font-medium '>
                         Active Industries
@@ -68,12 +129,18 @@ const Industries = () => {
                                     <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4 pr-8  pb-3 text-slate-400  text-left"></th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white dark:bg-slate-800">
-                                <tr>
-                                    <td className="border-b border-b-[#DDDDDD]  p-4 pl-8 text-slate-500 ">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                                    <td className="border-b border-b-[#DDDDDD] p-4 text-slate-500 ">Malcolm Lockyer</td>
-                                    <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">1961</td>
-                                </tr>
+                            <tbody className="bg-white ">
+                                {
+                                    consultantExpertise.map((item) => {
+                                        return <tr key={item.id} >
+                                            <td className="border-b border-b-[#DDDDDD]  p-4 pl-8 text-slate-500 ">
+                                                {item.subSubCategory.name_english} </td>
+                                            <td className="border-b border-b-[#DDDDDD] p-4 text-slate-500 "> {item.subCategory.name_english}</td>
+                                            <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">1961</td>
+                                        </tr>
+                                    })
+                                }
+
 
                             </tbody>
                         </table>
@@ -120,7 +187,24 @@ const Industries = () => {
                                     <div className="mt-6">
                                         <div className='mb-3' >
                                             <label htmlFor="" className='block mb-2' >Sector</label>
-                                            <Select>
+                                            <Select value={sectorInd.sector} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                                                setData(prev => ({
+                                                    ...prev,
+                                                    sector: [
+                                                        {
+                                                            consultantId: auth.id,
+                                                            consultantAudioFee: 0,
+                                                            consultantVideoFee: 0,
+                                                            subCategoryId: e.target.value
+                                                        }
+                                                    ],
+                                                    industry: []
+                                                }))
+                                                setSectorInd({
+                                                    sector: e.target.value,
+                                                    industry: ""
+                                                })
+                                            }} >
                                                 <option value="">Select</option>
                                                 {
                                                     categories.map((item: Isector) => {
@@ -134,15 +218,37 @@ const Industries = () => {
 
                                         <div className='mb-3' >
                                             <label htmlFor="" className='block mb-2' >Industry</label>
-                                            <Select>
+                                            <Select value={sectorInd.industry} onChange={(e) => {
+                                                setData(prev => ({
+                                                    sector: [{ ...prev.sector[0], subSubCategoryId: e.target.value }],
+                                                    industry: [{
+                                                        subCategoryId: sectorInd.sector,
+                                                        subSubCategoryId: e.target.value,
+                                                        consultantId: auth.id
+                                                    }]
+                                                }))
+                                                setSectorInd(prev => ({
+                                                    ...prev,
+                                                    industry: e.target.value
+                                                }))
+
+
+                                            }
+
+                                            } >
                                                 <option value="">Select</option>
+                                                {
+                                                    industries.map((item: Iindustry) => {
+                                                        return <option value={item.id} key={item.id} > {item.name_english} </option>
+                                                    })
+                                                }
                                             </Select>
                                         </div>
 
                                     </div>
 
                                     <div className="mt-4">
-                                        <Button>
+                                        <Button onClick={updateSector} disabled={!sectorInd.industry || !sectorInd.industry} >
                                             Submit
                                         </Button>
                                     </div>

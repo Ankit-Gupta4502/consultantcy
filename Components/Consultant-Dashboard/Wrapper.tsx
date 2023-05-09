@@ -7,7 +7,7 @@ const Wrapper = ({ children }) => {
     <div>
       <div>
         <Header />
-        <div className="grid  md:grid-cols-[300px_auto] gap-10 p-10">
+        <div className="grid items-start md:grid-cols-[300px_auto] gap-10 p-10">
           <Sidebar />
           {children}
         </div>

@@ -11,3 +11,18 @@ export const returnKey = (obj: {}, key: string) => {
         return ""
     }
 }
+
+export const removeDupes = (arr = [], base = "id") => {
+    const exist = {}
+    const diff = []
+    for (let i = 0; i < arr.length; i++) {
+        if (exist[arr[i][base]]) {
+            exist[arr[i][base]] += 1
+        }
+        else {
+            exist[arr[i][base]] = 1
+            diff.push(arr[i])
+        }
+    }
+    return diff
+}

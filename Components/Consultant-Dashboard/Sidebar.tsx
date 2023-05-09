@@ -14,7 +14,7 @@ import { RiLogoutCircleRLine } from "react-icons/ri";
 import Link from "next/link";
 const Sidebar = () => {
   return (
-    <div className="border border-md border-none bg-white/90 rounded-md shadow-xl h-full">
+    <div className="border border-md border-none bg-white/90 rounded-md shadow-xl ">
       <div>
         <Link href="/consultant-dashboard">
           <div className="px-4 hover:bg-gray/10">

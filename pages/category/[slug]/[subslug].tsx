@@ -11,27 +11,7 @@ import { getConsultantByIndustry } from '../../../redux/actions/SubSubCategoryAc
 import { useRouter } from 'next/router'
 import { getIndustries } from "../../../redux/actions/IndustryAction"
 import Link from 'next/link'
-type consultantDetails = {
-    id: number,
-    consultantAudioFee: string,
-    consultantVideoFee: string,
-    subCategory?: {
-        id?: number,
-        name_english?: string
-    },
-    consultant: {
-        name?: string,
-        mobile?: string,
-        slug: string
-        thumbnail?: string,
-        id: number,
-        consultant_profile: {
-            audioFee: number,
-            videoFee: number
-        }
-    }
-
-}
+import moment from 'moment'
 const expertpage = () => {
     const dispatch = useAppDispatch()
     const { slug, subslug } = useRouter().query
@@ -49,6 +29,8 @@ const expertpage = () => {
         }
     }, [slug])
 
+
+    
 
 
     return (
@@ -80,10 +62,10 @@ const expertpage = () => {
 
                         {
                             consultants?.length ?
-                                consultants?.map((item: consultantDetails) => {
+                                consultants?.map((item) => {
                                     return <div className='border p-3 bg-white border-[#ddd] rounded-xl text-center overflow-hidden' key={item.id}>
                                         <div className='border w-[120px] h-[120px] bg-slate overflow-hidden border-slate rounded-xl mx-auto'>
-                                            <Image src={item.consultant.thumbnail ? `/basepath/${item.consultant.thumbnail}` : img3} alt="" />
+                                            <Image src={item?.thumbnail ? `/basepath${item?.thumbnail}` : img3} alt="" width={80} height={80} />
 
                                         </div>
 
@@ -94,13 +76,13 @@ const expertpage = () => {
                                             </div>
                                             <span>4.5</span>
                                         </div>
-                                        <h6 className='text-primary text-xl'>{item.consultant.name}</h6>
-                                        <p className='text-sm  capitalize '> {item.subCategory.name_english} </p>
+                                        <h6 className='text-primary text-xl'>{item?.name}</h6>
+                                        <p className='text-sm line-clamp-1 capitalize '> {item?.consultant_sectors?.map((item) => item?.subSubCategory?.name_english)?.join(',')} </p>
                                         <span className='rounded-full bg-slate px-3.5 py-1 font-light text-[16px]'>
-                                            ₹{item.consultant?.consultant_profile?.audioFee}/hourly
+                                            ₹{item?.consultant_profile?.audioFee}/hourly
                                         </span>
                                         <div className='flex justify-between mt-4'>
-                                            <Link href={`/consultant/${item.consultant?.slug}`} >
+                                            <Link href={`/consultant/${item?.slug}`} >
                                                 <Button variant='outlined' className='text-sm !px-[18px]'>View Profile</Button>
                                             </Link>
                                             <Button className='text-sm !px-2.7'>Book Now</Button>
