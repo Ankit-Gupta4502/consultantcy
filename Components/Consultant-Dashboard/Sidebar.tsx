@@ -38,7 +38,7 @@ const Sidebar = () => {
         <hr className="text-gray/10" />
       </div>
       <div>
-        <Link href="/dashboard/my-wallet">
+        <Link href="/consultant-dashboard/industries">
           <div className="px-5 hover:bg-gray/10">
             <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
               <MdOutlinePersonOutline className="text-2xl" />{" "}
@@ -49,25 +49,29 @@ const Sidebar = () => {
         <hr className="text-gray/10" />
       </div>
       <div>
-        <div className="px-5 hover:bg-gray/10">
-          <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
-            <BiLike className="text-2xl" />
-            <p className="-py-1 text-lg">Review</p>
+        <Link href="/consultant-dashboard/review">
+          <div className="px-5 hover:bg-gray/10">
+            <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
+              <BiLike className="text-2xl" />
+              <p className="-py-1 text-lg">Review</p>
+            </div>
           </div>
-        </div>
+        </Link>
         <hr className="text-gray/10" />
       </div>
       <div>
-        <div className="px-5 hover:bg-gray/10">
-          <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
-            <MdPayment className="text-2xl" />
-            <p className="-py-1 text-lg">Bank Details</p>
+        <Link href="/consultant-dashboard/bank-details">
+          <div className="px-5 hover:bg-gray/10">
+            <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
+              <MdPayment className="text-2xl" />
+              <p className="-py-1 text-lg">Bank Details</p>
+            </div>
           </div>
-        </div>
+        </Link>
         <hr className="text-gray/10" />
       </div>
       <div>
-        <Link href="/dashboard/change-password">
+        <Link href="/consultant-dashboard/schedule-timing">
           <div className="px-5 hover:bg-gray/10">
             <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
               <AiOutlineFieldTime className="text-2xl" />

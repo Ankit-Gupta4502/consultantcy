@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useClient, useMicrophoneAndCameraTracks, appId,  } from './AgoraVideoCall';
+import { useClient, useMicrophoneAndCameraTracks, appId, } from './AgoraVideoCall';
 import { IAgoraRTCRemoteUser } from "agora-rtc-react"
 import Videos from "./Videos"
 import Controls from './Controls';
@@ -11,7 +11,7 @@ const VideoCall = () => {
     const { ready, tracks } = useMicrophoneAndCameraTracks();
     const { AgoraReducer: { token, channelName, } } = useAppSelector(state => state)
     const init = async (name: string) => {
-        console.log("running video");
+
 
         try {
             client.on("user-published", async (user, type) => {
@@ -53,10 +53,10 @@ const VideoCall = () => {
 
     };
     useEffect(() => {
-       
-            if (ready && tracks) {
-                init(channelName);
-            }
+
+        if (ready && tracks) {
+            init(channelName);
+        }
     }, [channelName, client, ready, tracks,]);
     return (
         <div className="h-screen fixed inset-0 z-50 overflow-hidden">

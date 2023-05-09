@@ -71,7 +71,7 @@ const Feature = memo(({ value = "" }: IPROPS) => {
     const {
         ReviewReducer: { review }
     } = useAppSelector(state => state);
-    console.log(review, "review")
+
     return (
         <>
             <div className="relative bg-cover bg-no-repeat bg-center min-h-[466px] grid place-content-center " style={{ backgroundImage: `url('${Review_bg.src}')` }} >

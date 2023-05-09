@@ -34,12 +34,12 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
     const { AuthReducer: { isAuthentiCated }, UserWalletReducer: { walletAmount } } = useAppSelector(state => state)
     const morningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "morning" || item['timezone'] === "morning")).flat()
     const eveningSlots = modalData?.map?.((item) => item.consultant_slots.filter((item) => item.timeZone === "evening" || item['timezone'] === "evening")).flat()
-    console.log(morningSlots, eveningSlots);
-    const checkAvailable = (item:{isUsed:boolean}|null):boolean =>{
-        if (item===null || !item?.isUsed ) {
+
+    const checkAvailable = (item: { isUsed: boolean } | null): boolean => {
+        if (item === null || !item?.isUsed) {
             return false
         }
-        else{
+        else {
             return true
         }
     }
