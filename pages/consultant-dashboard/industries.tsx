@@ -96,8 +96,17 @@ const Industries = () => {
         }
     }, [auth])
 
-    const handleDelete = () => {
+    const handleDelete = (id: number) => {
 
+        axios.delete(`/api/mobile/v1/delete-consultant-sector/${id}`, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        }).then((res) => {
+            toast.success(res?.data?.message)
+        }).catch((err) => {
+            toast.error(err?.response?.data)
+        })
     }
 
     return (
@@ -119,7 +128,7 @@ const Industries = () => {
                     </button>
                 </div>
                 <div className="px-10 ">
-                    <div className='border border-black/10 mt-5 rounded-md overflow-hidden'>
+                    <div className='border border-black/10 my-5 rounded-md overflow-hidden'>
 
                         <table className="border-collapse  table-auto w-full text-sm">
                             <thead>
@@ -132,11 +141,22 @@ const Industries = () => {
                             <tbody className="bg-white ">
                                 {
                                     consultantExpertise.map((item) => {
+
                                         return <tr key={item.id} >
                                             <td className="border-b border-b-[#DDDDDD]  p-4 pl-8 text-slate-500 ">
                                                 {item.subSubCategory.name_english} </td>
                                             <td className="border-b border-b-[#DDDDDD] p-4 text-slate-500 "> {item.subCategory.name_english}</td>
-                                            <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">1961</td>
+                                            <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">
+                                                <button className=' rounded px-6 py-2 justify-between bg-[#FF00001A] flex items-center text-[#FF0000] space-x-2 border border-[#FF0000]' onClick={() => handleDelete(item?.id)}
+                                                >
+
+
+                                                    <span >
+                                                        Remove
+                                                    </span>
+
+                                                </button>
+                                            </td>
                                         </tr>
                                     })
                                 }

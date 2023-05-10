@@ -29,6 +29,7 @@ const index = () => {
             <td className="py-5 pl-8">Consultant</td>
 
             <td className="py-5 text-center">Review</td>
+            <td className="py-5 text-center">Rating</td>
             <td className="py-5 text-center">Status</td>
 
 
@@ -46,10 +47,16 @@ const index = () => {
                   <div>
                     <span className="block">{item?.consultant
                       ?.name}</span>
-                    <small className="text-gray/50 line-clamp-2">{item?.comment}</small>
+
                   </div>
                 </td>
 
+                <td className="py-2 text-center ">
+                  <div>
+                    <small className=" line-clamp-2">{item?.comment}</small>
+
+                  </div>
+                </td>
                 <td className="text-center py-2">
                   <div className="flex items-center  justify-center text-black/70 space-x-3">
                     {[1, 2, 3, 4, 5].map?.((_, index) => {

@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks'
 import { CiEdit } from "react-icons/ci"
 import { useAppDispatch } from '../../hooks'
 import Button from '../../Components/UI/Button'
+import axios from "axios";
 import { updateUserDetail } from '../../redux/actions/UserDashboardActions'
 const MyProfile = () => {
     const { AuthReducer: { user, auth }, UserDashBoardReducer: { loading } } = useAppSelector(state => state)
@@ -15,23 +16,38 @@ const MyProfile = () => {
         city: "",
         mobile: "",
         email: "",
-        pinCode: "",
+        pincode: "",
         state: "",
+        gender: "",
+        thumbnail: ""
     })
     const dispatch = useAppDispatch()
-    useEffect(() => {
-        if (user?.name) {
+    const getUserDetail = async () => {
+        try {
+            const { data } = await axios.get("/api/mobile/v1/get-user-details", {
+                headers: { Authorization: `Bearer ${auth?.token}` }
+            });
             setUserDetails({
                 ...userDetails,
-                name: user?.name || "",
-                city: user?.city || "",
-                mobile: user?.mobile || "",
-                email: user?.email || "",
-                state: user?.state || "",
-                pinCode: user?.pincode || "",
+                name: data?.data?.name || "",
+                city: data?.data?.city || "",
+                mobile: data?.data?.mobile || "",
+                email: data?.data?.email || "",
+                state: data?.data?.state || "",
+                pincode: data?.data?.pincode || "",
+                gender: data?.data?.gender || "",
+
             })
+        } catch (error) {
+            console.log(error)
         }
-    }, [user?.name])
+
+    }
+    useEffect(() => {
+
+        getUserDetail();
+    }, [])
+
 
     const inputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -42,7 +58,17 @@ const MyProfile = () => {
         , [userDetails])
 
     const handleSubmit = useCallback(() => {
-        dispatch(updateUserDetail(userDetails, auth?.token))
+        const Data = new FormData();
+        Data.append("name", userDetails?.name),
+            Data.append("city", userDetails?.city),
+            Data.append("mobile", userDetails?.mobile),
+            Data.append("email", userDetails?.email),
+            Data.append("state", userDetails?.state),
+            Data.append("pincode", userDetails?.pincode),
+            Data.append("gender", userDetails?.gender),
+            Data.append("thumbnail", userDetails?.thumbnail),
+            dispatch(updateUserDetail(Data, auth?.token))
+        getUserDetail();
     }, [userDetails])
 
 
@@ -55,7 +81,7 @@ const MyProfile = () => {
 
                     <CiEdit size={28} className="cursor-pointer" onClick={() => setIsEditing(prev => !prev)} />
                 </div>
-                <div className="px-10 mt-5 grid md:grid-cols-3 gap-x-12 gap-y-9 ">
+                <div className="px-10 py-5 grid md:grid-cols-3 gap-x-12 gap-y-9 ">
                     <div>
                         <label htmlFor="" className='mb-4 block'  >Full Name</label>
                         <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded-md`} value={userDetails.name} onChange={inputHandler} />
@@ -73,18 +99,18 @@ const MyProfile = () => {
 
                     <div>
                         <label htmlFor="" className='mb-4 block' >Gender</label>
-                        <Select disabled={!isEditing} className={`${!isEditing ? "bg-gray/20" : "!bg-gray/5"} !rounded-md`} name='gender'  >
+                        <Select disabled={!isEditing} className={`${!isEditing ? "bg-gray/20 text-black" : "!bg-gray/5 text-black"} !rounded-md`} name='gender' onChange={inputHandler} value={userDetails.gender}>
                             <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
                         </Select>
                     </div>
 
 
                     <div>
                         <label htmlFor="" className='mb-4 block' >Pin Code</label>
-                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded-md`} name='pincode' value={userDetails.pinCode} onChange={inputHandler} />
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded-md`} name='pincode' value={userDetails.pincode} onChange={inputHandler} />
                     </div>
                     <div>
                         <label htmlFor="" className='mb-4 block' >City</label>
@@ -96,18 +122,23 @@ const MyProfile = () => {
                         <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded-md`} name='state' value={userDetails.state} onChange={inputHandler} />
                     </div>
 
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >Upload Image</label>
+                        <Input disabled={!isEditing} type="file" className={`${!isEditing ? "" : "!bg-gray/5"} !rounded-md`} name='thumbnail' value={userDetails.thumbnail} onChange={inputHandler} />
+                    </div>
+
 
 
                 </div>
 
-                    {isEditing && <div className="flex space-x-2 md:space-y-0 space-y-2 px-10 mt-9">
-                        <Button disabled={loading} onClick={handleSubmit} >
-                            Submit
-                        </Button>
-                        <Button variant='outlined' onClick={() => setIsEditing(false)} >
-                            Cancel
-                        </Button>
-                    </div>}
+                {isEditing && <div className="flex space-x-2 md:space-y-0 space-y-2 px-10 mt-9">
+                    <Button disabled={loading} onClick={handleSubmit} >
+                        Submit
+                    </Button>
+                    <Button variant='outlined' onClick={() => setIsEditing(false)} >
+                        Cancel
+                    </Button>
+                </div>}
             </div>
         </Wrapper>
     )

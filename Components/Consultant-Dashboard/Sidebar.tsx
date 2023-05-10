@@ -12,7 +12,14 @@ import { MdOutlinePersonOutline, MdPayment } from "react-icons/md";
 import { BiLike } from "react-icons/bi";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import Link from "next/link";
+import { logout } from "../../redux/actions/AuthAction";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
 const Sidebar = () => {
+  const dispatch: AppDispatch = useDispatch();
+  const logOut = () => {
+    dispatch(logout())
+  }
   return (
     <div className="border border-md border-none bg-white/90 rounded-md shadow-xl ">
       <div>
@@ -82,21 +89,11 @@ const Sidebar = () => {
         <hr className="text-gray/10" />
       </div>
 
-      <div>
-        <Link href="/dashboard/change-password">
-          <div className="px-5 hover:bg-gray/10">
-            <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
-              <AiOutlineLock className="text-2xl" />
-              <p className="-py-1 text-lg">Change Password</p>
-            </div>
-          </div>
-        </Link>
-        <hr className="text-gray/10" />
-      </div>
+
 
       <div>
-        <div className="px-5 hover:bg-gray/10">
-          <div className="flex flex-row gap-3 px-4 py-3 cursor-pointer">
+        <div className="px-5 hover:bg-gray/10" onClick={logOut}>
+          <div className="flex flex-row gap-3 px-4 py-4 cursor-pointer">
             <RiLogoutCircleRLine className="text-2xl" />
             <p className="-py-1 text-lg">Logout</p>
           </div>

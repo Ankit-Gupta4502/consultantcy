@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-
+import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../../hooks";
 const Wrapper = ({ children }) => {
+  const router = useRouter()
+  const { AuthReducer: { auth, isAuthentiCated } } = useAppSelector(state => state)
+  useEffect(() => {
+    if (!isAuthentiCated || auth.type !== "consultant") {
+      router.push('/')
+    }
+  }, [isAuthentiCated, auth])
   return (
     <div>
       <div>

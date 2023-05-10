@@ -15,7 +15,7 @@ const Wrapper = ({ children }) => {
 
   useEffect(() => {
     if (!isAuthentiCated || auth.type !== "user") {
-      router.back()
+      router.push('/')
     }
   }, [isAuthentiCated, auth])
 

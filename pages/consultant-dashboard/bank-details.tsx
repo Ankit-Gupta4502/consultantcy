@@ -28,6 +28,36 @@ const BankDetail = () => {
     const [Loading, setLoading] = useState(false)
 
 
+    const getUseDetails = async () => {
+        try {
+            const { data } = await axios("/api/mobile/v1/get-consultant-detail", {
+                headers: {
+                    Authorization: `Bearer ${auth.token}`
+                }
+            })
+            setUserDetails({
+                ...userDetails,
+                accountName: data?.data?.consultant_profile
+                    ?.accountName || "",
+                accountNo: data?.data?.consultant_profile?.
+                    accountNo || "",
+                ifscCode: data?.data?.consultant_profile?.ifscCode || "",
+                bankName: data?.data?.consultant_profile?.bankName || "",
+                branchName: data?.data?.consultant_profile?.branchName || "",
+
+            })
+        } catch (error) {
+            toast.error(error.response.data?.message)
+        }
+    }
+    useEffect(() => {
+        if (isAuthentiCated) {
+            getUseDetails()
+        }
+    }, [isAuthentiCated])
+
+
+
 
 
     const inputHandler = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -47,8 +77,9 @@ const BankDetail = () => {
         })
             .then((res) => {
                 setLoading(false)
-                toast.success(res.data?.message)
 
+                toast.success("bank detail updated")
+                getUseDetails()
                 setIsEditing(false)
             }).catch((err) => {
                 setIsEditing(false)
@@ -68,7 +99,7 @@ const BankDetail = () => {
 
 
                 </div>
-                <div className="px-10 mt-5 grid md:grid-cols-2 gap-x-12 gap-y-9 ">
+                <div className="px-10 my-5 grid md:grid-cols-2 gap-x-12 gap-y-9 ">
                     <div>
                         <label htmlFor="" className='mb-4 block'  >Bank Name</label>
                         <Input className={` !rounded - md`} value={userDetails.bankName} onChange={inputHandler} name="bankName" />
@@ -78,6 +109,7 @@ const BankDetail = () => {
                         <Input className={` !rounded - md`} value={userDetails.branchName} onChange={inputHandler} name="branchName" />
                     </div>
                 </div>
+
                 <div className="px-10 mt-5 grid md:grid-cols-3 gap-x-12 gap-y-9 ">
                     <div>
                         <label htmlFor="" className='mb-4 block'  >Account Name</label>
@@ -109,12 +141,11 @@ const BankDetail = () => {
 
 
 
-                <div className='flex justify-center mt-5'>
+                <div className='flex justify-center my-5'>
                     <Button disabled={loading} onClick={handleSubmit} >
                         Submit
                     </Button>
                 </div>
-
             </div>
         </Wrapper>
     )

@@ -95,7 +95,7 @@ const MyProfile = () => {
 
                     <CiEdit size={28} className="cursor-pointer" onClick={() => setIsEditing(prev => !prev)} />
                 </div>
-                <div className="px-10 mt-5 grid md:grid-cols-3 gap-x-12 gap-y-9 ">
+                <div className="px-10 my-5 grid md:grid-cols-3 gap-x-12 gap-y-9 ">
                     <div>
                         <label htmlFor="" className='mb-4 block'  >Full Name</label>
                         <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} value={userDetails.name} onChange={inputHandler} name="name" />
