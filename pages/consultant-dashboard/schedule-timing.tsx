@@ -24,9 +24,7 @@ const Schedule = () => {
         setIsOpen(false)
     }
 
-    function openModal() {
-        setIsOpen(true)
-    }
+
     useEffect(() => {
         if (isAuthentiCated) {
             dispatch(getScheduleTiming(auth.token))
@@ -42,6 +40,20 @@ const Schedule = () => {
         })
         dispatch(getScheduleTiming(auth.token));
         setIsOpen(false)
+    }
+
+    const deleteDate = (id: number) => {
+        axios.put(`/api/mobile/v1/delete-consultant-slot/${id}`, {
+        }, {
+            headers: {
+                Authorization: `Bearer ${auth.token}`
+            }
+        })
+            .then((({ data }) => {
+                toast.success(data?.message)
+                dispatch(getScheduleTiming(auth.token))
+            }))
+            .catch((err) => toast.error(err?.response?.data?.message))
     }
 
     return (
@@ -65,15 +77,16 @@ const Schedule = () => {
 
 
                 </div>
-                <div className="px-10 ">
+                <div className="px-10 mb-6 ">
                     <div className='border border-black/10 mt-5 rounded-md overflow-hidden'>
 
                         <table className="border-collapse  table-auto w-full text-sm">
                             <thead>
                                 <tr  >
-                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4 pl-8  pb-3 text-slate-400  text-left">Slot Name</th>
-                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4  pb-3 text-slate-400  text-left">Date</th>
-                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4  pb-3 text-slate-400  text-left">Time Slot</th>
+                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4 pl-8  pb-3 text-slate-400  text-left">Slot Date</th>
+                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4  pb-3 text-slate-400  text-left">Slot Day</th>
+                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4  pb-3 text-slate-400  text-left">Start Time</th>
+                                    <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4  pb-3 text-slate-400  text-left">End Time</th>
                                     <th className="border-b border-b-[#DDDDDD] bg-[#FCFCFC] font-medium p-4 pr-8  pb-3 text-slate-400  text-left"></th>
                                 </tr>
                             </thead>
@@ -91,16 +104,17 @@ const Schedule = () => {
 
                                                         {moment(data?.startTime, ["HH.mm"]).format("hh:mm a")}
                                                     </td>
+                                                    <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">
+
+                                                        {moment(data?.endTime, ["HH.mm"]).format("hh:mm a")}
+                                                    </td>
 
                                                     <td className="border-b border-b-[#DDDDDD] p-4 pr-8 text-slate-500 ">
                                                         <button className=' rounded px-6 py-2 justify-between bg-[#FF00001A] flex items-center text-[#FF0000] space-x-2 border border-[#FF0000]'
-                                                        >
-
-
+                                                            onClick={() => deleteDate(data.id)}   >
                                                             <span >
                                                                 Remove
                                                             </span>
-
                                                         </button>
                                                     </td>
                                                 </tr>
