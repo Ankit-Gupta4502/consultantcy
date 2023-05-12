@@ -44,37 +44,37 @@ function index() {
     <Wrapper>
       <div>
         <div className="grid grid-cols-3 gap-4">
-          <div className="rounded-md bg-primary">
-            <div className="p-4 flex items-center justify-between">
+          <div className="rounded-2xl bg-white border border-black/20">
+            <div className="py-6 px-4 flex items-center justify-between">
               <div>
-                <h2 className="text-white">Rs 1271300</h2>
-                <p className="text-white/70">Total Income</p>
+                <h2 className="text-primary">Rs 1271300</h2>
+                <p className="text-[#555555] font-semibold">Total Income</p>
               </div>
-              <div>
-                <BiWalletAlt className="text-white" size={50} />
+              <div className=" grid place-items-center w-16 h-16 rounded-full bg-primary/10 " >
+                <BiWalletAlt className="text-primary" size={40} />
               </div>
             </div>
           </div>
-          <div className="rounded-md bg-gray/80">
-            <div className="p-4 flex items-center justify-between">
+          <div className="rounded-2xl bg-white border border-black/20">
+            <div className="py-6 px-4 flex items-center justify-between">
               <div>
-                <h2 className="text-white"> {appointments.length} </h2>
-                <p className="text-white/70">Total Bookings</p>
+                <h2 className="text-primary"> {appointments.length} </h2>
+                <p className="text-[#555555] font-semibold">Total Bookings</p>
 
               </div>
-              <div>
-                <BiWalletAlt className="text-white" size={50} />
+              <div className=" grid place-items-center w-16 h-16 rounded-full bg-primary/10 " >
+                <BiWalletAlt className="text-primary" size={40} />
               </div>
             </div>
           </div>
-          <div className="rounded-md bg-primary">
-            <div className="p-4 flex items-center justify-between">
+          <div className="rounded-2xl bg-white border border-black/20">
+            <div className="py-6 px-4 flex items-center justify-between">
               <div>
-                <h2 className="text-white">{getRating()}</h2>
-                <p className="text-white/70">Rating & Review</p>
+                <h2 className="text-primary">{getRating()}</h2>
+                <p className="text-[#555555] font-semibold">Rating & Review</p>
               </div>
-              <div>
-                <AiOutlineStar className="text-white" size={50} />
+              <div className=" grid place-items-center w-16 h-16 rounded-full bg-primary/10 " >
+                <AiOutlineStar className="text-primary" size={40} />
               </div>
             </div>
           </div>

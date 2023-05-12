@@ -33,7 +33,7 @@ const ConsultantCard = ({ name = "", thumbnail = '', sector = "", rating = "", p
                 <span>{rating || 4.5}</span>
             </div>
             <h6 className='text-primary text-xl line-clamp-1'>{name || "John Doe "}</h6>
-            <p className='text-sm line-clamp-1'> {sector || "Food Processing"}</p>
+            <p className='text-sm line-clamp-1'> {sector}</p>
             <span className='rounded bg-slate px-3.5 py-[6px] font-light  text-xs my-2'>
                 {price || "500 hourly"}
             </span>
