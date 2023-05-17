@@ -6,7 +6,8 @@ import { GET_USER_APPOINTMENTS_FULFILLED, GET_USER_APPOINTMENTS_PENDING, GET_USE
 const initialState: IReduxState = {
     loading: false,
     error: {},
-    appointments: []
+    appointments: [],
+    peerId:0
 }
 
 
@@ -27,6 +28,8 @@ const UserDashBoardReducer = (state = initialState, action: actionsFace) => {
         case GET_CONSULTANT_BOOK_REJECTED:
         case GET_USER_APPOINTMENTS_REJECTED:
             return { ...state, loading: false, error: action.payload }
+        case "SET_PEER_ID":
+        return {...state,loading:false,peerId:action.payload}
         default:
             return state
     }

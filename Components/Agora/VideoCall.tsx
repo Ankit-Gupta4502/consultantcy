@@ -4,10 +4,12 @@ import { IAgoraRTCRemoteUser } from "agora-rtc-react"
 import Videos from "./Videos"
 import Controls from './Controls';
 import { useAppSelector } from '../../hooks';
+import Chat from './Chat';
 const VideoCall = () => {
     const [users, setUsers] = useState<IAgoraRTCRemoteUser[]>([]);
     const [start, setStart] = useState<boolean>(false);
     const client = useClient();
+    const [showChat,setShowChat] = useState<boolean>(false)
     const { ready, tracks } = useMicrophoneAndCameraTracks();
     const { AgoraReducer: { token, channelName, } } = useAppSelector(state => state)
     const init = async (name: string) => {
@@ -59,13 +61,15 @@ const VideoCall = () => {
         }
     }, [channelName, client, ready, tracks,]);
     return (
-        <div className="h-screen fixed inset-0 z-50 overflow-hidden">
-            {ready && tracks && (
-                <Controls tracks={tracks} setStart={setStart} />
-            )}
+        <div className="h-screen flex gap-4 px-4 py-5 bg-black fixed inset-0 z-50 overflow-hidden">
+            
             {start && tracks &&
+            <div className='relative  flex-1' >
                 <Videos users={users} tracks={tracks} />
+                <Controls setShowChat={setShowChat} tracks={tracks} setStart={setStart}  />
+            </div>
             }
+            <Chat active={showChat} />
         </div>
     )
 }

@@ -4,7 +4,7 @@ const Videos = ({ users, tracks }: { users: IAgoraRTCRemoteUser[], tracks: [IMic
 
   return (
 
-    <div id="videos " className="h-full min-h-[500px] " >
+    <div id="videos " className="h-full rounded-2xl min-h-[500px] overflow-hidden " >
       <AgoraVideoPlayer videoTrack={tracks[1]} style={{ height: '100%', width: '100%' }} />
       {users.length > 0 &&
         users.map((user) => {

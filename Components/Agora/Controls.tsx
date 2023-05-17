@@ -7,12 +7,14 @@ import { BiMicrophone } from "react-icons/bi"
 import { BsCameraVideoOff, BsCameraVideo } from "react-icons/bs"
 import { MdOutlineCallEnd } from "react-icons/md"
 import { useAppSelector, useAppDispatch } from "../../hooks";
+import { BiMessageAltDetail } from "react-icons/bi"
 const Controls = (props: {
     tracks: [IMicrophoneAudioTrack, ICameraVideoTrack];
-    setStart: React.Dispatch<React.SetStateAction<boolean>>;
+    setStart: React.Dispatch<React.SetStateAction<boolean>>,
+    setShowChat: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
     const client = useClient();
-    const { tracks, setStart } = props;
+    const { tracks, setStart, setShowChat } = props;
     const { AgoraReducer: { isStart } } = useAppSelector(state => state)
     const [trackState, setTrackState] = useState({ video: true, audio: true });
     const dispatch = useAppDispatch()
@@ -53,6 +55,9 @@ const Controls = (props: {
             <Button className={trackState.video ? "on " : ""}
                 onClick={() => mute("video")}>
                 {trackState.video ? <BsCameraVideoOff size={24} /> : <BsCameraVideo size={24} />}
+            </Button>
+            <Button className=" bg-stone-500 " onClick={() => setShowChat(prev => !prev)} >
+                <BiMessageAltDetail size={24} />
             </Button>
             <Button size="sm" className="bg-red-600" onClick={() => leaveChannel()}><MdOutlineCallEnd size={24} /></Button>
         </div>

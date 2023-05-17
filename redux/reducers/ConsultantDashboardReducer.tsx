@@ -5,7 +5,8 @@ const initialState: Istate = {
     appointments: [],
     loading: false,
     scheduleList: [],
-    error: {}
+    error: {},
+    peerId: 0
 }
 
 const ConsultantDashBordRducer = (state = initialState, action: actionsFace) => {
@@ -30,6 +31,9 @@ const ConsultantDashBordRducer = (state = initialState, action: actionsFace) => 
 
         case GET_SCHEDULE_TIMING_REJECTED:
             return { ...state, error: action.payload, loading: false }
+
+        case "SET_USER_PEER_ID":
+            return { ...state, loading: false, peerId: action.payload }
 
         default:
             return { ...state }

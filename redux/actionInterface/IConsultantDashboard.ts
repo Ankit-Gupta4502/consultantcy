@@ -18,5 +18,6 @@ export interface Istate {
     error: any,
     loading: boolean,
     appointments: Array<IAppointments>,
-    scheduleList: Array<IAppointments>
+    scheduleList: Array<IAppointments>,
+    peerId:number
 }

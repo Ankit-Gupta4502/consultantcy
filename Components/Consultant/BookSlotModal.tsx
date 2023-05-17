@@ -126,7 +126,7 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                         </div>
                                         <div className='my-3 grid grid-cols-3 gap-6' >
                                             {modalData?.map((item) => {
-                                                return <div role="button" key={item.id} className={`${selectedSlot.slotDateId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} onClick={() => {
+                                                return (moment(today).isSame(item.dateIndex) || moment(today).isAfter(item.dateIndex)) && <div role="button" key={item.id} className={`${selectedSlot.slotDateId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4  `} onClick={() => {
                                                     setActiveSlot(item.consultant_slots)
                                                     setSelectedSlot(prev => ({ ...prev, slotDateId: item.id === prev.slotDateId ? 0 : item.id, timeSlotId: 0 }))
                                                 }} >
@@ -145,12 +145,12 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                         }
                                         <div className="grid grid-cols-3 gap-x-4 gap-y-3 ">
 
-                                            {morningSlots?.length ? <h5 className="col-span-3">
+                                            {activeSlot?.length ? <h5 className="col-span-3">
                                                 Morning Slots
                                             </h5> : ''}
 
                                             {
-                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "morning" || item?.['timezone'] === "morning") : morningSlots)?.map?.((item) => {
+                                                (activeSlot.filter(item => item?.timeZone === "morning" || item?.['timezone'] === "morning"))?.map?.((item) => {
                                                     return <button role="button" disabled={checkAvailable(item?.bookAppointment)} onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"} disabled:opacity-75 rounded-md py-4  `} >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}
@@ -159,12 +159,12 @@ const BookSlotModal = ({ isOpen, setIsOpen, modalData = [], setSlot, slot, secto
                                                 })
                                             }
 
-                                            {eveningSlots.length ? <h5 className="col-span-3">
+                                            {activeSlot.length ? <h5 className="col-span-3">
                                                 Evening Slots
                                             </h5> : ''}
 
                                             {
-                                                (activeSlot.length ? activeSlot.filter(item => item?.timeZone === "evening" || item?.['timezone'] === "evening") : eveningSlots)?.map?.((item) => {
+                                                (activeSlot.filter(item => item?.timeZone === "evening" || item?.['timezone'] === "evening"))?.map?.((item) => {
                                                     return <button disabled={checkAvailable(item?.bookAppointment)} role="button" onClick={() => setSelectedSlot(prev => ({ ...prev, timeSlotId: item.id === prev.timeSlotId ? 0 : item.id }))} key={item.id} className={`${selectedSlot.timeSlotId === item.id ? "bg-primary text-white" : "text-primary  border border-primary"}  rounded-md py-4 disabled:opacity-75 `}  >
                                                         <span className='block text-center text-xs'>
                                                             {item.startTime} - {item.endTime}

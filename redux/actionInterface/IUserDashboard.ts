@@ -19,5 +19,6 @@
 export interface IReduxState {
     loading: boolean,
     error: any,
-    appointments: Array<Iappointments>
+    appointments: Array<Iappointments>,
+    peerId:number
 }

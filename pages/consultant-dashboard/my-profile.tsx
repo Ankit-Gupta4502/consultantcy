@@ -7,6 +7,7 @@ import { CiEdit } from "react-icons/ci"
 import axios from "axios";
 import Button from '../../Components/UI/Button'
 import { toast } from 'react-toastify'
+import moment from 'moment'
 // import { updateUserDetail } from '../../redux/actions/UserDashboardActions'
 const MyProfile = () => {
     const { AuthReducer: { user, auth, isAuthentiCated }, UserDashBoardReducer: { loading } } = useAppSelector(state => state)
@@ -18,7 +19,12 @@ const MyProfile = () => {
         email: string,
         pinCode: string,
         state: string,
-        gender: string
+        gender: string,
+        experience: string,
+        dob: string,
+        audioFee: string,
+        videoFee: string,
+        highestQualification: ""
     }>({
         name: "",
         city: "",
@@ -26,9 +32,16 @@ const MyProfile = () => {
         email: "",
         pinCode: "",
         state: "",
-        gender: ""
+        gender: "",
+        experience: "",
+        dob: "",
+        audioFee: "",
+        videoFee: "",
+        highestQualification: ""
     })
     const [Loading, setLoading] = useState(false)
+
+
 
     const getUseDetails = async () => {
         try {
@@ -45,7 +58,12 @@ const MyProfile = () => {
                 email: data?.data?.email || "",
                 state: data?.data?.state || "",
                 pinCode: data?.data?.pincode || "",
-                gender: data?.data?.gender || ""
+                gender: data?.data?.gender || "",
+                experience: data?.data?.consultant_profile?.experience || "",
+                dob: moment(data?.data?.consultant_profile?.dob).format("YYYY-MM-DD") || "",
+                audioFee: data?.data?.consultant_profile?.audioFee || "",
+                videoFee: data?.data?.consultant_profile?.videoFee || "",
+                highestQualification: data?.data?.consultant_profile?.highestQualification || ""
             })
         } catch (error) {
             toast.error(error.response.data?.message)
@@ -82,6 +100,27 @@ const MyProfile = () => {
                 toast.error(err.response.data?.message);
                 setLoading(false)
             })
+        if (userDetails.audioFee || userDetails.videoFee) {
+            axios.post("/api/mobile/v1/update-consultant-profile", {
+                experience: userDetails.experience,
+                audioFee: userDetails.audioFee,
+                videoFee: userDetails.videoFee,
+                dob: userDetails.dob,
+                highestQualification: userDetails.highestQualification
+            }, {
+                headers: {
+                    Authorization: `Bearer ${auth?.token}`
+                }
+            })
+                .then((res) => {
+                    setLoading(false)
+                    getUseDetails()
+                    setIsEditing(false)
+                }).catch((err) => {
+                    setIsEditing(false)
+                    setLoading(false)
+                })
+        }
 
     })
 
@@ -136,6 +175,30 @@ const MyProfile = () => {
                         <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='state' value={userDetails.state} onChange={inputHandler} />
                     </div>
 
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >Experience</label>
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='experience' value={userDetails.experience} onChange={inputHandler} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >D.O.B</label>
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='dob' type='date' value={userDetails.dob} onChange={inputHandler} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >Audio Fee</label>
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='audioFee' value={userDetails.audioFee} onChange={inputHandler} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >Video Fee</label>
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='videoFee' value={userDetails.videoFee} onChange={inputHandler} />
+                    </div>
+
+                    <div>
+                        <label htmlFor="" className='mb-4 block' >Highest Qualification</label>
+                        <Input disabled={!isEditing} className={`${!isEditing ? "" : "!bg-gray/5"} !rounded - md`} name='highestQualification' value={userDetails.highestQualification} onChange={inputHandler} />
+                    </div>
 
 
                 </div>

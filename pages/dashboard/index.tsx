@@ -23,8 +23,9 @@ const index = () => {
     }
   }, [isAuthentiCated, auth])
 
-  const handleVideo = (channel: string, type: "audio" | "video") => {
+  const handleVideo = (channel: string, type: "audio" | "video", id: number) => {
     dispatch(getAgoraToken(channel, type))
+    dispatch({ type: "SET_PEER_ID", payload: id })
   }
 
   useEffect(() => {
@@ -101,7 +102,7 @@ const index = () => {
 
                     <td>
                       <div className="flex space-x-4 items-center justify-center">
-                        <button onClick={() => handleVideo(item.channelName, item.consultancyType)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
+                        <button onClick={() => handleVideo(item.channelName, item.consultancyType, item.id)} className="border-0 px-4 py-2 flex items-center bg-green-500 text-white rounded-md" >
                           {
                             item.consultancyType === "audio" ?
                               <MdOutlineLocalPhone size={20} className="mr-2" /> :
